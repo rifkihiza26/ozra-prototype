@@ -14,12 +14,12 @@ export default function PortfolioPage() {
       {/* ── PAGE HERO ── */}
       <section
         style={{
-          padding: "72px 48px 56px",
           background: "var(--near-black)",
           borderBottom: "1px solid var(--border)",
         }}
+        className="px-5 py-12 sm:px-10 sm:py-16 md:px-16"
       >
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
           <div className="section-label">Galeri Produksi</div>
           <h1 className="section-title">
             OUR <em>PORTFOLIO</em>
@@ -29,7 +29,7 @@ export default function PortfolioPage() {
               fontFamily: "'Barlow', sans-serif",
               fontSize: "14px",
               color: "rgba(240,234,216,0.55)",
-              marginTop: "20px",
+              marginTop: "16px",
               maxWidth: "560px",
               lineHeight: 1.8,
             }}
@@ -42,14 +42,12 @@ export default function PortfolioPage() {
       {/* ── GRID + FILTER ── */}
       <section
         style={{
-          padding: "0",
           background: "var(--black)",
         }}
+        className="px-4 py-8 sm:px-8 sm:py-12 md:px-12 lg:px-16"
       >
-        <div style={{ padding: "0 48px 80px" }} className="px-0 md:px-12">
-          <div style={{ paddingTop: "32px" }}>
-            <PortfolioList items={PORTFOLIO_DATA} showFilter />
-          </div>
+        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+          <PortfolioList items={PORTFOLIO_DATA} showFilter />
         </div>
       </section>
     </div>

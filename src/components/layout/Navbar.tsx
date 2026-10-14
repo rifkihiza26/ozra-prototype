@@ -21,12 +21,24 @@ export default function Navbar() {
     setMobileOpen(false);
   }, [pathname]);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       {/* ── ANNOUNCEMENT BAR ── */}
       <div className="announce-bar">
         Konsultasi &amp; Produksi Seragam Custom &nbsp;
-        <span style={{ color: "var(--tan-light)", margin: "0 10px" }}>◆</span>
+        <span style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
         &nbsp;WhatsApp:{" "}
         <a
           href={`https://wa.me/${COMPANY_INFO.phoneRaw}`}
@@ -34,8 +46,8 @@ export default function Navbar() {
         >
           {COMPANY_INFO.phoneFormatted}
         </a>
-        <span style={{ color: "var(--tan-light)", margin: "0 10px" }}>◆</span>
-        Jakarta Selatan, Indonesia
+        <span className="hidden sm:inline" style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
+        <span className="hidden sm:inline">Jakarta Selatan, Indonesia</span>
       </div>
 
       {/* ── MAIN NAV ── */}
@@ -49,11 +61,11 @@ export default function Navbar() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "0 48px",
+          padding: "0 clamp(20px, 4vw, 48px)",
           height: "68px",
           background: scrolled
             ? "rgba(9,9,10,0.97)"
-            : "rgba(9,9,10,0.88)",
+            : "rgba(9,9,10,0.90)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--border)",
           transition: "background 0.3s ease",
@@ -200,76 +212,108 @@ export default function Navbar() {
             left: 0,
             right: 0,
             bottom: 0,
-            zIndex: 999,
+            zIndex: 9999,
             background: "rgba(9,9,10,0.98)",
-            backdropFilter: "blur(16px)",
+            backdropFilter: "blur(20px)",
             display: "flex",
             flexDirection: "column",
-            padding: "90px 36px 48px",
-            gap: "0",
+            padding: "80px clamp(20px, 6vw, 36px) 40px",
+            overflowY: "auto",
+            WebkitOverflowScrolling: "touch",
           }}
         >
+          {/* Close button with large touch target */}
           <button
             onClick={() => setMobileOpen(false)}
             style={{
               position: "absolute",
-              top: "24px",
-              right: "24px",
-              background: "none",
-              border: "none",
-              color: "var(--grey-mid)",
+              top: "20px",
+              right: "20px",
+              width: "44px",
+              height: "44px",
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid var(--border)",
+              borderRadius: "4px",
+              color: "var(--cream)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               cursor: "pointer",
             }}
-            aria-label="Tutup"
+            aria-label="Tutup menu"
           >
-            <X size={24} />
+            <X size={22} />
           </button>
 
-          {NAV_LINKS.map((link) => {
-            const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
+          <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                    fontSize: "clamp(22px, 6vw, 32px)",
+                    fontWeight: 800,
+                    letterSpacing: "3px",
+                    textTransform: "uppercase",
+                    color: isActive ? "var(--tan-light)" : "var(--cream)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid var(--border)",
+                    padding: "16px 0",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span>{link.name}</span>
+                  <span style={{ fontSize: "16px", color: isActive ? "var(--tan-light)" : "var(--olive)", opacity: 0.7 }}>
+                    →
+                  </span>
+                </Link>
+              );
+            })}
+
+            <div style={{ marginTop: "auto", paddingTop: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
+              <a
+                href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
-                  fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                  fontSize: "28px",
-                  fontWeight: 800,
-                  letterSpacing: "4px",
-                  textTransform: "uppercase",
-                  color: isActive ? "var(--tan-light)" : "var(--cream)",
-                  textDecoration: "none",
-                  borderBottom: "1px solid var(--border)",
-                  padding: "20px 0",
                   display: "block",
+                  textAlign: "center",
+                  padding: "15px 20px",
+                  background: "var(--olive)",
+                  color: "#fff",
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  letterSpacing: "3px",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  border: "1px solid var(--olive)",
                 }}
               >
-                {link.name}
-              </Link>
-            );
-          })}
+                Request a Quote via WhatsApp
+              </a>
 
-          <a
-            href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              marginTop: "28px",
-              display: "block",
-              textAlign: "center",
-              padding: "16px",
-              background: "var(--olive)",
-              color: "#fff",
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "4px",
-              textTransform: "uppercase",
-              textDecoration: "none",
-            }}
-          >
-            Request a Quote via WhatsApp
-          </a>
+              <div
+                style={{
+                  textAlign: "center",
+                  fontFamily: "'Barlow', sans-serif",
+                  fontSize: "11px",
+                  color: "var(--grey-mid)",
+                  marginTop: "8px",
+                  lineHeight: 1.5,
+                }}
+              >
+                PT. Ozra Mega Perkasa Indonesia<br />
+                {COMPANY_INFO.address}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

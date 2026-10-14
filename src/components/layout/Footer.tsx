@@ -18,15 +18,10 @@ export default function Footer() {
       <div
         style={{
           background: "var(--olive-dark)",
-          padding: "56px 80px",
-          display: "grid",
-          gridTemplateColumns: "1fr auto",
-          gap: "32px",
-          alignItems: "center",
         }}
-        className="px-6 md:px-20"
+        className="px-6 py-10 sm:px-10 md:px-16 lg:px-20 grid grid-cols-1 md:grid-cols-12 gap-8 items-center"
       >
-        <div>
+        <div className="md:col-span-8">
           <p
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -43,10 +38,10 @@ export default function Footer() {
           <h3
             style={{
               fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-              fontSize: "clamp(28px, 4vw, 52px)",
+              fontSize: "clamp(26px, 4.5vw, 52px)",
               fontWeight: 900,
               textTransform: "uppercase",
-              lineHeight: 0.92,
+              lineHeight: 0.95,
               color: "#fff",
               letterSpacing: "-0.5px",
             }}
@@ -59,14 +54,14 @@ export default function Footer() {
               fontSize: "13px",
               color: "rgba(240,234,216,0.6)",
               marginTop: "12px",
-              maxWidth: "400px",
+              maxWidth: "460px",
               lineHeight: 1.7,
             }}
           >
             Diskusikan kebutuhan PDL, workshirt, jersey sublimasi, atau corporate uniform bersama tim spesialis kami.
           </p>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3">
           <a
             href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
             target="_blank"
@@ -75,15 +70,15 @@ export default function Footer() {
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: "11px",
               fontWeight: 700,
-              letterSpacing: "4px",
+              letterSpacing: "3px",
               textTransform: "uppercase",
               textDecoration: "none",
               color: "#fff",
-              padding: "14px 32px",
+              padding: "14px 24px",
               background: "var(--olive)",
               border: "1px solid var(--olive)",
-              display: "inline-block",
-              whiteSpace: "nowrap",
+              textAlign: "center",
+              display: "block",
             }}
           >
             WhatsApp Sekarang →
@@ -94,15 +89,14 @@ export default function Footer() {
               fontFamily: "'Barlow Condensed', sans-serif",
               fontSize: "11px",
               fontWeight: 700,
-              letterSpacing: "4px",
+              letterSpacing: "3px",
               textTransform: "uppercase",
               textDecoration: "none",
               color: "var(--cream)",
-              padding: "14px 32px",
+              padding: "14px 24px",
               border: "1px solid rgba(240,234,216,0.3)",
-              display: "inline-block",
               textAlign: "center",
-              whiteSpace: "nowrap",
+              display: "block",
             }}
           >
             Isi Formulir Penawaran
@@ -112,16 +106,10 @@ export default function Footer() {
 
       {/* ── MAIN FOOTER COLUMNS ── */}
       <div
-        style={{
-          padding: "64px 80px 48px",
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr 1.5fr",
-          gap: "48px",
-        }}
-        className="px-6 md:px-20 grid-cols-1 md:grid-cols-4"
+        className="px-6 py-12 sm:px-10 md:px-16 lg:px-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-8"
       >
         {/* Brand column */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div className="sm:col-span-2 lg:col-span-4 flex flex-col gap-5">
           <div>
             <span
               style={{
@@ -193,7 +181,7 @@ export default function Footer() {
         </div>
 
         {/* Navigation */}
-        <div>
+        <div className="sm:col-span-1 lg:col-span-2">
           <p
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -202,12 +190,12 @@ export default function Footer() {
               letterSpacing: "4px",
               textTransform: "uppercase",
               color: "var(--olive-light)",
-              marginBottom: "20px",
+              marginBottom: "18px",
             }}
           >
             Navigasi
           </p>
-          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
@@ -233,7 +221,7 @@ export default function Footer() {
         </div>
 
         {/* Services */}
-        <div>
+        <div className="sm:col-span-1 lg:col-span-3">
           <p
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -242,12 +230,12 @@ export default function Footer() {
               letterSpacing: "4px",
               textTransform: "uppercase",
               color: "var(--olive-light)",
-              marginBottom: "20px",
+              marginBottom: "18px",
             }}
           >
             Layanan
           </p>
-          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
             {SERVICES_DATA.map((s) => (
               <li key={s.id}>
                 <Link
@@ -275,7 +263,7 @@ export default function Footer() {
         </div>
 
         {/* Contact */}
-        <div>
+        <div className="sm:col-span-2 lg:col-span-3">
           <p
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
@@ -284,7 +272,7 @@ export default function Footer() {
               letterSpacing: "4px",
               textTransform: "uppercase",
               color: "var(--olive-light)",
-              marginBottom: "20px",
+              marginBottom: "18px",
             }}
           >
             Kontak Resmi
@@ -292,17 +280,17 @@ export default function Footer() {
           <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
             {[
               {
-                icon: <Phone className="w-3.5 h-3.5" style={{ color: "var(--olive-light)", flexShrink: 0, marginTop: "1px" }} />,
+                icon: <Phone className="w-3.5 h-3.5" style={{ color: "var(--olive-light)", flexShrink: 0, marginTop: "2px" }} />,
                 text: COMPANY_INFO.phoneFormatted,
                 href: `https://wa.me/${COMPANY_INFO.phoneRaw}`,
               },
               {
-                icon: <Mail className="w-3.5 h-3.5" style={{ color: "var(--olive-light)", flexShrink: 0, marginTop: "1px" }} />,
+                icon: <Mail className="w-3.5 h-3.5" style={{ color: "var(--olive-light)", flexShrink: 0, marginTop: "2px" }} />,
                 text: COMPANY_INFO.email,
                 href: `mailto:${COMPANY_INFO.email}`,
               },
               {
-                icon: <MapPin className="w-3.5 h-3.5" style={{ color: "var(--olive-light)", flexShrink: 0, marginTop: "1px" }} />,
+                icon: <MapPin className="w-3.5 h-3.5" style={{ color: "var(--olive-light)", flexShrink: 0, marginTop: "2px" }} />,
                 text: COMPANY_INFO.address,
                 href: COMPANY_INFO.mapsUrl,
               },
@@ -343,14 +331,8 @@ export default function Footer() {
       <div
         style={{
           borderTop: "1px solid var(--border)",
-          padding: "20px 80px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
-          flexWrap: "wrap",
         }}
-        className="px-6 md:px-20"
+        className="px-6 py-6 sm:px-10 md:px-16 lg:px-20 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left"
       >
         <p
           style={{

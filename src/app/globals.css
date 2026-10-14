@@ -66,10 +66,10 @@ body {
 /* ── SECTION TITLE — massive condensed ── */
 .section-title {
   font-family: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
-  font-size: clamp(36px, 5vw, 72px);
+  font-size: clamp(28px, 6vw, 72px);
   font-weight: 900;
   text-transform: uppercase;
-  line-height: 0.93;
+  line-height: 0.95;
   color: #fff;
   letter-spacing: -0.5px;
 }
@@ -186,13 +186,21 @@ body {
 .announce-bar {
   background: var(--olive-dark);
   text-align: center;
-  padding: 7px 20px;
+  padding: 8px 16px;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--cream);
+  line-height: 1.4;
+}
+@media (max-width: 640px) {
+  .announce-bar {
+    font-size: 9.5px;
+    letter-spacing: 1.5px;
+    padding: 6px 12px;
+  }
 }
 
 /* ── TRUST BAR ── */
@@ -200,22 +208,35 @@ body {
   background: var(--near-black);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 16px 48px;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 8px 0;
+}
+@media (min-width: 768px) {
+  .trust-bar {
+    padding: 16px 48px;
+    gap: 0;
+  }
 }
 .trust-item {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--grey-mid);
   white-space: nowrap;
-  padding: 0 28px;
+  padding: 4px 14px;
+}
+@media (min-width: 768px) {
+  .trust-item {
+    font-size: 11px;
+    letter-spacing: 4px;
+    padding: 0 24px;
+  }
 }
 .trust-item strong { color: var(--tan-light); }
 .trust-sep {
@@ -223,19 +244,49 @@ body {
   font-size: 5px;
   flex-shrink: 0;
 }
+@media (max-width: 767px) {
+  .trust-sep {
+    display: none;
+  }
+}
 
 /* ── CUSTOM SCROLLBAR ── */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: var(--grey-dark); }
 ::-webkit-scrollbar-thumb:hover { background: var(--olive); }
 
+/* ── NO SCROLLBAR UTILITY (for horizontal scroll tabs) ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* ── BRAND VALUE CARD hover ── */
 .brand-value-card {
   border-top: 2px solid transparent;
-  transition: border-top-color 0.2s;
+  transition: border-top-color 0.2s, background 0.2s;
 }
 .brand-value-card:hover { border-top-color: var(--olive); }
 
 /* ── PORTFOLIO CARD image scale on hover ── */
 .portfolio-img-wrap img:hover { transform: scale(1.05); }
+
+/* ── RESPONSIVE SECTION PADDING HELPERS ── */
+.section-pad {
+  padding: 60px 20px;
+}
+@media (min-width: 640px) {
+  .section-pad {
+    padding: 72px 32px;
+  }
+}
+@media (min-width: 1024px) {
+  .section-pad {
+    padding: 96px 48px;
+  }
+}
+
+.section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+}

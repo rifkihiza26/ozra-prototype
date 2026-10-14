@@ -250,15 +250,16 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
       ctx!.textBaseline = "middle";
 
       // OZRA
-      ctx!.font = `900 42px 'Barlow Condensed', 'Arial Narrow', sans-serif`;
+      const fontSize = Math.min(42, Math.max(28, Math.round(W * 0.08)));
+      ctx!.font = `900 ${fontSize}px 'Barlow Condensed', 'Arial Narrow', sans-serif`;
       ctx!.fillStyle = "#ffffff";
-      ctx!.letterSpacing = "8px";
-      ctx!.fillText("OZRA", cx - 4, cy - 8);
+      ctx!.letterSpacing = W < 480 ? "5px" : "8px";
+      ctx!.fillText("OZRA", cx - 2, cy - 8);
 
       // TACTICAL
       ctx!.font = `700 10px 'Barlow Condensed', monospace`;
       ctx!.fillStyle = "rgba(164,182,106,0.9)";
-      ctx!.letterSpacing = "5px";
+      ctx!.letterSpacing = W < 480 ? "4px" : "5px";
       ctx!.fillText("TACTICAL", cx, cy + 16);
 
       // system status line
@@ -266,14 +267,15 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
       ctx!.font = `600 8px 'Barlow Condensed', monospace`;
       ctx!.fillStyle = `rgba(164,182,106,${0.4 + tick * 0.3})`;
       ctx!.letterSpacing = "2px";
-      ctx!.fillText("SYSTEM INITIALIZING...", cx, cy + 36);
+      ctx!.fillText("SYSTEM INITIALIZING...", cx, cy + 34);
 
       ctx!.restore();
     }
 
     // ── DRAW HUD CORNERS ──
     function drawCorners() {
-      const pad = 24, len = 20;
+      const pad = W < 480 ? 14 : 24;
+      const len = W < 480 ? 14 : 20;
       const corners: [number, number, number, number][] = [
         [pad, pad, 1, 1],
         [W - pad, pad, -1, 1],
@@ -293,8 +295,10 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
       ctx!.letterSpacing = "2px";
       ctx!.textAlign = "left"; ctx!.textBaseline = "top";
       ctx!.fillText("OZRA SYS v1.0", pad + 4, pad + 4);
-      ctx!.textAlign = "right";
-      ctx!.fillText("JAKARTA SELATAN", W - pad - 4, pad + 4);
+      if (W > 380) {
+        ctx!.textAlign = "right";
+        ctx!.fillText("JKT-SELATAN", W - pad - 4, pad + 4);
+      }
       ctx!.textAlign = "left";
       ctx!.textBaseline = "bottom";
       ctx!.fillText("INITIALIZING...", pad + 4, H - pad - 4);

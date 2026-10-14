@@ -26,10 +26,10 @@ export default function ServicesPage() {
         style={{
           background: "var(--near-black)",
           borderBottom: "1px solid var(--border)",
-          padding: "120px 48px 100px",
           position: "relative",
           overflow: "hidden",
         }}
+        className="px-5 py-16 sm:px-10 sm:py-20 md:px-16 md:py-24"
       >
         {/* Tactical grid bg */}
         <div
@@ -46,7 +46,7 @@ export default function ServicesPage() {
           <div className="section-label">Solusi Manufaktur Terpadu</div>
           <h1
             className="section-title"
-            style={{ fontSize: "clamp(2.5rem,6vw,5.5rem)", maxWidth: 900, marginTop: 20 }}
+            style={{ fontSize: "clamp(2.2rem,6vw,5.5rem)", maxWidth: 900, marginTop: 16 }}
           >
             Layanan Manufaktur{" "}
             <em>Ozra Tactical</em>
@@ -58,7 +58,7 @@ export default function ServicesPage() {
               color: "var(--grey-mid)",
               lineHeight: 1.8,
               maxWidth: 600,
-              marginTop: 24,
+              marginTop: 20,
             }}
           >
             Spesialisasi produksi seragam taktis, pakaian kerja lapangan,
@@ -87,39 +87,31 @@ export default function ServicesPage() {
               borderBottom: "1px solid var(--border)",
             }}
           >
-            {/* Split panel: image | content */}
+            {/* Split panel: image | content (responsive stacked on mobile/tablet) */}
             <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                minHeight: 560,
-              }}
+              className="grid grid-cols-1 lg:grid-cols-2 min-h-[480px]"
             >
               {/* Image side */}
               <div
-                style={{
-                  position: "relative",
-                  order: isEven ? 2 : 1,
-                  overflow: "hidden",
-                }}
+                className={`relative overflow-hidden min-h-[300px] sm:min-h-[380px] lg:min-h-[500px] ${isEven ? "lg:order-2" : "lg:order-1"}`}
               >
                 <Image
                   src={srv.image}
                   alt={srv.title}
                   fill
                   style={{ objectFit: "cover" }}
-                  sizes="50vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
                 {/* Number overlay */}
                 <div
                   style={{
                     position: "absolute",
-                    bottom: 32,
-                    left: 32,
+                    bottom: 24,
+                    left: 24,
                     fontFamily: "Barlow Condensed, sans-serif",
-                    fontSize: "8rem",
+                    fontSize: "clamp(5rem, 10vw, 8rem)",
                     fontWeight: 900,
-                    color: "rgba(240,234,216,0.08)",
+                    color: "rgba(240,234,216,0.12)",
                     lineHeight: 1,
                     letterSpacing: -4,
                     userSelect: "none",
@@ -132,14 +124,12 @@ export default function ServicesPage() {
               {/* Content side */}
               <div
                 style={{
-                  order: isEven ? 1 : 2,
                   background: isEven ? "var(--near-black)" : "var(--black)",
-                  padding: "64px 56px",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
-                  gap: 28,
                 }}
+                className={`p-6 sm:p-10 md:p-12 lg:p-16 gap-6 sm:gap-7 ${isEven ? "lg:order-1" : "lg:order-2"}`}
               >
                 <div>
                   <div
@@ -150,7 +140,7 @@ export default function ServicesPage() {
                       letterSpacing: 4,
                       textTransform: "uppercase",
                       color: "var(--olive-light)",
-                      marginBottom: 12,
+                      marginBottom: 10,
                     }}
                   >
                     Layanan Utama {String(index + 1).padStart(2, "0")}
@@ -158,7 +148,7 @@ export default function ServicesPage() {
                   <h2
                     style={{
                       fontFamily: "Barlow Condensed, sans-serif",
-                      fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
+                      fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
                       fontWeight: 900,
                       color: "var(--cream)",
                       letterSpacing: 1,
@@ -173,7 +163,7 @@ export default function ServicesPage() {
                 <p
                   style={{
                     fontFamily: "Barlow, sans-serif",
-                    fontSize: 14,
+                    fontSize: 14.5,
                     color: "var(--grey-mid)",
                     lineHeight: 1.8,
                   }}
@@ -224,18 +214,18 @@ export default function ServicesPage() {
                   </div>
                 </div>
 
-                <div style={{ paddingTop: 8 }}>
+                <div style={{ paddingTop: 4 }}>
                   <Link
                     href="/contact"
                     style={{
                       fontFamily: "Barlow Condensed, sans-serif",
-                      fontSize: 12,
+                      fontSize: 11,
                       fontWeight: 700,
                       letterSpacing: 3,
                       textTransform: "uppercase",
                       color: "var(--black)",
                       background: "var(--olive)",
-                      padding: "14px 28px",
+                      padding: "13px 26px",
                       textDecoration: "none",
                       display: "inline-flex",
                       alignItems: "center",
@@ -255,8 +245,8 @@ export default function ServicesPage() {
                 style={{
                   background: "var(--near-black)",
                   borderTop: "1px solid var(--border)",
-                  padding: "40px 48px",
                 }}
+                className="px-5 py-8 sm:px-10 md:px-12"
               >
                 <div
                   style={{
@@ -266,17 +256,13 @@ export default function ServicesPage() {
                     letterSpacing: 4,
                     textTransform: "uppercase",
                     color: "var(--olive-light)",
-                    marginBottom: 24,
+                    marginBottom: 20,
                   }}
                 >
                   Contoh Portofolio Terkait:
                 </div>
                 <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(4, 1fr)",
-                    gap: 2,
-                  }}
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-2"
                 >
                   {relatedPortfolio.map((p) => (
                     <Link
@@ -290,7 +276,7 @@ export default function ServicesPage() {
                           alt={p.title}
                           fill
                           style={{ objectFit: "cover", transition: "transform 0.5s" }}
-                          sizes="200px"
+                          sizes="(max-width: 640px) 50vw, 25vw"
                         />
                         <div
                           style={{
@@ -299,11 +285,11 @@ export default function ServicesPage() {
                             background: "linear-gradient(to top, rgba(9,9,10,0.9) 0%, transparent 60%)",
                           }}
                         />
-                        <div style={{ position: "absolute", bottom: 12, left: 12, right: 12 }}>
+                        <div style={{ position: "absolute", bottom: 10, left: 10, right: 10 }}>
                           <div
                             style={{
                               fontFamily: "Barlow Condensed, sans-serif",
-                              fontSize: 10,
+                              fontSize: 9,
                               fontWeight: 700,
                               letterSpacing: 2,
                               textTransform: "uppercase",
@@ -316,10 +302,11 @@ export default function ServicesPage() {
                           <div
                             style={{
                               fontFamily: "Barlow Condensed, sans-serif",
-                              fontSize: 13,
+                              fontSize: 12,
                               fontWeight: 700,
                               color: "var(--cream)",
                               letterSpacing: 0.5,
+                              lineHeight: 1.1,
                             }}
                           >
                             {p.title}
@@ -338,13 +325,13 @@ export default function ServicesPage() {
       {/* ── 3. PRODUCTION PROCESS ── */}
       <section
         style={{
-          padding: "100px 48px",
           background: "var(--near-black)",
           borderBottom: "1px solid var(--border)",
         }}
+        className="section-pad"
       >
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ marginBottom: 60 }}>
+          <div style={{ marginBottom: 48 }}>
             <div className="section-label">Alur Kerja</div>
             <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>
               Proses <em>Produksi Kami</em>
@@ -352,27 +339,23 @@ export default function ServicesPage() {
           </div>
 
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              gap: 2,
-            }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2"
           >
             {PROCESS_STEPS.map((step, i) => (
               <div
                 key={step.num}
                 style={{
                   background: i % 2 === 0 ? "var(--black)" : "var(--grey-dark)",
-                  padding: "40px 28px",
+                  padding: "32px 24px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: 16,
+                  gap: 14,
                 }}
               >
                 <div
                   style={{
                     fontFamily: "Barlow Condensed, sans-serif",
-                    fontSize: "3.5rem",
+                    fontSize: "3rem",
                     fontWeight: 900,
                     color: "var(--olive)",
                     lineHeight: 1,
@@ -413,9 +396,9 @@ export default function ServicesPage() {
       <section
         style={{
           background: "var(--olive-dark)",
-          padding: "80px 48px",
           textAlign: "center",
         }}
+        className="px-5 py-14 sm:px-10 sm:py-20 md:px-16"
       >
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <h3

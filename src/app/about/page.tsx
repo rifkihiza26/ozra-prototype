@@ -86,16 +86,16 @@ export default function AboutPage() {
             zIndex: 10,
             maxWidth: 1280,
             margin: "0 auto",
-            padding: "0 48px 80px",
             width: "100%",
           }}
+          className="px-5 pb-16 pt-24 sm:px-10 sm:pb-20 md:px-16"
         >
           <div className="section-label" style={{ marginBottom: 20 }}>
             Profil Perusahaan
           </div>
           <h1
             className="section-title"
-            style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", maxWidth: 700 }}
+            style={{ fontSize: "clamp(2.2rem, 6vw, 5rem)", maxWidth: 700 }}
           >
             PT. Ozra Mega Perkasa<br />
             <em>Indonesia</em>
@@ -127,24 +127,18 @@ export default function AboutPage() {
           style={{
             maxWidth: 1280,
             margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
           }}
+          className="grid grid-cols-2 md:grid-cols-4"
         >
           {STATS.map((s, i) => (
             <div
               key={s.label}
-              style={{
-                padding: "32px 40px",
-                borderRight:
-                  i < STATS.length - 1 ? "1px solid rgba(240,234,216,0.15)" : "none",
-                textAlign: "center",
-              }}
+              className={`p-6 sm:p-8 text-center ${i % 2 === 0 ? "border-r border-[rgba(240,234,216,0.15)]" : ""} ${i < 2 ? "border-b md:border-b-0 border-[rgba(240,234,216,0.15)]" : ""} ${i === 1 ? "md:border-r" : ""}`}
             >
               <div
                 style={{
                   fontFamily: "Barlow Condensed, sans-serif",
-                  fontSize: "2.5rem",
+                  fontSize: "clamp(2rem, 4vw, 2.8rem)",
                   fontWeight: 900,
                   color: "var(--cream)",
                   letterSpacing: 2,
@@ -172,155 +166,140 @@ export default function AboutPage() {
       </section>
 
       {/* ── 3. COMPANY INTRO + FACTORY PHOTOS ── */}
-      <section
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "100px 48px",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 80,
-          alignItems: "center",
-        }}
-      >
-        {/* Text */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          <div className="section-label">Siapa Kami</div>
-          <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>
-            Dedikasi Manufaktur untuk Ketangguhan &{" "}
-            <em>Profesionalisme</em>
-          </h2>
-          <p
-            style={{
-              fontFamily: "Barlow, sans-serif",
-              fontSize: 15,
-              color: "var(--grey-mid)",
-              lineHeight: 1.8,
-            }}
-          >
-            {COMPANY_INFO.name}, didirikan pada tahun 2025, adalah perusahaan
-            manufaktur yang berfokus pada produksi dan penyediaan seragam taktis
-            serta apparel olahraga di Indonesia.
-          </p>
-          <p
-            style={{
-              fontFamily: "Barlow, sans-serif",
-              fontSize: 15,
-              color: "var(--grey-mid)",
-              lineHeight: 1.8,
-            }}
-          >
-            Perusahaan melayani kebutuhan instansi pemerintah, kesatuan militer &
-            kepolisian, institusi pendidikan kedinasan, komunitas taktis, dan
-            pelaku bisnis melalui produk pakaian yang fungsional, tahan banting,
-            nyaman, dan berwibawa.
-          </p>
+      <section className="section-pad">
+        <div
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+          }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+        >
+          {/* Text */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div className="section-label">Siapa Kami</div>
+            <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>
+              Dedikasi Manufaktur untuk Ketangguhan &amp;{" "}
+              <em>Profesionalisme</em>
+            </h2>
+            <p
+              style={{
+                fontFamily: "Barlow, sans-serif",
+                fontSize: 15,
+                color: "var(--grey-mid)",
+                lineHeight: 1.8,
+              }}
+            >
+              {COMPANY_INFO.name}, didirikan pada tahun 2025, adalah perusahaan
+              manufaktur yang berfokus pada produksi dan penyediaan seragam taktis
+              serta apparel olahraga di Indonesia.
+            </p>
+            <p
+              style={{
+                fontFamily: "Barlow, sans-serif",
+                fontSize: 15,
+                color: "var(--grey-mid)",
+                lineHeight: 1.8,
+              }}
+            >
+              Perusahaan melayani kebutuhan instansi pemerintah, kesatuan militer &amp;
+              kepolisian, institusi pendidikan kedinasan, komunitas taktis, dan
+              pelaku bisnis melalui produk pakaian yang fungsional, tahan banting,
+              nyaman, dan berwibawa.
+            </p>
 
-          {/* Identity grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 2,
-              marginTop: 8,
-            }}
-          >
+            {/* Identity grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2">
+              {[
+                { label: "Nama Resmi", value: COMPANY_INFO.name },
+                { label: "Brand Operasional", value: COMPANY_INFO.brand, accent: true },
+                { label: "Tahun Pendirian", value: `${COMPANY_INFO.establishedYear}` },
+                { label: "Domisili", value: "Jakarta Selatan, DKI Jakarta" },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  style={{
+                    padding: "16px 20px",
+                    background: "var(--near-black)",
+                    borderLeft: row.accent ? "2px solid var(--olive)" : "2px solid var(--border)",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "Barlow Condensed, sans-serif",
+                      fontSize: 10,
+                      fontWeight: 600,
+                      letterSpacing: 3,
+                      textTransform: "uppercase",
+                      color: "var(--grey-mid)",
+                      marginBottom: 4,
+                    }}
+                  >
+                    {row.label}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "Barlow Condensed, sans-serif",
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: row.accent ? "var(--olive-light)" : "var(--cream)",
+                      letterSpacing: 1,
+                    }}
+                  >
+                    {row.value}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Factory photos 2×2 */}
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
             {[
-              { label: "Nama Resmi", value: COMPANY_INFO.name },
-              { label: "Brand Operasional", value: COMPANY_INFO.brand, accent: true },
-              { label: "Tahun Pendirian", value: `${COMPANY_INFO.establishedYear}` },
-              { label: "Domisili", value: "Jakarta Selatan, DKI Jakarta" },
-            ].map((row) => (
+              { src: "/images/factory/cutting-qc.jpg", label: "Quality Control" },
+              { src: "/images/factory/embroidery-sublimation.jpg", label: "Bordir & Sublimasi" },
+              { src: "/images/factory/custom-pattern.jpg", label: "Custom Pattern" },
+              { src: "/images/factory/production-management.jpg", label: "Manajemen Produksi" },
+            ].map((img) => (
               <div
-                key={row.label}
+                key={img.label}
                 style={{
-                  padding: "16px 20px",
-                  background: "var(--near-black)",
-                  borderLeft: row.accent ? "2px solid var(--olive)" : "2px solid var(--border)",
+                  position: "relative",
+                  aspectRatio: "1/1",
+                  overflow: "hidden",
                 }}
               >
+                <Image
+                  src={img.src}
+                  alt={img.label}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 300px"
+                />
                 <div
                   style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(to top, rgba(9,9,10,0.85) 0%, transparent 60%)",
+                  }}
+                />
+                <span
+                  style={{
+                    position: "absolute",
+                    bottom: 12,
+                    left: 12,
                     fontFamily: "Barlow Condensed, sans-serif",
                     fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: 3,
-                    textTransform: "uppercase",
-                    color: "var(--grey-mid)",
-                    marginBottom: 4,
-                  }}
-                >
-                  {row.label}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "Barlow Condensed, sans-serif",
-                    fontSize: 14,
                     fontWeight: 700,
-                    color: row.accent ? "var(--olive-light)" : "var(--cream)",
-                    letterSpacing: 1,
+                    letterSpacing: 2,
+                    textTransform: "uppercase",
+                    color: "var(--olive-light)",
                   }}
                 >
-                  {row.value}
-                </div>
+                  {img.label}
+                </span>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Factory photos 2×2 */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 2,
-          }}
-        >
-          {[
-            { src: "/images/factory/cutting-qc.jpg", label: "Quality Control" },
-            { src: "/images/factory/embroidery-sublimation.jpg", label: "Bordir & Sublimasi" },
-            { src: "/images/factory/custom-pattern.jpg", label: "Custom Pattern" },
-            { src: "/images/factory/production-management.jpg", label: "Manajemen Produksi" },
-          ].map((img) => (
-            <div
-              key={img.label}
-              style={{
-                position: "relative",
-                aspectRatio: "1/1",
-                overflow: "hidden",
-              }}
-            >
-              <Image
-                src={img.src}
-                alt={img.label}
-                fill
-                style={{ objectFit: "cover" }}
-                sizes="300px"
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  background: "linear-gradient(to top, rgba(9,9,10,0.85) 0%, transparent 60%)",
-                }}
-              />
-              <span
-                style={{
-                  position: "absolute",
-                  bottom: 12,
-                  left: 12,
-                  fontFamily: "Barlow Condensed, sans-serif",
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: 3,
-                  textTransform: "uppercase",
-                  color: "var(--olive-light)",
-                }}
-              >
-                {img.label}
-              </span>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -330,11 +309,11 @@ export default function AboutPage() {
           background: "var(--near-black)",
           borderTop: "1px solid var(--border)",
           borderBottom: "1px solid var(--border)",
-          padding: "100px 48px",
         }}
+        className="section-pad"
       >
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div className="section-label" style={{ justifyContent: "center" }}>
               Visi &amp; Misi
             </div>
@@ -343,23 +322,17 @@ export default function AboutPage() {
             </h2>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 2,
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-2">
             {/* Vision */}
             <div
               style={{
                 background: "var(--black)",
                 borderLeft: "3px solid var(--olive)",
-                padding: "48px",
                 display: "flex",
                 flexDirection: "column",
-                gap: 24,
+                gap: 20,
               }}
+              className="p-6 sm:p-10 md:p-12"
             >
               <div>
                 <div
@@ -391,7 +364,7 @@ export default function AboutPage() {
               <blockquote
                 style={{
                   fontFamily: "Barlow, sans-serif",
-                  fontSize: 16,
+                  fontSize: 15,
                   fontStyle: "italic",
                   color: "rgba(240,234,216,0.75)",
                   lineHeight: 1.8,
@@ -419,11 +392,11 @@ export default function AboutPage() {
             <div
               style={{
                 background: "var(--black)",
-                padding: "48px",
                 display: "flex",
                 flexDirection: "column",
-                gap: 24,
+                gap: 20,
               }}
+              className="p-6 sm:p-10 md:p-12"
             >
               <div>
                 <div
@@ -452,7 +425,7 @@ export default function AboutPage() {
                   Tiga Langkah Fundamental
                 </h3>
               </div>
-              <ol style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <ol style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 {[
                   "Mengutamakan material dan konstruksi premium dalam setiap produk yang dihasilkan.",
                   "Berinovasi dengan desain kontemporer tanpa mengesampingkan identitas dan karakter khas Ozra.",
@@ -463,17 +436,17 @@ export default function AboutPage() {
                     style={{
                       display: "flex",
                       alignItems: "flex-start",
-                      gap: 16,
+                      gap: 14,
                     }}
                   >
                     <span
                       style={{
                         fontFamily: "Barlow Condensed, sans-serif",
-                        fontSize: "1.5rem",
+                        fontSize: "1.4rem",
                         fontWeight: 900,
                         color: "var(--olive)",
                         lineHeight: 1,
-                        minWidth: 32,
+                        minWidth: 28,
                       }}
                     >
                       {String(i + 1).padStart(2, "0")}
@@ -481,7 +454,7 @@ export default function AboutPage() {
                     <span
                       style={{
                         fontFamily: "Barlow, sans-serif",
-                        fontSize: 14,
+                        fontSize: 13.5,
                         color: "rgba(240,234,216,0.7)",
                         lineHeight: 1.7,
                       }}
@@ -497,9 +470,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── 5. BRAND VALUES ── */}
-      <section style={{ padding: "100px 48px" }}>
+      <section className="section-pad">
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ marginBottom: 60 }}>
+          <div style={{ marginBottom: 48 }}>
             <div className="section-label">Nilai Tematik</div>
             <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>
               Prinsip Mutu <em>Ozra</em>
@@ -517,31 +490,25 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(5, 1fr)",
-              gap: 2,
-            }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
             {BRAND_VALUES.map((val, i) => (
               <div
                 key={val.title}
                 className="brand-value-card"
                 style={{
                   background: "var(--near-black)",
-                  padding: "40px 28px",
+                  padding: "32px 24px",
                   display: "flex",
                   flexDirection: "column",
-                  gap: 16,
+                  gap: 14,
                 }}
               >
                 <div
                   style={{
                     fontFamily: "Barlow Condensed, sans-serif",
-                    fontSize: "3rem",
+                    fontSize: "2.5rem",
                     fontWeight: 900,
-                    color: "rgba(126,139,82,0.15)",
+                    color: "rgba(126,139,82,0.18)",
                     lineHeight: 1,
                   }}
                 >
@@ -550,7 +517,7 @@ export default function AboutPage() {
                 <h4
                   style={{
                     fontFamily: "Barlow Condensed, sans-serif",
-                    fontSize: "1.2rem",
+                    fontSize: "1.15rem",
                     fontWeight: 800,
                     color: "var(--cream)",
                     letterSpacing: 2,
@@ -579,9 +546,9 @@ export default function AboutPage() {
       <section
         style={{
           background: "var(--olive-dark)",
-          padding: "80px 48px",
           textAlign: "center",
         }}
+        className="px-5 py-14 sm:px-10 sm:py-20 md:px-16"
       >
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <h3

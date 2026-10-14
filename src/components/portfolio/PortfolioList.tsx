@@ -42,15 +42,12 @@ export default function PortfolioList({ items, showFilter = true }: PortfolioLis
 
   return (
     <div>
-      {/* Filter tabs — Molay-style pill-less, tab bar */}
+      {/* Filter tabs — Molay-style pill-less, tab bar with smooth horizontal swipe on mobile */}
       {showFilter && (
         <div
+          className="flex flex-nowrap sm:flex-wrap overflow-x-auto no-scrollbar gap-1 sm:gap-0.5 mb-3 pb-1"
           style={{
-            display: "flex",
-            gap: "2px",
-            flexWrap: "wrap",
-            marginBottom: "2px",
-            overflowX: "auto",
+            WebkitOverflowScrolling: "touch",
           }}
         >
           {FILTER_TABS.map((tab) => {
@@ -63,9 +60,9 @@ export default function PortfolioList({ items, showFilter = true }: PortfolioLis
                   fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
                   fontSize: "11px",
                   fontWeight: 700,
-                  letterSpacing: "3px",
+                  letterSpacing: "2.5px",
                   textTransform: "uppercase",
-                  padding: "10px 20px",
+                  padding: "10px 18px",
                   background: isActive ? "var(--olive)" : "var(--surface)",
                   color: isActive ? "#fff" : "var(--grey-mid)",
                   border: "none",
@@ -73,6 +70,7 @@ export default function PortfolioList({ items, showFilter = true }: PortfolioLis
                   whiteSpace: "nowrap",
                   transition: "all 0.2s",
                   borderBottom: isActive ? "2px solid var(--olive-light)" : "2px solid transparent",
+                  flexShrink: 0,
                 }}
                 onMouseEnter={(e) => {
                   if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
@@ -88,14 +86,9 @@ export default function PortfolioList({ items, showFilter = true }: PortfolioLis
         </div>
       )}
 
-      {/* Grid — 4 kolom seperti Molay */}
+      {/* Grid — responsive 1 col mobile, 2 col tablet, 4 col desktop */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "2px",
-        }}
-        className="grid-cols-2 md:grid-cols-4"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-2"
       >
         {filteredItems.map((item, idx) => (
           <div key={item.id} style={{ position: "relative" }}>

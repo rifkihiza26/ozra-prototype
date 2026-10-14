@@ -194,7 +194,7 @@ export default function HomePage() {
                 </p>
 
                 {/* CTAs */}
-                <div className="hero-ctas" style={{ display: "flex", gap: "14px", flexWrap: "wrap", justifyContent: "center" }}>
+                <div className="hero-ctas flex flex-col sm:flex-row gap-3 w-full max-w-sm sm:max-w-none justify-center items-stretch sm:items-center px-4">
                   <Link
                     href={slide.ctaPrimary.href}
                     style={{
@@ -204,11 +204,12 @@ export default function HomePage() {
                       letterSpacing: "4px",
                       textTransform: "uppercase",
                       textDecoration: "none",
-                      padding: "14px 36px",
+                      padding: "14px 28px",
                       background: "var(--olive)",
                       color: "#fff",
                       border: "1px solid var(--olive)",
-                      display: "inline-block",
+                      textAlign: "center",
+                      display: "block",
                     }}
                   >
                     {slide.ctaPrimary.label}
@@ -223,11 +224,12 @@ export default function HomePage() {
                       letterSpacing: "4px",
                       textTransform: "uppercase",
                       textDecoration: "none",
-                      padding: "14px 36px",
-                      background: "transparent",
+                      padding: "14px 28px",
+                      background: "rgba(9,9,10,0.6)",
                       color: "var(--cream)",
                       border: "1px solid rgba(240,234,216,0.4)",
-                      display: "inline-block",
+                      textAlign: "center",
+                      display: "block",
                     }}
                     onClick={(e) => {
                       if (!slide.ctaSecondary.href.startsWith("https://wa.me")) {
@@ -244,49 +246,49 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Arrow left */}
+        {/* Arrow left (desktop & tablet) */}
         <button
           onClick={() => { prevSlide(); resetTimer(); }}
+          className="hidden sm:flex"
           style={{
             position: "absolute",
             top: "50%",
-            left: "28px",
+            left: "20px",
             transform: "translateY(-50%)",
             zIndex: 10,
-            background: "rgba(9,9,10,0.5)",
+            background: "rgba(9,9,10,0.6)",
             border: "1px solid var(--border)",
             color: "var(--cream)",
-            width: "48px",
-            height: "48px",
-            display: "flex",
+            width: "44px",
+            height: "44px",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
-            fontSize: "18px",
+            fontSize: "20px",
           }}
           aria-label="Slide sebelumnya"
         >
           ‹
         </button>
-        {/* Arrow right */}
+        {/* Arrow right (desktop & tablet) */}
         <button
           onClick={() => { nextSlide(); resetTimer(); }}
+          className="hidden sm:flex"
           style={{
             position: "absolute",
             top: "50%",
-            right: "28px",
+            right: "20px",
             transform: "translateY(-50%)",
             zIndex: 10,
-            background: "rgba(9,9,10,0.5)",
+            background: "rgba(9,9,10,0.6)",
             border: "1px solid var(--border)",
             color: "var(--cream)",
-            width: "48px",
-            height: "48px",
-            display: "flex",
+            width: "44px",
+            height: "44px",
             alignItems: "center",
             justifyContent: "center",
             cursor: "pointer",
-            fontSize: "18px",
+            fontSize: "20px",
           }}
           aria-label="Slide berikutnya"
         >
@@ -294,7 +296,7 @@ export default function HomePage() {
         </button>
 
         {/* Dots */}
-        <div style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", gap: "10px" }}>
+        <div style={{ position: "absolute", bottom: "28px", left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", gap: "8px" }}>
           {HERO_SLIDES.map((_, idx) => (
             <button
               key={idx}
@@ -305,14 +307,14 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Counter */}
-        <div style={{ position: "absolute", right: "32px", bottom: "32px", zIndex: 3, fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", color: "var(--grey-mid)" }}>
+        {/* Counter (tablet & desktop) */}
+        <div className="hidden sm:block" style={{ position: "absolute", right: "28px", bottom: "28px", zIndex: 3, fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", color: "var(--grey-mid)" }}>
           <span style={{ color: "var(--tan-light)", fontSize: "18px" }}>0{activeSlide + 1}</span>
           {" / "}0{HERO_SLIDES.length}
         </div>
 
-        {/* Scroll indicator */}
-        <div style={{ position: "absolute", left: "32px", bottom: "32px", zIndex: 3, display: "flex", alignItems: "center", gap: "12px" }}>
+        {/* Scroll indicator (desktop only) */}
+        <div className="hidden md:flex" style={{ position: "absolute", left: "28px", bottom: "28px", zIndex: 3, alignItems: "center", gap: "12px" }}>
           <div className="scroll-line" />
           <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "var(--grey-mid)", writingMode: "vertical-lr", transform: "rotate(180deg)" }}>
             Scroll
@@ -341,158 +343,162 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           SECTION 3: CATEGORY CARDS — 4 kolom seperti Molay
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 48px", background: "var(--black)" }}>
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "48px" }}>
-          <div>
-            <div className="section-label">Kategori Produk</div>
-            <h2 className="section-title">
-              OUR <em>SERVICES</em>
-            </h2>
-          </div>
-          <Link
-            href="/services"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none", display: "flex", alignItems: "center", gap: "8px" }}
-          >
-            Lihat Semua →
-          </Link>
-        </div>
-
-        {/* 4-col grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }} className="grid-cols-2 md:grid-cols-4">
-          {CATEGORIES.map((cat) => (
-            <Link key={cat.num} href={cat.href} className="cat-card" style={{ aspectRatio: "3/4" }}>
-              <Image src={cat.image} alt={cat.label} fill className="cat-card-bg object-cover" sizes="25vw" />
-              <div className="cat-card-inner">
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "4px", color: "var(--olive-light)", marginBottom: "8px" }}>
-                  {cat.num}
-                </div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(20px,2vw,28px)", fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", lineHeight: 1, marginBottom: "8px" }}>
-                  {cat.label}
-                </div>
-                <div className="cat-reveal" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "var(--tan-light)", display: "flex", alignItems: "center", gap: "8px" }}>
-                  {cat.sub} →
-                </div>
-              </div>
+      <section className="section-pad" style={{ background: "var(--black)" }}>
+        <div className="section-container">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
+            <div>
+              <div className="section-label">Kategori Produk</div>
+              <h2 className="section-title">
+                OUR <em>SERVICES</em>
+              </h2>
+            </div>
+            <Link
+              href="/services"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}
+            >
+              Lihat Semua →
             </Link>
-          ))}
+          </div>
+
+          {/* Responsive grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            {CATEGORIES.map((cat) => (
+              <Link key={cat.num} href={cat.href} className="cat-card" style={{ aspectRatio: "3/4" }}>
+                <Image src={cat.image} alt={cat.label} fill className="cat-card-bg object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                <div className="cat-card-inner">
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "4px", color: "var(--olive-light)", marginBottom: "8px" }}>
+                    {cat.num}
+                  </div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(20px,2vw,28px)", fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", lineHeight: 1, marginBottom: "8px" }}>
+                    {cat.label}
+                  </div>
+                  <div className="cat-reveal" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "var(--tan-light)", display: "flex", alignItems: "center", gap: "8px" }}>
+                    {cat.sub} →
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
           SECTION 4: FEATURED PORTFOLIO — 4 grid seperti products di Molay
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 48px", background: "var(--near-black)" }}>
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "48px" }}>
-          <div>
-            <div className="section-label">Galeri Produk</div>
-            <h2 className="section-title">
-              FEATURED <em>PORTFOLIO</em>
-            </h2>
-          </div>
-          <Link
-            href="/portfolio"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none" }}
-          >
-            View All →
-          </Link>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }} className="grid-cols-2 md:grid-cols-4">
-          {FEATURED.map((item) => (
+      <section className="section-pad" style={{ background: "var(--near-black)" }}>
+        <div className="section-container">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
+            <div>
+              <div className="section-label">Galeri Produk</div>
+              <h2 className="section-title">
+                FEATURED <em>PORTFOLIO</em>
+              </h2>
+            </div>
             <Link
-              key={item.id}
-              href={`/portfolio/${item.slug}`}
-              className="product-card"
-              style={{ textDecoration: "none", color: "inherit" }}
+              href="/portfolio"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}
             >
-              {/* Image */}
-              <div style={{ aspectRatio: "1", background: "#1a1a16", position: "relative", overflow: "hidden" }}>
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                  sizes="25vw"
-                  style={{ transition: "transform 0.5s ease" }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.04)")}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
-                />
-                {/* Tag */}
-                <div style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "4px 10px", background: "var(--olive)", color: "#fff", zIndex: 1 }}>
-                  {item.category.split(" ")[0]}
-                </div>
-              </div>
-
-              {/* Info */}
-              <div style={{ padding: "18px 18px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--olive)", marginBottom: "5px" }}>
-                  {item.category}
-                </div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase", color: "#fff", lineHeight: 1.1, marginBottom: "5px" }}>
-                  {item.title}
-                </div>
-                {item.client && (
-                  <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: "11px", color: "var(--grey-mid)" }}>
-                    {item.client}
-                  </div>
-                )}
-                <div
-                  style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#fff", padding: "11px", background: "var(--olive)", display: "block", textAlign: "center", marginTop: "14px" }}
-                >
-                  View Detail →
-                </div>
-              </div>
+              View All →
             </Link>
-          ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+            {FEATURED.map((item) => (
+              <Link
+                key={item.id}
+                href={`/portfolio/${item.slug}`}
+                className="product-card"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                {/* Image */}
+                <div style={{ aspectRatio: "1", background: "#1a1a16", position: "relative", overflow: "hidden" }}>
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    style={{ transition: "transform 0.5s ease" }}
+                  />
+                  {/* Tag */}
+                  <div style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "4px 10px", background: "var(--olive)", color: "#fff", zIndex: 1 }}>
+                    {item.category.split(" ")[0]}
+                  </div>
+                </div>
+
+                {/* Info */}
+                <div style={{ padding: "18px 18px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--olive)", marginBottom: "5px" }}>
+                    {item.category}
+                  </div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase", color: "#fff", lineHeight: 1.1, marginBottom: "5px" }}>
+                    {item.title}
+                  </div>
+                  {item.client && (
+                    <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: "11px", color: "var(--grey-mid)" }}>
+                      {item.client}
+                    </div>
+                  )}
+                  <div
+                    style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#fff", padding: "11px", background: "var(--olive)", display: "block", textAlign: "center", marginTop: "14px" }}
+                  >
+                    View Detail →
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
           SECTION 5: BRAND STORY — 2 kolom (text | foto) seperti Molay
       ══════════════════════════════════════════════ */}
-      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "600px" }} className="flex-col md:grid-cols-2">
+      <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
         {/* Left: text */}
-        <div style={{ background: "var(--black)", padding: "96px 72px 96px 80px", display: "flex", flexDirection: "column", justifyContent: "center" }} className="p-8 md:p-20">
+        <div style={{ background: "var(--black)" }} className="p-6 sm:p-10 md:p-16 lg:p-20 flex flex-col justify-center">
           <div className="section-label">Tentang Kami</div>
           <h2 className="section-title" style={{ maxWidth: "480px" }}>
             BUILT FOR <em>PRECISION</em>
           </h2>
-          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "15px", lineHeight: 1.8, color: "rgba(240,234,216,0.65)", margin: "24px 0 32px", maxWidth: "420px" }}>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "15px", lineHeight: 1.8, color: "rgba(240,234,216,0.65)", margin: "20px 0 28px", maxWidth: "460px" }}>
             PT. Ozra Mega Perkasa Indonesia didirikan pada <strong style={{ color: "var(--cream)", fontWeight: 500 }}>2025</strong> dengan satu misi: menghadirkan seragam taktis berkualitas field-grade yang memadukan{" "}
             <strong style={{ color: "var(--cream)", fontWeight: 500 }}>desain kontemporer</strong> dengan fungsi operasional nyata.
           </p>
 
           {/* Badges */}
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "36px" }}>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "32px" }}>
             {["Quality Material", "Precision Cut", "Custom Fit", "Multi-Layer QC"].map((b) => (
-              <span key={b} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "6px 14px", border: "1px solid var(--border)", color: "var(--tan-light)" }}>
+              <span key={b} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", padding: "6px 12px", border: "1px solid var(--border)", color: "var(--tan-light)" }}>
                 {b}
               </span>
             ))}
           </div>
 
-          <Link
-            href="/about"
-            style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", display: "inline-block" }}
-          >
-            Our Story →
-          </Link>
+          <div>
+            <Link
+              href="/about"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", display: "inline-block" }}
+            >
+              Our Story →
+            </Link>
+          </div>
         </div>
 
         {/* Right: foto */}
-        <div style={{ position: "relative", background: "var(--grey-dark)", overflow: "hidden", minHeight: "500px" }}>
+        <div className="relative bg-[#1a1d19] overflow-hidden min-h-[350px] sm:min-h-[420px] lg:min-h-[500px]">
           <Image
             src="/images/client_pdf/office-building.jpg"
             alt="Fasilitas Produksi Ozra Tactical"
             fill
             className="object-cover"
-            sizes="50vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(126,139,82,0.08) 0%, transparent 60%)", zIndex: 1 }} />
           {/* Overlay stat card */}
-          <div style={{ position: "absolute", bottom: "32px", right: "32px", zIndex: 2, border: "1px solid var(--border)", padding: "20px 28px", background: "rgba(9,9,10,0.88)", backdropFilter: "blur(8px)" }}>
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "48px", fontWeight: 900, color: "var(--olive)", lineHeight: 1 }}>
+          <div style={{ position: "absolute", bottom: "24px", right: "24px", zIndex: 2, border: "1px solid var(--border)", padding: "16px 24px", background: "rgba(9,9,10,0.88)", backdropFilter: "blur(8px)" }}>
+            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "40px", fontWeight: 900, color: "var(--olive)", lineHeight: 1 }}>
               24
             </div>
             <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "var(--grey-mid)", marginTop: "4px" }}>
@@ -505,68 +511,66 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           SECTION 6: STATS ROW — olive-dark bg seperti Molay
       ══════════════════════════════════════════════ */}
-      <section style={{ background: "var(--olive-dark)", padding: "48px 80px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0 }} className="px-6 md:px-20 grid-cols-2 md:grid-cols-4">
-        {[
-          { num: "18", unit: "+", label: "Instansi Klien" },
-          { num: "24", unit: "", label: "Portfolio Items" },
-          { num: "5", unit: "★", label: "Tahap QC" },
-          { num: "100", unit: "%", label: "Custom Spec" },
-        ].map((s, i) => (
-          <div
-            key={s.label}
-            style={{
-              textAlign: "center",
-              padding: "0 24px",
-              borderRight: i < 3 ? "1px solid rgba(240,234,216,0.15)" : "none",
-            }}
-          >
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "52px", fontWeight: 900, color: "#fff", lineHeight: 1, marginBottom: "6px" }}>
-              {s.num}
-              <span style={{ fontSize: "24px", color: "var(--tan-light)" }}>{s.unit}</span>
+      <section style={{ background: "var(--olive-dark)" }} className="py-10 px-4 sm:px-8 md:px-16">
+        <div className="section-container grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0">
+          {[
+            { num: "18", unit: "+", label: "Instansi Klien" },
+            { num: "24", unit: "", label: "Portfolio Items" },
+            { num: "5", unit: "★", label: "Tahap QC" },
+            { num: "100", unit: "%", label: "Custom Spec" },
+          ].map((s, i) => (
+            <div
+              key={s.label}
+              className={`text-center px-4 ${i < 3 ? "md:border-r md:border-[rgba(240,234,216,0.15)]" : ""}`}
+            >
+              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 900, color: "#fff", lineHeight: 1, marginBottom: "6px" }}>
+                {s.num}
+                <span style={{ fontSize: "20px", color: "var(--tan-light)" }}>{s.unit}</span>
+              </div>
+              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(240,234,216,0.6)" }}>
+                {s.label}
+              </div>
             </div>
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(240,234,216,0.6)" }}>
-              {s.label}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════════
           SECTION 7: PRODUCTION WORKFLOW — horizontal timeline
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 48px", background: "var(--black)" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "56px" }} className="flex-col md:flex-row gap-4">
+      <section className="section-pad" style={{ background: "var(--black)" }}>
+        <div className="section-container">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 sm:mb-14">
             <div>
               <div className="section-label">Alur Kerja</div>
               <h2 className="section-title">
                 FROM ORDER <em>TO DELIVERY</em>
               </h2>
             </div>
-            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "13px", color: "rgba(240,234,216,0.5)", maxWidth: "320px", lineHeight: 1.7 }}>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "13px", color: "rgba(240,234,216,0.5)", maxWidth: "340px", lineHeight: 1.7 }}>
               Lima tahap terstruktur untuk memastikan produk selesai tepat waktu, tepat spesifikasi, tepat kualitas.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "2px" }} className="grid-cols-1 sm:grid-cols-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
             {WORKFLOW_DATA.map((wf, i) => (
               <div
                 key={wf.step}
                 style={{
                   background: i % 2 === 0 ? "var(--surface)" : "var(--near-black)",
-                  padding: "32px 24px",
+                  padding: "28px 22px",
                   borderTop: "2px solid",
                   borderTopColor: i % 2 === 0 ? "var(--olive)" : "var(--border)",
                   position: "relative",
                 }}
               >
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "48px", fontWeight: 900, color: "rgba(126,139,82,0.15)", lineHeight: 1, marginBottom: "12px" }}>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "42px", fontWeight: 900, color: "rgba(126,139,82,0.18)", lineHeight: 1, marginBottom: "12px" }}>
                   0{wf.step}
                 </div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", marginBottom: "10px", lineHeight: 1.1 }}>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", marginBottom: "10px", lineHeight: 1.2 }}>
                   {wf.title.replace(/^Tahap \d+ - /, "")}
                 </div>
-                <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(240,234,216,0.5)", lineHeight: 1.7 }}>
+                <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(240,234,216,0.55)", lineHeight: 1.7 }}>
                   {wf.description}
                 </p>
               </div>
@@ -578,7 +582,7 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           SECTION 8: COLLECTION BANNER (full-bleed CTA)
       ══════════════════════════════════════════════ */}
-      <section style={{ position: "relative", height: "480px", overflow: "hidden", display: "flex", alignItems: "center" }}>
+      <section style={{ position: "relative", minHeight: "440px", overflow: "hidden", display: "flex", alignItems: "center" }}>
         <Image
           src="/images/products/bdu-tactical.jpg"
           alt="Koleksi Tactical Apparel Ozra"
@@ -586,25 +590,25 @@ export default function HomePage() {
           className="object-cover"
           sizes="100vw"
         />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(9,9,10,0.92) 40%, rgba(9,9,10,0.2) 100%)", zIndex: 1 }} />
-        <div style={{ position: "relative", zIndex: 2, padding: "0 80px", maxWidth: "600px" }} className="px-6 md:px-20">
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(9,9,10,0.94) 0%, rgba(9,9,10,0.85) 50%, rgba(9,9,10,0.4) 100%)", zIndex: 1 }} />
+        <div style={{ position: "relative", zIndex: 2, maxWidth: "620px" }} className="px-6 py-12 sm:px-12 md:px-20">
           <div className="section-label">Koleksi Taktis</div>
-          <h2 className="section-title" style={{ fontSize: "clamp(40px, 5vw, 72px)", margin: "12px 0 20px" }}>
+          <h2 className="section-title" style={{ fontSize: "clamp(34px, 5vw, 68px)", margin: "12px 0 16px" }}>
             TACTICAL <br /><em>APPAREL</em>
           </h2>
-          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", color: "rgba(240,234,216,0.6)", lineHeight: 1.7, marginBottom: "36px", maxWidth: "380px" }}>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", color: "rgba(240,234,216,0.65)", lineHeight: 1.7, marginBottom: "32px", maxWidth: "420px" }}>
             Seragam PDL, BDU, Workshirt Lapangan, dan Jersey Sublimasi custom untuk institusi pemerintah dan komunitas taktis.
           </p>
-          <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="/portfolio"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 36px", background: "var(--olive)", color: "#fff" }}
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", textAlign: "center" }}
             >
               Explore All →
             </Link>
             <Link
               href="/contact"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 36px", background: "transparent", color: "var(--cream)", border: "1px solid rgba(240,234,216,0.4)" }}
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "transparent", color: "var(--cream)", border: "1px solid rgba(240,234,216,0.4)", textAlign: "center" }}
             >
               Get a Quote
             </Link>
@@ -615,8 +619,8 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           SECTION 9: CLIENT / INSTANSI (logo berwarna dari PDF baru)
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 0", background: "var(--black)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
-        <div style={{ textAlign: "center", marginBottom: "52px", padding: "0 48px" }}>
+      <section style={{ padding: "64px 0", background: "var(--black)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ textAlign: "center", marginBottom: "40px", padding: "0 24px" }}>
           <div className="section-label" style={{ justifyContent: "center" }}>
             <span style={{ width: "36px", height: "1px", background: "var(--olive)", display: "inline-block" }} />
             Kepercayaan Klien
@@ -631,19 +635,21 @@ export default function HomePage() {
         </div>
 
         {/* Full-color institutional logo strip */}
-        <div style={{ width: "100%", overflow: "hidden", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", background: "#000" }}>
-          <Image
-            src="/images/clients-logos-color.jpg"
-            alt="Klien Instansi Ozra Tactical — TNI AL, Kemenkumham, Pengayoman, Polri, Imigrasi, KOPASGAT dan lainnya"
-            width={1540}
-            height={417}
-            style={{ width: "100%", height: "auto", display: "block" }}
-            sizes="100vw"
-          />
+        <div style={{ width: "100%", overflowX: "auto", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", background: "#000" }} className="no-scrollbar">
+          <div style={{ minWidth: "720px", width: "100%" }}>
+            <Image
+              src="/images/clients-logos-color.jpg"
+              alt="Klien Instansi Ozra Tactical — TNI AL, Kemenkumham, Pengayoman, Polri, Imigrasi, KOPASGAT dan lainnya"
+              width={1540}
+              height={417}
+              style={{ width: "100%", height: "auto", display: "block" }}
+              sizes="100vw"
+            />
+          </div>
         </div>
 
         {/* CTA row */}
-        <div style={{ textAlign: "center", marginTop: 48, padding: "0 48px" }}>
+        <div style={{ textAlign: "center", marginTop: 40, padding: "0 24px" }}>
           <Link
             href="/portfolio"
             style={{
@@ -666,9 +672,9 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           SECTION 10: FACTORY PROCESS — 5 foto proses
       ══════════════════════════════════════════════ */}
-      <section style={{ padding: "80px 48px", background: "var(--black)" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "48px" }} className="flex-col md:flex-row gap-4">
+      <section className="section-pad" style={{ background: "var(--black)" }}>
+        <div className="section-container">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
             <div>
               <div className="section-label">Fasilitas Produksi</div>
               <h2 className="section-title">
@@ -677,13 +683,13 @@ export default function HomePage() {
             </div>
             <Link
               href="/about"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none" }}
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px" }}
             >
               Learn More →
             </Link>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "2px" }} className="grid-cols-2 sm:grid-cols-5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
             {[
               { src: "/images/factory/cutting-qc.jpg", label: "Quality Control", num: "01" },
               { src: "/images/factory/custom-pattern.jpg", label: "Custom Pattern", num: "02" },
@@ -692,12 +698,12 @@ export default function HomePage() {
               { src: "/images/factory/after-sales-warranty.jpg", label: "Garansi Purna Jual", num: "05" },
             ].map((item) => (
               <div key={item.num} className="cat-card" style={{ aspectRatio: "3/4", cursor: "default" }}>
-                <Image src={item.src} alt={item.label} fill className="object-cover" sizes="20vw" style={{ transition: "transform 0.6s ease" }} />
+                <Image src={item.src} alt={item.label} fill className="object-cover" sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" style={{ transition: "transform 0.6s ease" }} />
                 <div className="cat-card-inner" style={{ transform: "translateY(0)" }}>
                   <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "4px", color: "var(--olive-light)", marginBottom: "8px" }}>
                     {item.num}
                   </div>
-                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", lineHeight: 1.1 }}>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "15px", fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", lineHeight: 1.1 }}>
                     {item.label}
                   </div>
                 </div>
