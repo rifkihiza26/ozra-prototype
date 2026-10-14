@@ -1,69 +1,711 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { COMPANY_INFO } from "@/lib/constants";
+import { SERVICES_DATA, WORKFLOW_DATA } from "@/data/services";
+import { PORTFOLIO_DATA } from "@/data/portfolio";
+
+/* ─────────────────────────────────────────────
+   HERO SLIDES CONFIG
+───────────────────────────────────────────── */
+const HERO_SLIDES = [
+  {
+    image: "/images/client_pdf/office-interior.jpg",
+    eyebrow: "Manufaktur Tactical Apparel",
+    titleLine1: "PRECISION",
+    titleLine2: "IN EVERY STITCH",
+    tagline: "Field-Grade Tactical Apparel — Engineered for Indonesia",
+    ctaPrimary: { label: "Lihat Portofolio", href: "/portfolio" },
+    ctaSecondary: { label: "Get a Quote", href: "/contact" },
+  },
+  {
+    image: "/images/factory/cutting-qc.jpg",
+    eyebrow: "Quality Control Multi-Layer",
+    titleLine1: "BUILT TO",
+    titleLine2: "PERFORM",
+    tagline: "Inspeksi ketat di setiap tahap — dari cutting hingga finishing",
+    ctaPrimary: { label: "Layanan Kami", href: "/services" },
+    ctaSecondary: { label: "Konsultasi", href: "/contact" },
+  },
+  {
+    image: "/images/products/workshirt-kemenhub.jpg",
+    eyebrow: "Custom Institutional Uniform",
+    titleLine1: "SERAGAM",
+    titleLine2: "INSTANSI",
+    tagline: "PDL, Workshirt, BDU, Corporate Uniform — Custom Full Spec",
+    ctaPrimary: { label: "Portofolio", href: "/portfolio" },
+    ctaSecondary: { label: "WhatsApp", href: `https://wa.me/${COMPANY_INFO.phoneRaw}` },
+  },
+];
+
+/* ─────────────────────────────────────────────
+   CATEGORY CARDS CONFIG
+───────────────────────────────────────────── */
+const CATEGORIES = [
+  {
+    num: "01",
+    label: "Seragam Taktis & PDL",
+    sub: "PDL, BDU, Workshirt, Tactical Field Wear",
+    image: "/images/products/full-set-pdl.jpg",
+    href: "/portfolio?cat=Pakaian+Dinas",
+  },
+  {
+    num: "02",
+    label: "Corporate Uniform",
+    sub: "PDH, Jas Institusi, Seragam Kerja Formal",
+    image: "/images/products/jacket-taruna-aal.jpg",
+    href: "/portfolio?cat=Corporate",
+  },
+  {
+    num: "03",
+    label: "Jersey & Sportswear",
+    sub: "Sublimasi Full-Print, Jersey Custom Tim",
+    image: "/images/products/jersey-pomad.jpg",
+    href: "/portfolio?cat=Sportswear",
+  },
+  {
+    num: "04",
+    label: "Pants & Accessories",
+    sub: "Cargo Tactical, Cap, Aksesoris Taktis",
+    image: "/images/products/cargo-pants.jpg",
+    href: "/portfolio?cat=Trousers",
+  },
+];
+
+/* ─────────────────────────────────────────────
+   FEATURED PORTFOLIO (4 items for grid)
+───────────────────────────────────────────── */
+const FEATURED = PORTFOLIO_DATA.filter((p) => p.featured).slice(0, 4);
+
+/* ─────────────────────────────────────────────
+   HOMEPAGE CLIENT COMPONENT
+───────────────────────────────────────────── */
+export default function HomePage() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const goToSlide = (idx: number) => setActiveSlide(idx);
+  const prevSlide = () => setActiveSlide((c) => (c - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  const nextSlide = () => setActiveSlide((c) => (c + 1) % HERO_SLIDES.length);
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setActiveSlide((c) => (c + 1) % HERO_SLIDES.length);
+    }, 6000);
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, []);
+
+  const resetTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveSlide((c) => (c + 1) % HERO_SLIDES.length);
+    }, 6000);
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div>
+      {/* ══════════════════════════════════════════════
+          SECTION 1: HERO SLIDER
+      ══════════════════════════════════════════════ */}
+      <section style={{ position: "relative", height: "100vh", overflow: "hidden" }}>
+        {/* Slides */}
+        <div style={{ display: "flex", height: "100%", transition: "transform 0.85s cubic-bezier(0.77,0,0.175,1)", transform: `translateX(-${activeSlide * 100}%)` }}>
+          {HERO_SLIDES.map((slide, idx) => (
+            <div
+              key={idx}
+              className={`hero-slide${activeSlide === idx ? " active" : ""}`}
+              style={{ minWidth: "100%", height: "100%", position: "relative", overflow: "hidden" }}
+            >
+              {/* Background image */}
+              <Image
+                src={slide.image}
+                alt={slide.titleLine1}
+                fill
+                priority={idx === 0}
+                className="hero-slide-bg"
+                sizes="100vw"
+              />
+              {/* Gradient overlay */}
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(9,9,10,0.55) 0%, rgba(9,9,10,0.18) 30%, rgba(9,9,10,0.5) 65%, rgba(9,9,10,0.78) 100%)", zIndex: 1 }} />
+
+              {/* Content */}
+              <div style={{ position: "absolute", inset: 0, zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "40px 24px" }}>
+                {/* Eyebrow */}
+                <div
+                  className="hero-eyebrow"
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    letterSpacing: "5px",
+                    textTransform: "uppercase",
+                    color: "var(--tan-light)",
+                    marginBottom: "20px",
+                    background: "rgba(9,9,10,0.6)",
+                    padding: "5px 14px",
+                    borderLeft: "2px solid var(--tan)",
+                    display: "inline-block",
+                  }}
+                >
+                  {slide.eyebrow}
+                </div>
+
+                {/* Title */}
+                <h1
+                  className="hero-title-el"
+                  style={{
+                    fontFamily: "'Barlow Condensed', 'Arial Narrow', Impact, sans-serif",
+                    fontSize: "clamp(52px, 11vw, 120px)",
+                    fontWeight: 900,
+                    lineHeight: 0.88,
+                    letterSpacing: "-2px",
+                    textTransform: "uppercase",
+                    color: "#fff",
+                    marginBottom: "24px",
+                    maxWidth: "800px",
+                    textShadow: "0 2px 24px rgba(0,0,0,0.6)",
+                  }}
+                >
+                  {slide.titleLine1}
+                  <br />
+                  <em style={{ fontStyle: "normal", color: "transparent", WebkitTextStroke: "1.5px var(--cream)" }}>
+                    {slide.titleLine2}
+                  </em>
+                </h1>
+
+                {/* Tagline */}
+                <p
+                  className="hero-tagline"
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "13px",
+                    fontWeight: 400,
+                    letterSpacing: "4px",
+                    textTransform: "uppercase",
+                    color: "var(--cream)",
+                    marginBottom: "44px",
+                    textShadow: "0 1px 12px rgba(0,0,0,0.9)",
+                    opacity: 0.85,
+                  }}
+                >
+                  {slide.tagline}
+                </p>
+
+                {/* CTAs */}
+                <div className="hero-ctas" style={{ display: "flex", gap: "14px", flexWrap: "wrap", justifyContent: "center" }}>
+                  <Link
+                    href={slide.ctaPrimary.href}
+                    style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "4px",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      padding: "14px 36px",
+                      background: "var(--olive)",
+                      color: "#fff",
+                      border: "1px solid var(--olive)",
+                      display: "inline-block",
+                    }}
+                  >
+                    {slide.ctaPrimary.label}
+                  </Link>
+                  <a
+                    href={slide.ctaSecondary.href.startsWith("https://wa.me") ? slide.ctaSecondary.href : undefined}
+                    {...(!slide.ctaSecondary.href.startsWith("https://wa.me") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                    style={{
+                      fontFamily: "'Barlow Condensed', sans-serif",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "4px",
+                      textTransform: "uppercase",
+                      textDecoration: "none",
+                      padding: "14px 36px",
+                      background: "transparent",
+                      color: "var(--cream)",
+                      border: "1px solid rgba(240,234,216,0.4)",
+                      display: "inline-block",
+                    }}
+                    onClick={(e) => {
+                      if (!slide.ctaSecondary.href.startsWith("https://wa.me")) {
+                        e.preventDefault();
+                        window.location.href = slide.ctaSecondary.href;
+                      }
+                    }}
+                  >
+                    {slide.ctaSecondary.label}
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Arrow left */}
+        <button
+          onClick={() => { prevSlide(); resetTimer(); }}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "28px",
+            transform: "translateY(-50%)",
+            zIndex: 10,
+            background: "rgba(9,9,10,0.5)",
+            border: "1px solid var(--border)",
+            color: "var(--cream)",
+            width: "48px",
+            height: "48px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            fontSize: "18px",
+          }}
+          aria-label="Slide sebelumnya"
+        >
+          ‹
+        </button>
+        {/* Arrow right */}
+        <button
+          onClick={() => { nextSlide(); resetTimer(); }}
+          style={{
+            position: "absolute",
+            top: "50%",
+            right: "28px",
+            transform: "translateY(-50%)",
+            zIndex: 10,
+            background: "rgba(9,9,10,0.5)",
+            border: "1px solid var(--border)",
+            color: "var(--cream)",
+            width: "48px",
+            height: "48px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            fontSize: "18px",
+          }}
+          aria-label="Slide berikutnya"
+        >
+          ›
+        </button>
+
+        {/* Dots */}
+        <div style={{ position: "absolute", bottom: "32px", left: "50%", transform: "translateX(-50%)", zIndex: 3, display: "flex", gap: "10px" }}>
+          {HERO_SLIDES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => { goToSlide(idx); resetTimer(); }}
+              className={`hero-dot${activeSlide === idx ? " active" : ""}`}
+              aria-label={`Slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Counter */}
+        <div style={{ position: "absolute", right: "32px", bottom: "32px", zIndex: 3, fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", color: "var(--grey-mid)" }}>
+          <span style={{ color: "var(--tan-light)", fontSize: "18px" }}>0{activeSlide + 1}</span>
+          {" / "}0{HERO_SLIDES.length}
+        </div>
+
+        {/* Scroll indicator */}
+        <div style={{ position: "absolute", left: "32px", bottom: "32px", zIndex: 3, display: "flex", alignItems: "center", gap: "12px" }}>
+          <div className="scroll-line" />
+          <span style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "var(--grey-mid)", writingMode: "vertical-lr", transform: "rotate(180deg)" }}>
+            Scroll
+          </span>
+        </div>
+
+        {/* Bottom fade */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, var(--black), transparent)", zIndex: 2 }} />
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 2: TRUST BAR
+      ══════════════════════════════════════════════ */}
+      <div className="trust-bar">
+        <div className="trust-item">Didirikan <strong>2025</strong></div>
+        <span className="trust-sep">◆</span>
+        <div className="trust-item">Berbasis di <strong>Jakarta Selatan</strong></div>
+        <span className="trust-sep">◆</span>
+        <div className="trust-item">Seragam <strong>Instansi &amp; Militer</strong></div>
+        <span className="trust-sep">◆</span>
+        <div className="trust-item"><strong>Bordir</strong> Komputer Presisi</div>
+        <span className="trust-sep">◆</span>
+        <div className="trust-item">Garansi <strong>Purna Jual</strong></div>
+      </div>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 3: CATEGORY CARDS — 4 kolom seperti Molay
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "80px 48px", background: "var(--black)" }}>
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "48px" }}>
+          <div>
+            <div className="section-label">Kategori Produk</div>
+            <h2 className="section-title">
+              OUR <em>SERVICES</em>
+            </h2>
+          </div>
+          <Link
+            href="/services"
+            style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none", display: "flex", alignItems: "center", gap: "8px" }}
+          >
+            Lihat Semua →
+          </Link>
+        </div>
+
+        {/* 4-col grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }} className="grid-cols-2 md:grid-cols-4">
+          {CATEGORIES.map((cat) => (
+            <Link key={cat.num} href={cat.href} className="cat-card" style={{ aspectRatio: "3/4" }}>
+              <Image src={cat.image} alt={cat.label} fill className="cat-card-bg object-cover" sizes="25vw" />
+              <div className="cat-card-inner">
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "4px", color: "var(--olive-light)", marginBottom: "8px" }}>
+                  {cat.num}
+                </div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(20px,2vw,28px)", fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", lineHeight: 1, marginBottom: "8px" }}>
+                  {cat.label}
+                </div>
+                <div className="cat-reveal" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", color: "var(--tan-light)", display: "flex", alignItems: "center", gap: "8px" }}>
+                  {cat.sub} →
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 4: FEATURED PORTFOLIO — 4 grid seperti products di Molay
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "80px 48px", background: "var(--near-black)" }}>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "48px" }}>
+          <div>
+            <div className="section-label">Galeri Produk</div>
+            <h2 className="section-title">
+              FEATURED <em>PORTFOLIO</em>
+            </h2>
+          </div>
+          <Link
+            href="/portfolio"
+            style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none" }}
+          >
+            View All →
+          </Link>
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2px" }} className="grid-cols-2 md:grid-cols-4">
+          {FEATURED.map((item) => (
+            <Link
+              key={item.id}
+              href={`/portfolio/${item.slug}`}
+              className="product-card"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {/* Image */}
+              <div style={{ aspectRatio: "1", background: "#1a1a16", position: "relative", overflow: "hidden" }}>
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-cover"
+                  sizes="25vw"
+                  style={{ transition: "transform 0.5s ease" }}
+                  onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1.04)")}
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = "scale(1)")}
+                />
+                {/* Tag */}
+                <div style={{ position: "absolute", top: "12px", left: "12px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "4px 10px", background: "var(--olive)", color: "#fff", zIndex: 1 }}>
+                  {item.category.split(" ")[0]}
+                </div>
+              </div>
+
+              {/* Info */}
+              <div style={{ padding: "18px 18px 20px", flex: 1, display: "flex", flexDirection: "column" }}>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--olive)", marginBottom: "5px" }}>
+                  {item.category}
+                </div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "18px", fontWeight: 700, letterSpacing: "0.5px", textTransform: "uppercase", color: "#fff", lineHeight: 1.1, marginBottom: "5px" }}>
+                  {item.title}
+                </div>
+                {item.client && (
+                  <div style={{ fontFamily: "'Barlow', sans-serif", fontSize: "11px", color: "var(--grey-mid)" }}>
+                    {item.client}
+                  </div>
+                )}
+                <div
+                  style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", color: "#fff", padding: "11px", background: "var(--olive)", display: "block", textAlign: "center", marginTop: "14px" }}
+                >
+                  View Detail →
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 5: BRAND STORY — 2 kolom (text | foto) seperti Molay
+      ══════════════════════════════════════════════ */}
+      <section style={{ display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "600px" }} className="flex-col md:grid-cols-2">
+        {/* Left: text */}
+        <div style={{ background: "var(--black)", padding: "96px 72px 96px 80px", display: "flex", flexDirection: "column", justifyContent: "center" }} className="p-8 md:p-20">
+          <div className="section-label">Tentang Kami</div>
+          <h2 className="section-title" style={{ maxWidth: "480px" }}>
+            BUILT FOR <em>PRECISION</em>
+          </h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "15px", lineHeight: 1.8, color: "rgba(240,234,216,0.65)", margin: "24px 0 32px", maxWidth: "420px" }}>
+            PT. Ozra Mega Perkasa Indonesia didirikan pada <strong style={{ color: "var(--cream)", fontWeight: 500 }}>2025</strong> dengan satu misi: menghadirkan seragam taktis berkualitas field-grade yang memadukan{" "}
+            <strong style={{ color: "var(--cream)", fontWeight: 500 }}>desain kontemporer</strong> dengan fungsi operasional nyata.
+          </p>
+
+          {/* Badges */}
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "36px" }}>
+            {["Quality Material", "Precision Cut", "Custom Fit", "Multi-Layer QC"].map((b) => (
+              <span key={b} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", padding: "6px 14px", border: "1px solid var(--border)", color: "var(--tan-light)" }}>
+                {b}
+              </span>
+            ))}
+          </div>
+
+          <Link
+            href="/about"
+            style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", display: "inline-block" }}
+          >
+            Our Story →
+          </Link>
+        </div>
+
+        {/* Right: foto */}
+        <div style={{ position: "relative", background: "var(--grey-dark)", overflow: "hidden", minHeight: "500px" }}>
+          <Image
+            src="/images/client_pdf/office-building.jpg"
+            alt="Fasilitas Produksi Ozra Tactical"
+            fill
+            className="object-cover"
+            sizes="50vw"
+          />
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(126,139,82,0.08) 0%, transparent 60%)", zIndex: 1 }} />
+          {/* Overlay stat card */}
+          <div style={{ position: "absolute", bottom: "32px", right: "32px", zIndex: 2, border: "1px solid var(--border)", padding: "20px 28px", background: "rgba(9,9,10,0.88)", backdropFilter: "blur(8px)" }}>
+            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "48px", fontWeight: 900, color: "var(--olive)", lineHeight: 1 }}>
+              24
+            </div>
+            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "var(--grey-mid)", marginTop: "4px" }}>
+              Portfolio Items
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 6: STATS ROW — olive-dark bg seperti Molay
+      ══════════════════════════════════════════════ */}
+      <section style={{ background: "var(--olive-dark)", padding: "48px 80px", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0 }} className="px-6 md:px-20 grid-cols-2 md:grid-cols-4">
+        {[
+          { num: "18", unit: "+", label: "Instansi Klien" },
+          { num: "24", unit: "", label: "Portfolio Items" },
+          { num: "5", unit: "★", label: "Tahap QC" },
+          { num: "100", unit: "%", label: "Custom Spec" },
+        ].map((s, i) => (
+          <div
+            key={s.label}
+            style={{
+              textAlign: "center",
+              padding: "0 24px",
+              borderRight: i < 3 ? "1px solid rgba(240,234,216,0.15)" : "none",
+            }}
+          >
+            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "52px", fontWeight: 900, color: "#fff", lineHeight: 1, marginBottom: "6px" }}>
+              {s.num}
+              <span style={{ fontSize: "24px", color: "var(--tan-light)" }}>{s.unit}</span>
+            </div>
+            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "rgba(240,234,216,0.6)" }}>
+              {s.label}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 7: PRODUCTION WORKFLOW — horizontal timeline
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "80px 48px", background: "var(--black)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "56px" }} className="flex-col md:flex-row gap-4">
+            <div>
+              <div className="section-label">Alur Kerja</div>
+              <h2 className="section-title">
+                FROM ORDER <em>TO DELIVERY</em>
+              </h2>
+            </div>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "13px", color: "rgba(240,234,216,0.5)", maxWidth: "320px", lineHeight: 1.7 }}>
+              Lima tahap terstruktur untuk memastikan produk selesai tepat waktu, tepat spesifikasi, tepat kualitas.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "2px" }} className="grid-cols-1 sm:grid-cols-5">
+            {WORKFLOW_DATA.map((wf, i) => (
+              <div
+                key={wf.step}
+                style={{
+                  background: i % 2 === 0 ? "var(--surface)" : "var(--near-black)",
+                  padding: "32px 24px",
+                  borderTop: "2px solid",
+                  borderTopColor: i % 2 === 0 ? "var(--olive)" : "var(--border)",
+                  position: "relative",
+                }}
+              >
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "48px", fontWeight: 900, color: "rgba(126,139,82,0.15)", lineHeight: 1, marginBottom: "12px" }}>
+                  0{wf.step}
+                </div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", marginBottom: "10px", lineHeight: 1.1 }}>
+                  {wf.title.replace(/^Tahap \d+ - /, "")}
+                </div>
+                <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(240,234,216,0.5)", lineHeight: 1.7 }}>
+                  {wf.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 8: COLLECTION BANNER (full-bleed CTA)
+      ══════════════════════════════════════════════ */}
+      <section style={{ position: "relative", height: "480px", overflow: "hidden", display: "flex", alignItems: "center" }}>
         <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          src="/images/products/bdu-tactical.jpg"
+          alt="Koleksi Tactical Apparel Ozra"
+          fill
+          className="object-cover"
+          sizes="100vw"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(9,9,10,0.92) 40%, rgba(9,9,10,0.2) 100%)", zIndex: 1 }} />
+        <div style={{ position: "relative", zIndex: 2, padding: "0 80px", maxWidth: "600px" }} className="px-6 md:px-20">
+          <div className="section-label">Koleksi Taktis</div>
+          <h2 className="section-title" style={{ fontSize: "clamp(40px, 5vw, 72px)", margin: "12px 0 20px" }}>
+            TACTICAL <br /><em>APPAREL</em>
+          </h2>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", color: "rgba(240,234,216,0.6)", lineHeight: 1.7, marginBottom: "36px", maxWidth: "380px" }}>
+            Seragam PDL, BDU, Workshirt Lapangan, dan Jersey Sublimasi custom untuk institusi pemerintah dan komunitas taktis.
+          </p>
+          <div style={{ display: "flex", gap: "14px", flexWrap: "wrap" }}>
+            <Link
+              href="/portfolio"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 36px", background: "var(--olive)", color: "#fff" }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              Explore All →
+            </Link>
+            <Link
+              href="/contact"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 36px", background: "transparent", color: "var(--cream)", border: "1px solid rgba(240,234,216,0.4)" }}
             >
-              Learning
-            </a>{" "}
-            center.
+              Get a Quote
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 9: CLIENT / INSTANSI (logo berwarna dari PDF baru)
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "80px 0", background: "var(--black)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
+        <div style={{ textAlign: "center", marginBottom: "52px", padding: "0 48px" }}>
+          <div className="section-label" style={{ justifyContent: "center" }}>
+            <span style={{ width: "36px", height: "1px", background: "var(--olive)", display: "inline-block" }} />
+            Kepercayaan Klien
+            <span style={{ width: "36px", height: "1px", background: "var(--olive)", display: "inline-block" }} />
+          </div>
+          <h2 className="section-title">
+            TRUSTED BY <em>INSTITUTIONS</em>
+          </h2>
+          <p style={{ fontFamily: "Barlow, sans-serif", fontSize: 13, color: "var(--grey-mid)", marginTop: 12 }}>
+            TNI, Polri, instansi pemerintah, lembaga pendidikan, dan komunitas taktis di seluruh Indonesia.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Full-color institutional logo strip */}
+        <div style={{ width: "100%", overflow: "hidden", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", background: "#000" }}>
+          <Image
+            src="/images/clients-logos-color.jpg"
+            alt="Klien Instansi Ozra Tactical — TNI AL, Kemenkumham, Pengayoman, Polri, Imigrasi, KOPASGAT dan lainnya"
+            width={1540}
+            height={417}
+            style={{ width: "100%", height: "auto", display: "block" }}
+            sizes="100vw"
+          />
         </div>
-      </main>
+
+        {/* CTA row */}
+        <div style={{ textAlign: "center", marginTop: 48, padding: "0 48px" }}>
+          <Link
+            href="/portfolio"
+            style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: 3,
+              textTransform: "uppercase",
+              color: "var(--olive-light)",
+              textDecoration: "none",
+              borderBottom: "1px solid var(--olive)",
+              paddingBottom: 3,
+            }}
+          >
+            Lihat Seluruh Portfolio →
+          </Link>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          SECTION 10: FACTORY PROCESS — 5 foto proses
+      ══════════════════════════════════════════════ */}
+      <section style={{ padding: "80px 48px", background: "var(--black)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "48px" }} className="flex-col md:flex-row gap-4">
+            <div>
+              <div className="section-label">Fasilitas Produksi</div>
+              <h2 className="section-title">
+                MADE WITH <em>PRECISION</em>
+              </h2>
+            </div>
+            <Link
+              href="/about"
+              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 600, letterSpacing: "3px", textTransform: "uppercase", color: "var(--tan-light)", textDecoration: "none" }}
+            >
+              Learn More →
+            </Link>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "2px" }} className="grid-cols-2 sm:grid-cols-5">
+            {[
+              { src: "/images/factory/cutting-qc.jpg", label: "Quality Control", num: "01" },
+              { src: "/images/factory/custom-pattern.jpg", label: "Custom Pattern", num: "02" },
+              { src: "/images/factory/embroidery-sublimation.jpg", label: "Bordir & Sublimasi", num: "03" },
+              { src: "/images/factory/production-management.jpg", label: "Manajemen Produksi", num: "04" },
+              { src: "/images/factory/after-sales-warranty.jpg", label: "Garansi Purna Jual", num: "05" },
+            ].map((item) => (
+              <div key={item.num} className="cat-card" style={{ aspectRatio: "3/4", cursor: "default" }}>
+                <Image src={item.src} alt={item.label} fill className="object-cover" sizes="20vw" style={{ transition: "transform 0.6s ease" }} />
+                <div className="cat-card-inner" style={{ transform: "translateY(0)" }}>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: "4px", color: "var(--olive-light)", marginBottom: "8px" }}>
+                    {item.num}
+                  </div>
+                  <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "16px", fontWeight: 800, letterSpacing: "1px", textTransform: "uppercase", color: "#fff", lineHeight: 1.1 }}>
+                    {item.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

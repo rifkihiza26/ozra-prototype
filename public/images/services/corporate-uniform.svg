@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141813" />
+      <stop offset="100%" stop-color="#1e261d" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2c3629" stroke-width="1" stroke-opacity="0.4" />
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+  <rect width="800" height="600" fill="url(#grid)" />
+  
+  <!-- Institutional Shield Motif -->
+  <path d="M400,120 L490,160 L490,260 C490,320 400,360 400,360 C400,360 310,320 310,260 L310,160 Z" fill="#1b221a" stroke="#A4B66A" stroke-width="3" />
+  <path d="M370,230 L395,255 L435,205" fill="none" stroke="#A4B66A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Corporate Collar / Suit Lines -->
+  <path d="M280,390 L360,350 L400,430 L440,350 L520,390 L500,510 L300,510 Z" fill="#192018" stroke="#3d4938" stroke-width="2" />
+  
+  <rect x="240" y="525" width="320" height="4" rx="2" fill="#A4B66A" />
+  <text x="400" y="555" fill="#F3F3ED" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="2" text-anchor="middle">CORPORATE &amp; INSTITUTIONAL</text>
+  <text x="400" y="580" fill="#A5ACA1" font-family="system-ui, sans-serif" font-size="13" letter-spacing="1" text-anchor="middle">OFFICIAL ATTIRE &amp; EMBROIDERED EXCELLENCE</text>
+</svg>

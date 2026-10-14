@@ -1,26 +1,241 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ─────────────────────────────────────────────
+   OZRA TACTICAL — DESIGN SYSTEM
+   Inspired by Molay Tactical visual language
+───────────────────────────────────────────── */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --black:        #09090a;
+    --near-black:   #0f0f0d;
+    --surface:      #161614;
+    --surface-mid:  #1e1e1a;
+    --olive:        #7E8B52;
+    --olive-dark:   #5a6338;
+    --olive-light:  #9aaa62;
+    --tan:          #987F60;
+    --tan-light:    #b89878;
+    --cream:        #f0ead8;
+    --grey-mid:     #888880;
+    --grey-dark:    #2a2a26;
+    --border:       rgba(152,127,96,0.22);
+    --border-olive: rgba(126,139,82,0.3);
   }
 }
 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--black);
+  color: var(--cream);
+  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ── BARLOW CONDENSED system font fallback (loaded via next/font or CDN) ── */
+.font-condensed {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+}
+
+/* ── SECTION LABEL — garis olive + uppercase ── */
+.section-label {
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--olive-light);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--olive);
+  flex-shrink: 0;
+}
+
+/* ── SECTION TITLE — massive condensed ── */
+.section-title {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.93;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.section-title em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--cream);
+}
+
+/* ── HERO SLIDER ── */
+.hero-slide-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.05);
+  transition: transform 8s ease;
+}
+.hero-slide.active .hero-slide-bg {
+  transform: scale(1);
+}
+
+/* ── HERO ENTER ANIMATIONS ── */
+.hero-eyebrow,
+.hero-title-el,
+.hero-tagline,
+.hero-ctas {
+  opacity: 0;
+  transform: translateY(24px);
+  transition-property: opacity, transform;
+  transition-timing-function: ease;
+}
+.hero-slide.active .hero-eyebrow  { opacity: 1; transform: translateY(0); transition-duration: 0.6s; transition-delay: 0.2s; }
+.hero-slide.active .hero-title-el { opacity: 1; transform: translateY(0); transition-duration: 0.7s; transition-delay: 0.38s; }
+.hero-slide.active .hero-tagline  { opacity: 1; transform: translateY(0); transition-duration: 0.6s; transition-delay: 0.55s; }
+.hero-slide.active .hero-ctas     { opacity: 1; transform: translateY(0); transition-duration: 0.6s; transition-delay: 0.7s; }
+
+/* ── HERO DOTS ── */
+.hero-dot {
+  width: 28px;
+  height: 2px;
+  background: rgba(240,234,216,0.22);
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  padding: 0;
+}
+.hero-dot.active {
+  background: var(--tan-light);
+  width: 52px;
+}
+
+/* ── SCROLL PULSE ── */
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
+}
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--tan), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* ── CATEGORY CARD ── */
+.cat-card {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  background: var(--grey-dark);
+  cursor: pointer;
+}
+.cat-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(9,9,10,0.92) 0%, rgba(9,9,10,0.12) 60%);
+  z-index: 1;
+  transition: background 0.4s ease;
+}
+.cat-card:hover::before {
+  background: linear-gradient(to top, rgba(9,9,10,0.96) 0%, rgba(126,139,82,0.12) 100%);
+}
+.cat-card-inner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  padding: 24px 22px;
+  transform: translateY(8px);
+  transition: transform 0.3s ease;
+}
+.cat-card:hover .cat-card-inner { transform: translateY(0); }
+.cat-reveal {
+  opacity: 0;
+  transition: opacity 0.28s ease 0.05s;
+}
+.cat-card:hover .cat-reveal { opacity: 1; }
+
+/* ── PRODUCT CARD ── */
+.product-card {
+  background: var(--surface);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+.product-card:hover { transform: translateY(-4px); }
+
+/* ── ANNOUNCE BAR ── */
+.announce-bar {
+  background: var(--olive-dark);
+  text-align: center;
+  padding: 7px 20px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+
+/* ── TRUST BAR ── */
+.trust-bar {
+  background: var(--near-black);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.trust-item {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  white-space: nowrap;
+  padding: 0 28px;
+}
+.trust-item strong { color: var(--tan-light); }
+.trust-sep {
+  color: var(--olive);
+  font-size: 5px;
+  flex-shrink: 0;
+}
+
+/* ── CUSTOM SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--grey-dark); }
+::-webkit-scrollbar-thumb:hover { background: var(--olive); }
+
+/* ── BRAND VALUE CARD hover ── */
+.brand-value-card {
+  border-top: 2px solid transparent;
+  transition: border-top-color 0.2s;
+}
+.brand-value-card:hover { border-top-color: var(--olive); }
+
+/* ── PORTFOLIO CARD image scale on hover ── */
+.portfolio-img-wrap img:hover { transform: scale(1.05); }

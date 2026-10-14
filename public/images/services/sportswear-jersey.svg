@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141813" />
+      <stop offset="100%" stop-color="#1a241b" />
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2c3629" stroke-width="1" stroke-opacity="0.4" />
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+  <rect width="800" height="600" fill="url(#grid)" />
+  
+  <!-- Sublimation dynamic waves -->
+  <path d="M220,240 C320,180 480,300 580,210" fill="none" stroke="#A4B66A" stroke-width="4" stroke-linecap="round"/>
+  <path d="M240,270 C340,210 460,330 560,240" fill="none" stroke="#47573f" stroke-width="2" stroke-dasharray="8 6"/>
+
+  <!-- Jersey shape -->
+  <path d="M270,360 L350,330 L400,360 L450,330 L530,360 L500,500 L300,500 Z" fill="#1b241a" stroke="#A4B66A" stroke-width="2" />
+  
+  <rect x="240" y="525" width="320" height="4" rx="2" fill="#A4B66A" />
+  <text x="400" y="555" fill="#F3F3ED" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="2" text-anchor="middle">SPORTSWEAR &amp; SUBLIMATION</text>
+  <text x="400" y="580" fill="#A5ACA1" font-family="system-ui, sans-serif" font-size="13" letter-spacing="1" text-anchor="middle">VIBRANT HIGH RESOLUTION &amp; DRY-FIT PERFORMANCE</text>
+</svg>
