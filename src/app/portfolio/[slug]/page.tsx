@@ -40,7 +40,10 @@ export default async function PortfolioDetailPage({ params }: PortfolioDetailPag
     <div className="pb-20">
       {/* Breadcrumb */}
       <div className="border-b border-[#353B32] bg-[#141813] py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <div
+          className="max-w-7xl mx-auto flex items-center justify-between gap-4"
+          style={{ paddingLeft: "clamp(20px, 5vw, 48px)", paddingRight: "clamp(20px, 5vw, 48px)" }}
+        >
           <Link
             href="/portfolio"
             className="inline-flex items-center gap-2 text-xs font-mono text-[#A5ACA1] hover:text-[#A4B66A] transition-colors"
@@ -55,7 +58,10 @@ export default async function PortfolioDetailPage({ params }: PortfolioDetailPag
       </div>
 
       {/* Main Content */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <section
+        className="max-w-7xl mx-auto py-14"
+        style={{ paddingLeft: "clamp(20px, 5vw, 48px)", paddingRight: "clamp(20px, 5vw, 48px)" }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
           {/* Main Photo + Gallery */}
@@ -164,7 +170,10 @@ export default async function PortfolioDetailPage({ params }: PortfolioDetailPag
 
       {/* Related Items */}
       {relatedItems.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 border-t border-[#353B32] space-y-8">
+        <section
+          className="max-w-7xl mx-auto pt-10 border-t border-[#353B32] space-y-8"
+          style={{ paddingLeft: "clamp(20px, 5vw, 48px)", paddingRight: "clamp(20px, 5vw, 48px)" }}
+        >
           <div className="space-y-1">
             <span className="text-xs font-mono tracking-widest text-[#A4B66A] uppercase">
               Rekomendasi Terkait

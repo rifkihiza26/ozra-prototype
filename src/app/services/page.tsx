@@ -28,8 +28,8 @@ export default function ServicesPage() {
           borderBottom: "1px solid var(--border)",
           position: "relative",
           overflow: "hidden",
+          padding: "clamp(56px, 7vw, 96px) 0",
         }}
-        className="px-5 py-16 sm:px-10 sm:py-20 md:px-16 md:py-24"
       >
         {/* Tactical grid bg */}
         <div
@@ -42,7 +42,7 @@ export default function ServicesPage() {
             opacity: 0.3,
           }}
         />
-        <div style={{ position: "relative", maxWidth: 1280, margin: "0 auto" }}>
+        <div className="section-container" style={{ position: "relative" }}>
           <div className="section-label">Solusi Manufaktur Terpadu</div>
           <h1
             className="section-title"
@@ -331,7 +331,7 @@ export default function ServicesPage() {
         }}
         className="section-pad"
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="section-container">
           <div style={{ marginBottom: 48 }}>
             <div className="section-label">Alur Kerja</div>
             <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>
@@ -398,10 +398,10 @@ export default function ServicesPage() {
         style={{
           background: "var(--olive-dark)",
           textAlign: "center",
+          padding: "clamp(48px, 6vw, 80px) 0",
         }}
-        className="px-5 py-14 sm:px-10 sm:py-20 md:px-16"
       >
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div className="section-container" style={{ maxWidth: 840 }}>
           <h3
             style={{
               fontFamily: "Barlow Condensed, sans-serif",

@@ -272,16 +272,16 @@ body {
 
 /* ── RESPONSIVE SECTION PADDING HELPERS ── */
 .section-pad {
-  padding: 60px 20px;
+  padding: 64px clamp(20px, 5vw, 48px);
 }
 @media (min-width: 640px) {
   .section-pad {
-    padding: 72px 32px;
+    padding: 80px clamp(24px, 5vw, 56px);
   }
 }
 @media (min-width: 1024px) {
   .section-pad {
-    padding: 96px 48px;
+    padding: 100px clamp(32px, 5vw, 64px);
   }
 }
 
@@ -289,4 +289,6 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   width: 100%;
+  padding-left: clamp(20px, 5vw, 48px);
+  padding-right: clamp(20px, 5vw, 48px);
 }

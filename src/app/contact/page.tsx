@@ -29,7 +29,10 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-[#101310]/88 via-[#101310]/70 to-[#101310]/95" />
         </div>
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <div
+          className="relative max-w-5xl mx-auto text-center space-y-4"
+          style={{ padding: "0 clamp(20px, 5vw, 48px)" }}
+        >
           <span className="text-xs font-mono tracking-widest text-[#A4B66A] uppercase">
             Hubungi Representatif Resmi
           </span>
@@ -43,7 +46,10 @@ export default function ContactPage() {
       </section>
 
       {/* ── MAIN GRID: Info + Form ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+      <section
+        className="max-w-7xl mx-auto py-16 sm:py-20"
+        style={{ paddingLeft: "clamp(20px, 5vw, 48px)", paddingRight: "clamp(20px, 5vw, 48px)" }}
+      >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
           {/* ─ Left: Contact Info ─ */}

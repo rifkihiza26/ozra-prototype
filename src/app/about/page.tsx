@@ -84,11 +84,8 @@ export default function AboutPage() {
           style={{
             position: "relative",
             zIndex: 10,
-            maxWidth: 1280,
-            margin: "0 auto",
-            width: "100%",
           }}
-          className="px-5 pb-16 pt-24 sm:px-10 sm:pb-20 md:px-16"
+          className="section-container pb-16 pt-24 sm:pb-20"
         >
           <div className="section-label" style={{ marginBottom: 20 }}>
             Profil Perusahaan
@@ -124,11 +121,7 @@ export default function AboutPage() {
         }}
       >
         <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-          }}
-          className="grid grid-cols-2 md:grid-cols-4"
+          className="section-container grid grid-cols-2 md:grid-cols-4"
         >
           {STATS.map((s, i) => (
             <div
@@ -167,13 +160,7 @@ export default function AboutPage() {
 
       {/* ── 3. COMPANY INTRO + FACTORY PHOTOS ── */}
       <section className="section-pad">
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-          }}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
-        >
+        <div className="section-container grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Text */}
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <div className="section-label">Siapa Kami</div>
@@ -312,7 +299,7 @@ export default function AboutPage() {
         }}
         className="section-pad"
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="section-container">
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <div className="section-label" style={{ justifyContent: "center" }}>
               Visi &amp; Misi
@@ -471,7 +458,7 @@ export default function AboutPage() {
 
       {/* ── 5. BRAND VALUES ── */}
       <section className="section-pad">
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <div className="section-container">
           <div style={{ marginBottom: 48 }}>
             <div className="section-label">Nilai Tematik</div>
             <h2 className="section-title" style={{ fontSize: "clamp(2rem,4vw,3rem)" }}>
@@ -547,10 +534,10 @@ export default function AboutPage() {
         style={{
           background: "var(--olive-dark)",
           textAlign: "center",
+          padding: "clamp(48px, 6vw, 80px) 0",
         }}
-        className="px-5 py-14 sm:px-10 sm:py-20 md:px-16"
       >
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
+        <div className="section-container" style={{ maxWidth: 840 }}>
           <h3
             style={{
               fontFamily: "Barlow Condensed, sans-serif",

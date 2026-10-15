@@ -16,10 +16,10 @@ export default function PortfolioPage() {
         style={{
           background: "var(--near-black)",
           borderBottom: "1px solid var(--border)",
+          padding: "clamp(48px, 6vw, 72px) 0",
         }}
-        className="px-5 py-12 sm:px-10 sm:py-16 md:px-16"
       >
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+        <div className="section-container">
           <div className="section-label">Galeri Produksi</div>
           <h1 className="section-title">
             OUR <em>PORTFOLIO</em>
@@ -43,10 +43,10 @@ export default function PortfolioPage() {
       <section
         style={{
           background: "var(--black)",
+          padding: "clamp(36px, 5vw, 64px) 0",
         }}
-        className="px-4 py-8 sm:px-8 sm:py-12 md:px-12 lg:px-16"
       >
-        <div style={{ maxWidth: "1280px", margin: "0 auto" }}>
+        <div className="section-container">
           <PortfolioList items={PORTFOLIO_DATA} showFilter />
         </div>
       </section>
