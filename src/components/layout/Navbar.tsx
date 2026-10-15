@@ -122,13 +122,12 @@ export default function Navbar() {
             {/* Desktop nav links */}
             <ul
               style={{
-                display: "flex",
                 gap: "36px",
                 listStyle: "none",
                 margin: 0,
                 padding: 0,
               }}
-              className="hidden md:flex"
+              className="hidden md:flex items-center"
             >
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
@@ -198,7 +197,7 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden flex items-center justify-center p-2 rounded text-[var(--cream)] hover:text-white"
+              className="flex md:hidden items-center justify-center p-2 rounded text-[var(--cream)] hover:text-white"
               style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
               aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
             >
