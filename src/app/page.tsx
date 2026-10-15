@@ -456,9 +456,9 @@ export default function HomePage() {
           SECTION 5: BRAND STORY — 2 kolom (text | foto) seperti Molay
       ══════════════════════════════════════════════ */}
       <section className="border-t border-b border-[var(--border)] bg-[var(--black)]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+        <div className="max-w-page grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
           {/* Left: text */}
-          <div className="p-6 sm:p-10 md:p-14 lg:p-16 flex flex-col justify-center">
+          <div className="split-content-panel flex flex-col justify-center">
             <div className="section-label">Tentang Kami</div>
             <h2 className="section-title" style={{ maxWidth: "480px" }}>
               BUILT FOR <em>PRECISION</em>
@@ -593,7 +593,10 @@ export default function HomePage() {
           sizes="100vw"
         />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(9,9,10,0.95) 0%, rgba(9,9,10,0.85) 50%, rgba(9,9,10,0.4) 100%)", zIndex: 1 }} />
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-20">
+        <div
+          className="relative z-10 w-full max-w-page py-14 sm:py-20"
+          style={{ paddingLeft: "clamp(24px, 5vw, 64px)", paddingRight: "clamp(24px, 5vw, 64px)" }}
+        >
           <div style={{ maxWidth: "560px" }}>
             <div className="section-label">Koleksi Taktis</div>
             <h2 className="section-title" style={{ fontSize: "clamp(34px, 5vw, 68px)", margin: "12px 0 16px" }}>

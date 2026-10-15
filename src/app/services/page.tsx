@@ -89,7 +89,7 @@ export default function ServicesPage() {
           >
             {/* Split panel: image | content (responsive stacked on mobile/tablet) */}
             <div
-              className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[480px]"
+              className="max-w-page grid grid-cols-1 lg:grid-cols-2 min-h-[480px]"
             >
               {/* Image side */}
               <div
@@ -129,7 +129,7 @@ export default function ServicesPage() {
                   flexDirection: "column",
                   justifyContent: "center",
                 }}
-                className={`p-6 sm:p-10 md:p-12 lg:p-16 gap-6 sm:gap-7 ${isEven ? "lg:order-1" : "lg:order-2"}`}
+                className={`split-content-panel gap-6 sm:gap-7 ${isEven ? "lg:order-1" : "lg:order-2"}`}
               >
                 <div>
                   <div
