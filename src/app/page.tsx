@@ -455,54 +455,56 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════
           SECTION 5: BRAND STORY — 2 kolom (text | foto) seperti Molay
       ══════════════════════════════════════════════ */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
-        {/* Left: text */}
-        <div style={{ background: "var(--black)" }} className="p-6 sm:p-10 md:p-16 lg:p-20 flex flex-col justify-center">
-          <div className="section-label">Tentang Kami</div>
-          <h2 className="section-title" style={{ maxWidth: "480px" }}>
-            BUILT FOR <em>PRECISION</em>
-          </h2>
-          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "15px", lineHeight: 1.8, color: "rgba(240,234,216,0.65)", margin: "20px 0 28px", maxWidth: "460px" }}>
-            PT. Ozra Mega Perkasa Indonesia didirikan pada <strong style={{ color: "var(--cream)", fontWeight: 500 }}>2025</strong> dengan satu misi: menghadirkan seragam taktis berkualitas field-grade yang memadukan{" "}
-            <strong style={{ color: "var(--cream)", fontWeight: 500 }}>desain kontemporer</strong> dengan fungsi operasional nyata.
-          </p>
+      <section className="border-t border-b border-[var(--border)] bg-[var(--black)]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[500px]">
+          {/* Left: text */}
+          <div className="p-6 sm:p-10 md:p-14 lg:p-16 flex flex-col justify-center">
+            <div className="section-label">Tentang Kami</div>
+            <h2 className="section-title" style={{ maxWidth: "480px" }}>
+              BUILT FOR <em>PRECISION</em>
+            </h2>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "15px", lineHeight: 1.8, color: "rgba(240,234,216,0.65)", margin: "20px 0 28px", maxWidth: "460px" }}>
+              PT. Ozra Mega Perkasa Indonesia didirikan pada <strong style={{ color: "var(--cream)", fontWeight: 500 }}>2025</strong> dengan satu misi: menghadirkan seragam taktis berkualitas field-grade yang memadukan{" "}
+              <strong style={{ color: "var(--cream)", fontWeight: 500 }}>desain kontemporer</strong> dengan fungsi operasional nyata.
+            </p>
 
-          {/* Badges */}
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "32px" }}>
-            {["Quality Material", "Precision Cut", "Custom Fit", "Multi-Layer QC"].map((b) => (
-              <span key={b} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", padding: "6px 12px", border: "1px solid var(--border)", color: "var(--tan-light)" }}>
-                {b}
-              </span>
-            ))}
-          </div>
-
-          <div>
-            <Link
-              href="/about"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", display: "inline-block" }}
-            >
-              Our Story →
-            </Link>
-          </div>
-        </div>
-
-        {/* Right: foto */}
-        <div className="relative bg-[#1a1d19] overflow-hidden min-h-[350px] sm:min-h-[420px] lg:min-h-[500px]">
-          <Image
-            src="/images/client_pdf/office-building.jpg"
-            alt="Fasilitas Produksi Ozra Tactical"
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 50vw"
-          />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(126,139,82,0.08) 0%, transparent 60%)", zIndex: 1 }} />
-          {/* Overlay stat card */}
-          <div style={{ position: "absolute", bottom: "24px", right: "24px", zIndex: 2, border: "1px solid var(--border)", padding: "16px 24px", background: "rgba(9,9,10,0.88)", backdropFilter: "blur(8px)" }}>
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "40px", fontWeight: 900, color: "var(--olive)", lineHeight: 1 }}>
-              24
+            {/* Badges */}
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "32px" }}>
+              {["Quality Material", "Precision Cut", "Custom Fit", "Multi-Layer QC"].map((b) => (
+                <span key={b} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "9px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", padding: "6px 12px", border: "1px solid var(--border)", color: "var(--tan-light)" }}>
+                  {b}
+                </span>
+              ))}
             </div>
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "var(--grey-mid)", marginTop: "4px" }}>
-              Portfolio Items
+
+            <div>
+              <Link
+                href="/about"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", display: "inline-block" }}
+              >
+                Our Story →
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: foto */}
+          <div className="relative bg-[#1a1d19] overflow-hidden min-h-[350px] sm:min-h-[420px] lg:min-h-[500px]">
+            <Image
+              src="/images/client_pdf/office-building.jpg"
+              alt="Fasilitas Produksi Ozra Tactical"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(126,139,82,0.08) 0%, transparent 60%)", zIndex: 1 }} />
+            {/* Overlay stat card */}
+            <div style={{ position: "absolute", bottom: "24px", right: "24px", zIndex: 2, border: "1px solid var(--border)", padding: "16px 24px", background: "rgba(9,9,10,0.88)", backdropFilter: "blur(8px)" }}>
+              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "40px", fontWeight: 900, color: "var(--olive)", lineHeight: 1 }}>
+                24
+              </div>
+              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "var(--grey-mid)", marginTop: "4px" }}>
+                Portfolio Items
+              </div>
             </div>
           </div>
         </div>
@@ -590,28 +592,30 @@ export default function HomePage() {
           className="object-cover"
           sizes="100vw"
         />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(9,9,10,0.94) 0%, rgba(9,9,10,0.85) 50%, rgba(9,9,10,0.4) 100%)", zIndex: 1 }} />
-        <div style={{ position: "relative", zIndex: 2, maxWidth: "620px" }} className="px-6 py-12 sm:px-12 md:px-20">
-          <div className="section-label">Koleksi Taktis</div>
-          <h2 className="section-title" style={{ fontSize: "clamp(34px, 5vw, 68px)", margin: "12px 0 16px" }}>
-            TACTICAL <br /><em>APPAREL</em>
-          </h2>
-          <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", color: "rgba(240,234,216,0.65)", lineHeight: 1.7, marginBottom: "32px", maxWidth: "420px" }}>
-            Seragam PDL, BDU, Workshirt Lapangan, dan Jersey Sublimasi custom untuk institusi pemerintah dan komunitas taktis.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/portfolio"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", textAlign: "center" }}
-            >
-              Explore All →
-            </Link>
-            <Link
-              href="/contact"
-              style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "transparent", color: "var(--cream)", border: "1px solid rgba(240,234,216,0.4)", textAlign: "center" }}
-            >
-              Get a Quote
-            </Link>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(9,9,10,0.95) 0%, rgba(9,9,10,0.85) 50%, rgba(9,9,10,0.4) 100%)", zIndex: 1 }} />
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-14 sm:py-20">
+          <div style={{ maxWidth: "560px" }}>
+            <div className="section-label">Koleksi Taktis</div>
+            <h2 className="section-title" style={{ fontSize: "clamp(34px, 5vw, 68px)", margin: "12px 0 16px" }}>
+              TACTICAL <br /><em>APPAREL</em>
+            </h2>
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "14px", color: "rgba(240,234,216,0.65)", lineHeight: 1.7, marginBottom: "32px", maxWidth: "440px" }}>
+              Seragam PDL, BDU, Workshirt Lapangan, dan Jersey Sublimasi custom untuk institusi pemerintah dan komunitas taktis.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link
+                href="/portfolio"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "var(--olive)", color: "#fff", textAlign: "center" }}
+              >
+                Explore All →
+              </Link>
+              <Link
+                href="/contact"
+                style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "11px", fontWeight: 700, letterSpacing: "4px", textTransform: "uppercase", textDecoration: "none", padding: "14px 32px", background: "transparent", color: "var(--cream)", border: "1px solid rgba(240,234,216,0.4)", textAlign: "center" }}
+              >
+                Get a Quote
+              </Link>
+            </div>
           </div>
         </div>
       </section>

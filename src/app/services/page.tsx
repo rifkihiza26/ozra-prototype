@@ -89,7 +89,7 @@ export default function ServicesPage() {
           >
             {/* Split panel: image | content (responsive stacked on mobile/tablet) */}
             <div
-              className="grid grid-cols-1 lg:grid-cols-2 min-h-[480px]"
+              className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-[480px]"
             >
               {/* Image side */}
               <div
@@ -246,8 +246,8 @@ export default function ServicesPage() {
                   background: "var(--near-black)",
                   borderTop: "1px solid var(--border)",
                 }}
-                className="px-5 py-8 sm:px-10 md:px-12"
               >
+                <div className="max-w-7xl mx-auto px-5 py-8 sm:px-8 lg:px-12">
                 <div
                   style={{
                     fontFamily: "Barlow Condensed, sans-serif",
@@ -315,6 +315,7 @@ export default function ServicesPage() {
                       </div>
                     </Link>
                   ))}
+                </div>
                 </div>
               </div>
             )}

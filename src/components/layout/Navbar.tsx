@@ -35,173 +35,178 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── ANNOUNCEMENT BAR ── */}
-      <div className="announce-bar">
-        Konsultasi &amp; Produksi Seragam Custom &nbsp;
-        <span style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
-        &nbsp;WhatsApp:{" "}
-        <a
-          href={`https://wa.me/${COMPANY_INFO.phoneRaw}`}
-          style={{ color: "var(--tan-light)", textDecoration: "none", borderBottom: "1px solid rgba(180,150,100,.3)" }}
-        >
-          {COMPANY_INFO.phoneFormatted}
-        </a>
-        <span className="hidden sm:inline" style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
-        <span className="hidden sm:inline">Jakarta Selatan, Indonesia</span>
-      </div>
-
-      {/* ── MAIN NAV ── */}
-      <nav
+      {/* ── FIXED TOP BAR (ANNOUNCEMENT + NAV) ── */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50"
         style={{
-          position: "fixed",
-          top: "auto",
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "0 clamp(20px, 4vw, 48px)",
-          height: "68px",
-          background: scrolled
-            ? "rgba(9,9,10,0.97)"
-            : "rgba(9,9,10,0.90)",
+          background: scrolled ? "rgba(9,9,10,0.98)" : "rgba(9,9,10,0.92)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--border)",
           transition: "background 0.3s ease",
         }}
       >
-        {/* Logo */}
-        <Link
-          href="/"
-          style={{ textDecoration: "none" }}
-        >
-          <span
-            style={{
-              fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-              fontSize: "24px",
-              fontWeight: 900,
-              letterSpacing: "6px",
-              color: "#fff",
-              textTransform: "uppercase",
-            }}
-          >
-            OZRA
-            <span
-              style={{
-                color: "var(--tan)",
-                fontSize: "10px",
-                verticalAlign: "super",
-                marginLeft: "2px",
-                letterSpacing: 0,
-              }}
-            >
-              ®
+        {/* ── ANNOUNCEMENT BAR ── */}
+        <div className="announce-bar">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-center text-center">
+            <span>
+              Konsultasi &amp; Produksi Seragam Custom &nbsp;
+              <span style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
+              &nbsp;WhatsApp:{" "}
+              <a
+                href={`https://wa.me/${COMPANY_INFO.phoneRaw}`}
+                style={{ color: "var(--tan-light)", textDecoration: "none", borderBottom: "1px solid rgba(180,150,100,.3)" }}
+              >
+                {COMPANY_INFO.phoneFormatted}
+              </a>
+              <span className="hidden md:inline" style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
+              <span className="hidden md:inline">Jakarta Selatan, Indonesia</span>
             </span>
-          </span>
-          <span
-            style={{
-              display: "block",
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: "8px",
-              fontWeight: 600,
-              letterSpacing: "5px",
-              color: "var(--olive-light)",
-              textTransform: "uppercase",
-              lineHeight: 1,
-              marginTop: "2px",
-            }}
-          >
-            TACTICAL
-          </span>
-        </Link>
-
-        {/* Desktop nav links */}
-        <ul
-          style={{
-            display: "flex",
-            gap: "36px",
-            listStyle: "none",
-            margin: 0,
-            padding: 0,
-          }}
-          className="hidden md:flex"
-        >
-          {NAV_LINKS.map((link) => {
-            const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
-            return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  style={{
-                    fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                    fontSize: "12px",
-                    fontWeight: 600,
-                    letterSpacing: "3px",
-                    textTransform: "uppercase",
-                    color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
-                    textDecoration: "none",
-                    transition: "color 0.2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
-                  }}
-                >
-                  {link.name}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-5">
-          <a
-            href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: "11px",
-              fontWeight: 700,
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              color: "var(--cream)",
-              padding: "9px 22px",
-              border: "1px solid var(--tan)",
-              transition: "all 0.2s",
-              display: "inline-block",
-              whiteSpace: "nowrap",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "var(--tan)";
-              el.style.color = "var(--black)";
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget as HTMLElement;
-              el.style.background = "transparent";
-              el.style.color = "var(--cream)";
-            }}
-          >
-            Get a Quote
-          </a>
+          </div>
         </div>
 
-        {/* Mobile hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden"
-          style={{ background: "none", border: "none", color: "var(--grey-mid)", cursor: "pointer" }}
-          aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
+        {/* ── MAIN NAV CONTAINER ── */}
+        <nav
+          style={{
+            height: "68px",
+            display: "flex",
+            alignItems: "center",
+          }}
         >
-          {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </nav>
+          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 flex items-center justify-between">
+            {/* Logo */}
+            <Link
+              href="/"
+              prefetch={false}
+              style={{ textDecoration: "none" }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                  fontSize: "24px",
+                  fontWeight: 900,
+                  letterSpacing: "6px",
+                  color: "#fff",
+                  textTransform: "uppercase",
+                }}
+              >
+                OZRA
+                <span
+                  style={{
+                    color: "var(--tan)",
+                    fontSize: "10px",
+                    verticalAlign: "super",
+                    marginLeft: "2px",
+                    letterSpacing: 0,
+                  }}
+                >
+                  ®
+                </span>
+              </span>
+              <span
+                style={{
+                  display: "block",
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "8px",
+                  fontWeight: 600,
+                  letterSpacing: "5px",
+                  color: "var(--olive-light)",
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                  marginTop: "2px",
+                }}
+              >
+                TACTICAL
+              </span>
+            </Link>
+
+            {/* Desktop nav links */}
+            <ul
+              style={{
+                display: "flex",
+                gap: "36px",
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+              }}
+              className="hidden md:flex"
+            >
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      style={{
+                        fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        letterSpacing: "3px",
+                        textTransform: "uppercase",
+                        color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
+                        textDecoration: "none",
+                        transition: "color 0.2s",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
+                      }}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/* Desktop CTA */}
+            <div className="hidden md:flex items-center gap-5">
+              <a
+                href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "3px",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  color: "var(--cream)",
+                  padding: "9px 22px",
+                  border: "1px solid var(--tan)",
+                  transition: "all 0.2s",
+                  display: "inline-block",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--tan)";
+                  el.style.color = "var(--black)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "transparent";
+                  el.style.color = "var(--cream)";
+                }}
+              >
+                Get a Quote
+              </a>
+            </div>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden flex items-center justify-center p-2 rounded text-[var(--cream)] hover:text-white"
+              style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
+              aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </nav>
+      </header>
 
       {/* ── MOBILE DRAWER ── */}
       {mobileOpen && (
@@ -317,8 +322,8 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Spacer so content sits below the announce bar + navbar */}
-      <div style={{ height: "calc(68px + 33px)" }} />
+      {/* Spacer so content sits below the fixed header */}
+      <div className="h-[95px] sm:h-[101px]" />
     </>
   );
 }
