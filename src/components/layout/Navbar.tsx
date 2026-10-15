@@ -47,7 +47,10 @@ export default function Navbar() {
       >
         {/* ── ANNOUNCEMENT BAR ── */}
         <div className="announce-bar">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-center text-center">
+          <div
+            className="max-w-7xl mx-auto flex items-center justify-center text-center"
+            style={{ padding: "0 clamp(18px, 4vw, 48px)" }}
+          >
             <span>
               Konsultasi &amp; Produksi Seragam Custom &nbsp;
               <span style={{ color: "var(--tan-light)", margin: "0 6px" }}>◆</span>
@@ -72,7 +75,10 @@ export default function Navbar() {
             alignItems: "center",
           }}
         >
-          <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-12 flex items-center justify-between">
+          <div
+            className="max-w-7xl mx-auto w-full flex items-center justify-between"
+            style={{ padding: "0 clamp(20px, 5vw, 48px)" }}
+          >
             {/* Logo */}
             <Link
               href="/"
