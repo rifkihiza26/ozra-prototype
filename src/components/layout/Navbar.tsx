@@ -67,23 +67,22 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── MAIN NAV CONTAINER ── */}
+        {/* ── MAIN NAV CONTAINER (Molay 3-Column Layout: Logo Left | Centered Nav Links | CTA/Action Right) ── */}
         <nav
           style={{
-            height: "68px",
+            height: "72px",
             display: "flex",
             alignItems: "center",
+            padding: "0 clamp(20px, 4vw, 48px)",
+            position: "relative",
           }}
         >
-          <div
-            className="max-w-7xl mx-auto w-full flex items-center justify-between"
-            style={{ padding: "0 clamp(20px, 5vw, 48px)" }}
-          >
-            {/* Logo */}
+          {/* 1. Left: Logo */}
+          <div style={{ flex: "0 0 auto", zIndex: 2 }}>
             <Link
               href="/"
               prefetch={false}
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", display: "inline-block" }}
             >
               <span
                 style={{
@@ -93,6 +92,8 @@ export default function Navbar() {
                   letterSpacing: "6px",
                   color: "#fff",
                   textTransform: "uppercase",
+                  lineHeight: 1,
+                  display: "block",
                 }}
               >
                 OZRA
@@ -118,22 +119,34 @@ export default function Navbar() {
                   color: "var(--olive-light)",
                   textTransform: "uppercase",
                   lineHeight: 1,
-                  marginTop: "2px",
+                  marginTop: "3px",
                 }}
               >
                 TACTICAL
               </span>
             </Link>
+          </div>
 
-            {/* Desktop nav links (visible on lg: 1024px+) */}
+          {/* 2. Center: Perfectly Centered Desktop Nav Links (Molay style) */}
+          <div
+            className="hidden lg:flex"
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1,
+            }}
+          >
             <ul
               style={{
-                gap: "clamp(20px, 2.5vw, 36px)",
+                display: "flex",
+                alignItems: "center",
+                gap: "clamp(24px, 2.5vw, 40px)",
                 listStyle: "none",
                 margin: 0,
                 padding: 0,
               }}
-              className="hidden lg:flex items-center"
             >
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
@@ -150,6 +163,7 @@ export default function Navbar() {
                         color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
                         textDecoration: "none",
                         transition: "color 0.2s",
+                        whiteSpace: "nowrap",
                       }}
                       onMouseEnter={(e) => {
                         if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
@@ -164,9 +178,20 @@ export default function Navbar() {
                 );
               })}
             </ul>
+          </div>
 
+          {/* 3. Right: Desktop CTA & Mobile Hamburger */}
+          <div
+            style={{
+              marginLeft: "auto",
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              zIndex: 2,
+            }}
+          >
             {/* Desktop CTA (visible on lg: 1024px+) */}
-            <div className="hidden lg:flex items-center gap-5">
+            <div className="hidden lg:flex items-center">
               <a
                 href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
                 target="_blank"
@@ -179,7 +204,7 @@ export default function Navbar() {
                   textTransform: "uppercase",
                   textDecoration: "none",
                   color: "var(--cream)",
-                  padding: "9px 22px",
+                  padding: "9px 24px",
                   border: "1px solid var(--tan)",
                   transition: "all 0.2s",
                   display: "inline-block",
@@ -203,7 +228,7 @@ export default function Navbar() {
             {/* Mobile & Tablet hamburger (visible under 1024px) */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="flex lg:hidden items-center justify-center p-2 rounded text-[var(--cream)] hover:text-white"
+              className="flex lg:hidden items-center justify-center p-2.5 rounded text-[var(--cream)] hover:text-white"
               style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
               aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
             >
