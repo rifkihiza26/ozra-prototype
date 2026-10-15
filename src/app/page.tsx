@@ -643,7 +643,7 @@ export default function HomePage() {
 
         {/* Full-color institutional logo strip */}
         <div style={{ width: "100%", overflowX: "auto", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)", background: "#000" }} className="no-scrollbar">
-          <div style={{ minWidth: "720px", width: "100%" }}>
+          <div className="max-w-page mx-auto" style={{ padding: "0 clamp(16px, 4vw, 32px)", minWidth: "680px" }}>
             <Image
               src="/images/clients-logos-color.jpg"
               alt="Klien Instansi Ozra Tactical — TNI AL, Kemenkumham, Pengayoman, Polri, Imigrasi, KOPASGAT dan lainnya"

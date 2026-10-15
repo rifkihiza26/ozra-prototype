@@ -125,15 +125,15 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop nav links */}
+            {/* Desktop nav links (visible on lg: 1024px+) */}
             <ul
               style={{
-                gap: "36px",
+                gap: "clamp(20px, 2.5vw, 36px)",
                 listStyle: "none",
                 margin: 0,
                 padding: 0,
               }}
-              className="hidden md:flex items-center"
+              className="hidden lg:flex items-center"
             >
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
@@ -165,8 +165,8 @@ export default function Navbar() {
               })}
             </ul>
 
-            {/* Desktop CTA */}
-            <div className="hidden md:flex items-center gap-5">
+            {/* Desktop CTA (visible on lg: 1024px+) */}
+            <div className="hidden lg:flex items-center gap-5">
               <a
                 href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
                 target="_blank"
@@ -200,10 +200,10 @@ export default function Navbar() {
               </a>
             </div>
 
-            {/* Mobile hamburger */}
+            {/* Mobile & Tablet hamburger (visible under 1024px) */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="flex md:hidden items-center justify-center p-2 rounded text-[var(--cream)] hover:text-white"
+              className="flex lg:hidden items-center justify-center p-2 rounded text-[var(--cream)] hover:text-white"
               style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
               aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
             >
