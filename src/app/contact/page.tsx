@@ -61,7 +61,7 @@ const FAQS = [
 
 export default function ContactPage() {
   return (
-    <div className="pt-[106px] pb-24">
+    <div className="pt-[106px] pb-24 w-full overflow-x-hidden">
       {/* ── 1. HERO SECTION DENGAN FOTO KANTOR ASLI DARI PDF ── */}
       <section className="relative py-16 sm:py-24 lg:py-28 border-b border-[var(--border)] overflow-hidden">
         {/* Real office photo from client PDF */}
@@ -150,10 +150,10 @@ export default function ContactPage() {
         className="max-w-7xl mx-auto py-16 sm:py-20"
         style={{ paddingLeft: "clamp(20px, 5vw, 48px)", paddingRight: "clamp(20px, 5vw, 48px)" }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-14">
 
           {/* ─ Left Column: Official Headquarters & Direct Channels ─ */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="space-y-6">
 
             {/* Head Office Card with real photo from PDF */}
             <div
@@ -172,7 +172,7 @@ export default function ContactPage() {
                   alt="Head Office Ozra Tactical Cilandak"
                   fill
                   className="object-cover object-center hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 450px"
+                  sizes="(max-width: 768px) 100vw, 600px"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-black/30" />
                 <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
@@ -208,7 +208,7 @@ export default function ContactPage() {
                   >
                     <MapPin className="w-4 h-4" />
                   </div>
-                  <div className="space-y-1 flex-1">
+                  <div className="space-y-1 flex-1 min-w-0">
                     <span className="text-[11px] font-mono text-[var(--grey-mid)] uppercase block tracking-wider font-semibold">
                       Alamat Kantor &amp; Workshop
                     </span>
@@ -238,7 +238,7 @@ export default function ContactPage() {
                   >
                     <Phone className="w-4 h-4" />
                   </div>
-                  <div className="space-y-1 flex-1">
+                  <div className="space-y-1 flex-1 min-w-0">
                     <div className="flex items-center justify-between">
                       <span className="text-[11px] font-mono text-[var(--grey-mid)] uppercase block tracking-wider font-semibold">
                         WhatsApp &amp; Telepon
@@ -266,13 +266,13 @@ export default function ContactPage() {
                   >
                     <Mail className="w-4 h-4" />
                   </div>
-                  <div className="space-y-1 flex-1">
+                  <div className="space-y-1 flex-1 min-w-0">
                     <span className="text-[11px] font-mono text-[var(--grey-mid)] uppercase block tracking-wider font-semibold">
                       Email Resmi
                     </span>
                     <a
                       href={`mailto:${COMPANY_INFO.email}`}
-                      className="text-xs text-[var(--cream)] hover:text-[var(--olive-light)] transition-colors block font-mono"
+                      className="text-xs text-[var(--cream)] hover:text-[var(--olive-light)] transition-colors block font-mono break-all"
                     >
                       {COMPANY_INFO.email}
                     </a>
@@ -287,7 +287,7 @@ export default function ContactPage() {
                   >
                     <InstagramIcon className="w-4 h-4" />
                   </div>
-                  <div className="space-y-1 flex-1">
+                  <div className="space-y-1 flex-1 min-w-0">
                     <span className="text-[11px] font-mono text-[var(--grey-mid)] uppercase block tracking-wider font-semibold">
                       Instagram Resmi
                     </span>
@@ -361,7 +361,7 @@ export default function ContactPage() {
                 backgroundColor: "var(--olive)",
                 color: "#09090a",
               }}
-              className="block w-full py-4 px-6 rounded-xl font-condensed font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all text-center shadow-xl flex items-center justify-center gap-2"
+              className="flex w-full py-4 px-6 rounded-xl font-condensed font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all text-center items-center justify-center gap-2"
             >
               <span>Konsultasi Cepat via WhatsApp</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -398,7 +398,7 @@ export default function ContactPage() {
           </div>
 
           {/* ─ Right Column: Interactive Consultation & RFQ Form ─ */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-1">
             <ContactForm />
           </div>
         </div>
