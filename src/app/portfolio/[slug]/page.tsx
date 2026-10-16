@@ -38,7 +38,7 @@ export default async function PortfolioDetailPage({ params }: PortfolioDetailPag
   const consultationMessage = `Halo Ozra Tactical, saya tertarik dengan portofolio "${item.title}" (${item.category}). Saya ingin berkonsultasi mengenai spesifikasi teknis dan estimasi produksinya.`;
 
   return (
-    <div className="pb-20">
+    <div className="pt-[106px] pb-20 w-full overflow-x-hidden">
       {/* Breadcrumb */}
       <div className="border-b border-[#353B32] bg-[#141813] py-4">
         <div

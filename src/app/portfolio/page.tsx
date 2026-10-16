@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PortfolioPage() {
   return (
-    <div>
+    <div className="pt-[106px] w-full overflow-x-hidden">
       {/* ── PAGE HERO ── */}
       <section
         style={{
