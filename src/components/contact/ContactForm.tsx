@@ -6,11 +6,11 @@ import {
   Mail,
   Copy,
   Check,
-  AlertCircle,
   ShieldCheck,
   RotateCcw,
   CheckCircle2,
   ChevronDown,
+  AlertCircle,
 } from "lucide-react";
 import { COMPANY_INFO } from "@/lib/constants";
 
@@ -46,562 +46,341 @@ const QUANTITY_PRESETS = [
   "24 – 50 pcs (Batch Kecil)",
   "50 – 200 pcs (Batch Standar)",
   "200 – 1.000 pcs (Batch Besar)",
-  "> 1.000 pcs (Kebutuhan Institusi / Tender)",
+  "> 1.000 pcs (Institusi / Tender)",
 ];
 
+// ── Shared style helpers ──────────────────────────────────────────────────────
+
+const LABEL: React.CSSProperties = {
+  display: "block",
+  fontSize: "11px",
+  fontFamily: "'Barlow', sans-serif",
+  fontWeight: 700,
+  letterSpacing: "1.5px",
+  textTransform: "uppercase",
+  color: "#f0ead8",         // full cream — clearly readable
+  marginBottom: "6px",
+};
+
+const field = (hasError: boolean): React.CSSProperties => ({
+  width: "100%",
+  padding: "11px 16px",
+  background: "#1a1a18",   // slightly lighter than surface-mid for contrast
+  border: `1px solid ${hasError ? "#ef4444" : "rgba(255,255,255,0.12)"}`,
+  borderRadius: "10px",
+  color: "#f0ead8",
+  fontSize: "14px",
+  fontFamily: "'Barlow', sans-serif",
+  outline: "none",
+  transition: "border-color 0.2s",
+  boxSizing: "border-box",
+});
+
+// placeholder colour injected via CSS (inline style can't target ::placeholder)
+const PLACEHOLDER_CSS = `
+  .ozra-input::placeholder,
+  .ozra-textarea::placeholder {
+    color: rgba(240, 234, 216, 0.38);
+    font-style: italic;
+  }
+  .ozra-input:focus,
+  .ozra-textarea:focus,
+  .ozra-select:focus {
+    border-color: rgba(126,139,82,0.75) !important;
+    box-shadow: 0 0 0 2px rgba(126,139,82,0.15);
+  }
+  .ozra-select option {
+    background: #161614;
+    color: #f0ead8;
+  }
+`;
+
+// ── Error message helper ──────────────────────────────────────────────────────
+function Err({ msg }: { msg: string }) {
+  return (
+    <p style={{ display: "flex", alignItems: "center", gap: "4px", marginTop: "5px", fontSize: "11px", color: "#f87171", fontFamily: "'Barlow', sans-serif" }}>
+      <AlertCircle style={{ width: "13px", height: "13px", flexShrink: 0 }} />
+      {msg}
+    </p>
+  );
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    companyName: "",
-    email: "",
-    phone: "",
-    category: "",
-    quantity: "",
-    description: "",
+    fullName: "", companyName: "", email: "", phone: "",
+    category: "", quantity: "", description: "",
   });
-
   const [errors, setErrors] = useState<FormErrors>({});
   const [copied, setCopied] = useState(false);
   const [mode, setMode] = useState<"form" | "ready">("form");
 
   const validate = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = "Nama lengkap wajib diisi.";
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = "Alamat email wajib diisi.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Format email tidak valid.";
-    }
-
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Nomor WhatsApp wajib diisi.";
-    } else if (!/^[0-9+()-\s]{8,20}$/.test(formData.phone)) {
-      newErrors.phone = "Format nomor WhatsApp minimal 8 digit.";
-    }
-
-    if (!formData.category) {
-      newErrors.category = "Pilih kategori kebutuhan seragam / apparel.";
-    }
-
-    if (!formData.description.trim()) {
-      newErrors.description = "Deskripsi spesifikasi kebutuhan wajib diisi.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    const e: FormErrors = {};
+    if (!formData.fullName.trim()) e.fullName = "Nama lengkap wajib diisi.";
+    if (!formData.email.trim()) e.email = "Alamat email wajib diisi.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) e.email = "Format email tidak valid.";
+    if (!formData.phone.trim()) e.phone = "Nomor WhatsApp wajib diisi.";
+    else if (!/^[0-9+()\-\s]{8,20}$/.test(formData.phone)) e.phone = "Minimal 8 digit.";
+    if (!formData.category) e.category = "Pilih kategori kebutuhan.";
+    if (!formData.description.trim()) e.description = "Deskripsi spesifikasi wajib diisi.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
-    }
+    if (errors[name as keyof FormErrors]) setErrors((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  const handleSelectPreset = (val: string) => {
-    setFormData((prev) => ({ ...prev, quantity: val }));
-  };
+  const generateWhatsAppMessage = () => [
+    `Halo Tim OZRA Tactical, saya ingin konsultasi & permintaan penawaran:`,
+    ``,
+    `*DATA PEMESAN:*`,
+    `• Nama: ${formData.fullName}`,
+    `• Instansi: ${formData.companyName || "-"}`,
+    `• WA: ${formData.phone}`,
+    `• Email: ${formData.email}`,
+    ``,
+    `*DETAIL KEBUTUHAN:*`,
+    `• Kategori: ${formData.category}`,
+    `• Jumlah: ${formData.quantity || "Akan didiskusikan"}`,
+    ``,
+    `*SPESIFIKASI:*`,
+    formData.description,
+    ``,
+    `Mohon informasikan estimasi biaya & jadwal sampling. Terima kasih.`,
+  ].join("\n");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validate()) {
-      setMode("ready");
-    }
-  };
-
-  const generateWhatsAppMessage = (): string => {
-    return [
-      `Halo Tim OZRA Tactical, saya ingin mengajukan konsultasi & permintaan penawaran harga:`,
-      ``,
-      `*DATA PEMESAN:*`,
-      `• Nama: ${formData.fullName}`,
-      `• Instansi/Perusahaan: ${formData.companyName || "-"}`,
-      `• Nomor WhatsApp: ${formData.phone}`,
-      `• Email: ${formData.email}`,
-      ``,
-      `*DETAIL KEBUTUHAN:*`,
-      `• Kategori: ${formData.category}`,
-      `• Estimasi Jumlah: ${formData.quantity || "Akan didiskusikan"}`,
-      ``,
-      `*SPESIFIKASI / KETERANGAN:*`,
-      formData.description,
-      ``,
-      `Mohon informasikan estimasi biaya, ketersediaan bahan, serta jadwal sampling. Terima kasih.`,
-    ].join("\n");
-  };
-
-  const generateEmailSubject = (): string => {
-    const instansi = formData.companyName ? ` [${formData.companyName}]` : "";
-    return `Permintaan Penawaran — ${formData.category}${instansi}`;
-  };
-
-  const generateEmailBody = (): string => {
-    return generateWhatsAppMessage().replace(/\*/g, "");
-  };
-
-  const handleWhatsAppSend = () => {
-    const msg = encodeURIComponent(generateWhatsAppMessage());
-    window.open(`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${msg}`, "_blank");
-  };
-
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); if (validate()) setMode("ready"); };
+  const handleWhatsAppSend = () => window.open(`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(generateWhatsAppMessage())}`, "_blank");
   const handleEmailSend = () => {
-    const subject = encodeURIComponent(generateEmailSubject());
-    const body = encodeURIComponent(generateEmailBody());
-    window.location.href = `mailto:${COMPANY_INFO.email}?subject=${subject}&body=${body}`;
+    const subj = encodeURIComponent(`Permintaan Penawaran — ${formData.category}${formData.companyName ? ` [${formData.companyName}]` : ""}`);
+    const body = encodeURIComponent(generateWhatsAppMessage().replace(/\*/g, ""));
+    window.location.href = `mailto:${COMPANY_INFO.email}?subject=${subj}&body=${body}`;
   };
-
   const handleCopy = () => {
-    const text = generateWhatsAppMessage().replace(/\*/g, "");
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(generateWhatsAppMessage().replace(/\*/g, ""));
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     }
   };
-
   const handleReset = () => {
-    setFormData({
-      fullName: "",
-      companyName: "",
-      email: "",
-      phone: "",
-      category: "",
-      quantity: "",
-      description: "",
-    });
+    setFormData({ fullName: "", companyName: "", email: "", phone: "", category: "", quantity: "", description: "" });
     setErrors({});
     setMode("form");
   };
 
+  // card wrapper
+  const cardStyle: React.CSSProperties = {
+    background: "var(--surface)",
+    border: "1px solid var(--border)",
+    borderRadius: "16px",
+    boxShadow: "0 20px 40px -15px rgba(0,0,0,0.7)",
+    padding: "clamp(20px, 3vw, 36px)",
+  };
+
   return (
-    <div
-      style={{
-        backgroundColor: "var(--surface)",
-        border: "1px solid var(--border)",
-        borderRadius: "16px",
-        boxShadow: "0 20px 40px -15px rgba(0,0,0,0.7)",
-      }}
-      className="p-6 sm:p-8 lg:p-10"
-    >
+    <div style={cardStyle}>
+      {/* inject placeholder colour */}
+      <style dangerouslySetInnerHTML={{ __html: PLACEHOLDER_CSS }} />
+
       {mode === "ready" ? (
-        /* Summary & Direct Dispatch Screen */
-        <div className="space-y-6">
-          <div
-            style={{
-              backgroundColor: "rgba(126,139,82,0.12)",
-              border: "1px solid rgba(126,139,82,0.35)",
-              borderRadius: "12px",
-            }}
-            className="p-5 flex items-start gap-3.5"
-          >
-            <CheckCircle2 className="w-5 h-5 text-[var(--olive-light)] shrink-0 mt-0.5" />
+        /* ── READY STATE ─────────────────────────────────────── */
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          {/* success banner */}
+          <div style={{ background: "rgba(126,139,82,0.12)", border: "1px solid rgba(126,139,82,0.35)", borderRadius: "12px", padding: "16px 20px", display: "flex", alignItems: "flex-start", gap: "12px" }}>
+            <CheckCircle2 style={{ width: "20px", height: "20px", color: "var(--olive-light)", flexShrink: 0, marginTop: "2px" }} />
             <div>
-              <h4 className="font-condensed text-base font-bold text-white uppercase tracking-wider">
+              <h4 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: "15px", color: "#fff", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "4px" }}>
                 Spesifikasi Siap Dikirim
               </h4>
-              <p className="text-xs text-[var(--cream)]/75 mt-1 leading-relaxed font-sans">
-                Pilih jalur komunikasi yang paling nyaman bagi Anda di bawah ini. Tim representatif Ozra Tactical akan menindaklanjuti permintaan spesifikasi dan estimasi harga Anda.
+              <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(240,234,216,0.7)", lineHeight: 1.6 }}>
+                Pilih jalur komunikasi di bawah — tim Ozra Tactical akan segera menindaklanjuti.
               </p>
             </div>
           </div>
 
-          {/* Formatted summary review card */}
-          <div
-            style={{
-              backgroundColor: "var(--surface-mid)",
-              border: "1px solid var(--border)",
-              borderRadius: "12px",
-            }}
-            className="p-5 space-y-4"
-          >
-            <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--olive-light)] font-bold">
-                Ringkasan Permintaan
+          {/* summary card */}
+          <div style={{ background: "var(--surface-mid)", border: "1px solid var(--border)", borderRadius: "12px", padding: "16px 20px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "12px", borderBottom: "1px solid var(--border)", marginBottom: "12px" }}>
+              <span style={{ fontFamily: "monospace", fontSize: "11px", color: "var(--olive-light)", textTransform: "uppercase", letterSpacing: "2px", fontWeight: 700 }}>
+                Ringkasan
               </span>
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 text-xs text-[var(--tan-light)] hover:text-white transition-colors"
-                title="Salin teks ke clipboard"
-              >
-                {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
-                <span>{copied ? "Tersalin!" : "Salin Teks"}</span>
+              <button type="button" onClick={handleCopy} style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", color: "var(--tan-light)", background: "none", border: "none", cursor: "pointer" }}>
+                {copied ? <Check style={{ width: "13px", height: "13px", color: "#4ade80" }} /> : <Copy style={{ width: "13px", height: "13px" }} />}
+                {copied ? "Tersalin!" : "Salin"}
               </button>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
-              <div>
-                <span className="text-[var(--grey-mid)] block text-[11px] font-mono">Nama Pengirim:</span>
-                <span className="text-white font-medium">{formData.fullName}</span>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px", fontSize: "12px", fontFamily: "'Barlow', sans-serif" }}>
+              {[
+                ["Nama", formData.fullName],
+                ["Instansi", formData.companyName || "—"],
+                ["WA", formData.phone],
+                ["Email", formData.email],
+              ].map(([lbl, val]) => (
+                <div key={lbl}>
+                  <span style={{ color: "rgba(240,234,216,0.4)", display: "block", fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px" }}>{lbl}</span>
+                  <span style={{ color: "#fff", fontWeight: 500 }}>{val}</span>
+                </div>
+              ))}
+              <div style={{ gridColumn: "1 / -1" }}>
+                <span style={{ color: "rgba(240,234,216,0.4)", display: "block", fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px" }}>Kategori</span>
+                <span style={{ color: "var(--tan-light)", fontWeight: 500 }}>{formData.category}</span>
               </div>
-              <div>
-                <span className="text-[var(--grey-mid)] block text-[11px] font-mono">Instansi / Perusahaan:</span>
-                <span className="text-white font-medium">{formData.companyName || "-"}</span>
-              </div>
-              <div>
-                <span className="text-[var(--grey-mid)] block text-[11px] font-mono">Nomor WhatsApp:</span>
-                <span className="text-[var(--olive-light)] font-semibold">{formData.phone}</span>
-              </div>
-              <div>
-                <span className="text-[var(--grey-mid)] block text-[11px] font-mono">Email:</span>
-                <span className="text-white font-medium">{formData.email}</span>
-              </div>
-              <div className="sm:col-span-2">
-                <span className="text-[var(--grey-mid)] block text-[11px] font-mono">Kategori:</span>
-                <span className="text-[var(--tan-light)] font-medium">{formData.category}</span>
-              </div>
-              <div className="sm:col-span-2">
-                <span className="text-[var(--grey-mid)] block text-[11px] font-mono">Estimasi Kuantitas:</span>
-                <span className="text-white font-medium">{formData.quantity || "Akan didiskusikan"}</span>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-[var(--border)]">
-              <span className="text-[var(--grey-mid)] block text-[11px] mb-1.5 font-mono">
-                Spesifikasi &amp; Detail Kebutuhan:
-              </span>
-              <p
-                style={{
-                  backgroundColor: "var(--black)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "8px",
-                }}
-                className="text-xs text-[var(--cream)] p-3.5 whitespace-pre-wrap leading-relaxed font-sans"
-              >
-                {formData.description}
-              </p>
             </div>
           </div>
 
-          {/* Action dispatch buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <button
-              type="button"
-              onClick={handleWhatsAppSend}
-              style={{
-                backgroundColor: "var(--olive)",
-                color: "#09090a",
-              }}
-              className="w-full py-3.5 px-4 rounded-xl font-condensed font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-            >
-              <MessageSquare className="w-4 h-4 shrink-0" />
-              <span>Kirim via WhatsApp</span>
+          {/* dispatch buttons */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+            <button type="button" onClick={handleWhatsAppSend} style={{ padding: "13px 16px", background: "var(--olive)", color: "#09090a", border: "none", borderRadius: "10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+              <MessageSquare style={{ width: "15px", height: "15px" }} />
+              WhatsApp
             </button>
-
-            <button
-              type="button"
-              onClick={handleEmailSend}
-              style={{
-                backgroundColor: "var(--surface-mid)",
-                border: "1px solid var(--border)",
-                color: "var(--cream)",
-              }}
-              className="w-full py-3.5 px-4 rounded-xl font-condensed font-bold text-sm uppercase tracking-wider hover:border-[var(--tan-light)] hover:text-white transition-all flex items-center justify-center gap-2 cursor-pointer"
-            >
-              <Mail className="w-4 h-4 shrink-0 text-[var(--tan-light)]" />
-              <span>Kirim via Email</span>
+            <button type="button" onClick={handleEmailSend} style={{ padding: "13px 16px", background: "var(--surface-mid)", color: "var(--cream)", border: "1px solid var(--border)", borderRadius: "10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "12px", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
+              <Mail style={{ width: "15px", height: "15px", color: "var(--tan-light)" }} />
+              Email
             </button>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <button
-              type="button"
-              onClick={() => setMode("form")}
-              className="inline-flex items-center gap-2 text-xs text-[var(--grey-mid)] hover:text-white transition-colors cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Ubah rincian formulir</span>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "16px" }}>
+            <button type="button" onClick={() => setMode("form")} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "rgba(240,234,216,0.5)", background: "none", border: "none", cursor: "pointer" }}>
+              <RotateCcw style={{ width: "13px", height: "13px" }} /> Ubah rincian
             </button>
-            <span className="text-[var(--border)]">•</span>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="text-xs text-[var(--grey-mid)] hover:text-[var(--tan-light)] transition-colors underline cursor-pointer"
-            >
+            <span style={{ color: "var(--border)" }}>•</span>
+            <button type="button" onClick={handleReset} style={{ fontSize: "12px", color: "rgba(240,234,216,0.5)", background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>
               Buat permintaan baru
             </button>
           </div>
         </div>
       ) : (
-        /* Fill-in Form Screen */
-        <form onSubmit={handleSubmit} noValidate className="space-y-6">
-          <div className="pb-4 border-b border-[var(--border)]">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-2 h-2 rounded-full bg-[var(--olive)]" />
-              <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--olive-light)] font-bold">
+        /* ── FORM STATE ──────────────────────────────────────── */
+        <form onSubmit={handleSubmit} noValidate style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+          {/* header */}
+          <div style={{ paddingBottom: "14px", borderBottom: "1px solid var(--border)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+              <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--olive)", display: "inline-block" }} />
+              <span style={{ fontFamily: "monospace", fontSize: "10px", color: "var(--olive-light)", textTransform: "uppercase", letterSpacing: "3px", fontWeight: 700 }}>
                 Formulir Resmi
               </span>
             </div>
-            <h3 className="font-condensed text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-wider">
+            <h3 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: "clamp(20px, 3vw, 28px)", color: "#fff", textTransform: "uppercase", letterSpacing: "2px", marginBottom: "6px" }}>
               Permintaan Penawaran &amp; Konsultasi
             </h3>
-            <p className="text-xs text-[var(--grey-mid)] mt-1.5 leading-relaxed font-sans">
-              Silakan isi spesifikasi kebutuhan Anda. Tim spesialis Ozra Tactical siap memberikan saran pemilihan material, akurasi pola, dan estimasi waktu terbaik.
+            <p style={{ fontFamily: "'Barlow', sans-serif", fontSize: "12px", color: "rgba(240,234,216,0.55)", lineHeight: 1.6 }}>
+              Isi form di bawah — tim spesialis Ozra Tactical siap bantu pilih material, pola, dan estimasi waktu terbaik.
             </p>
           </div>
 
-          {/* Full Name & Company */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Name + Company */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
             <div>
-              <label
-                htmlFor="fullName"
-                className="block text-xs font-sans font-semibold text-[var(--cream)] mb-2 uppercase tracking-wide"
-              >
-                Nama Lengkap <span className="text-[var(--olive-light)]">*</span>
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="cth. Mayor Hendra / Rian Pratama"
-                style={{
-                  backgroundColor: "var(--surface-mid)",
-                  borderColor: errors.fullName ? "#ef4444" : "var(--border)",
-                  color: "var(--cream)",
-                }}
-                className="w-full px-4 py-3 rounded-xl border text-sm placeholder-[var(--grey-mid)]/60 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans"
-              />
-              {errors.fullName && (
-                <p className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1 font-sans">
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.fullName}
-                </p>
-              )}
+              <label style={LABEL}>Nama Lengkap <span style={{ color: "var(--olive-light)" }}>*</span></label>
+              <input className="ozra-input" name="fullName" type="text" value={formData.fullName} onChange={handleChange}
+                placeholder="Nama / jabatan" style={field(!!errors.fullName)} />
+              {errors.fullName && <Err msg={errors.fullName} />}
             </div>
-
             <div>
-              <label
-                htmlFor="companyName"
-                className="block text-xs font-sans font-semibold text-[var(--cream)] mb-2 uppercase tracking-wide"
-              >
-                Instansi / Perusahaan{" "}
-                <span className="text-[var(--grey-mid)] font-normal text-[11px] lowercase">(opsional)</span>
-              </label>
-              <input
-                id="companyName"
-                name="companyName"
-                type="text"
-                value={formData.companyName}
-                onChange={handleChange}
-                placeholder="cth. Kemenhub RI / Divisi Logistik"
-                style={{
-                  backgroundColor: "var(--surface-mid)",
-                  borderColor: "var(--border)",
-                  color: "var(--cream)",
-                }}
-                className="w-full px-4 py-3 rounded-xl border text-sm placeholder-[var(--grey-mid)]/60 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans"
-              />
+              <label style={LABEL}>Instansi <span style={{ color: "rgba(240,234,216,0.35)", fontWeight: 400, letterSpacing: 0, textTransform: "none", fontSize: "10px" }}>(opsional)</span></label>
+              <input className="ozra-input" name="companyName" type="text" value={formData.companyName} onChange={handleChange}
+                placeholder="Kemenhub / PT. Nama" style={field(false)} />
             </div>
           </div>
 
-          {/* WhatsApp & Email */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Phone + Email */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
             <div>
-              <label
-                htmlFor="phone"
-                className="block text-xs font-sans font-semibold text-[var(--cream)] mb-2 uppercase tracking-wide"
-              >
-                Nomor WhatsApp <span className="text-[var(--olive-light)]">*</span>
-              </label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="0812-3456-7890"
-                style={{
-                  backgroundColor: "var(--surface-mid)",
-                  borderColor: errors.phone ? "#ef4444" : "var(--border)",
-                  color: "var(--cream)",
-                }}
-                className="w-full px-4 py-3 rounded-xl border text-sm placeholder-[var(--grey-mid)]/60 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans"
-              />
-              {errors.phone && (
-                <p className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1 font-sans">
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.phone}
-                </p>
-              )}
+              <label style={LABEL}>WhatsApp <span style={{ color: "var(--olive-light)" }}>*</span></label>
+              <input className="ozra-input" name="phone" type="tel" value={formData.phone} onChange={handleChange}
+                placeholder="0812-3456-7890" style={field(!!errors.phone)} />
+              {errors.phone && <Err msg={errors.phone} />}
             </div>
-
             <div>
-              <label
-                htmlFor="email"
-                className="block text-xs font-sans font-semibold text-[var(--cream)] mb-2 uppercase tracking-wide"
-              >
-                Email Aktif <span className="text-[var(--olive-light)]">*</span>
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="nama@instansi.go.id"
-                style={{
-                  backgroundColor: "var(--surface-mid)",
-                  borderColor: errors.email ? "#ef4444" : "var(--border)",
-                  color: "var(--cream)",
-                }}
-                className="w-full px-4 py-3 rounded-xl border text-sm placeholder-[var(--grey-mid)]/60 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans"
-              />
-              {errors.email && (
-                <p className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1 font-sans">
-                  <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.email}
-                </p>
-              )}
+              <label style={LABEL}>Email Aktif <span style={{ color: "var(--olive-light)" }}>*</span></label>
+              <input className="ozra-input" name="email" type="email" value={formData.email} onChange={handleChange}
+                placeholder="nama@instansi.go.id" style={field(!!errors.email)} />
+              {errors.email && <Err msg={errors.email} />}
             </div>
           </div>
 
-          {/* Category Dropdown with custom arrow */}
+          {/* Category */}
           <div>
-            <label
-              htmlFor="category"
-              className="block text-xs font-sans font-semibold text-[var(--cream)] mb-2 uppercase tracking-wide"
-            >
-              Kategori Kebutuhan <span className="text-[var(--olive-light)]">*</span>
-            </label>
-            <div className="relative">
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
+            <label style={LABEL}>Kategori Kebutuhan <span style={{ color: "var(--olive-light)" }}>*</span></label>
+            <div style={{ position: "relative" }}>
+              <select className="ozra-select" name="category" value={formData.category} onChange={handleChange}
                 style={{
-                  backgroundColor: "var(--surface-mid)",
-                  borderColor: errors.category ? "#ef4444" : "var(--border)",
-                  color: formData.category ? "var(--cream)" : "var(--grey-mid)",
+                  ...field(!!errors.category),
                   appearance: "none",
+                  WebkitAppearance: "none",
+                  paddingRight: "40px",
+                  cursor: "pointer",
+                  color: formData.category ? "#f0ead8" : "rgba(240,234,216,0.38)",
                 }}
-                className="w-full px-4 py-3.5 pr-10 rounded-xl border text-sm focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans cursor-pointer"
               >
-                <option value="" disabled>
-                  Pilih Kategori Kebutuhan Seragam / Apparel
-                </option>
-                {CATEGORY_OPTIONS.map((cat) => (
-                  <option key={cat} value={cat} className="bg-[#161614] text-white py-2">
-                    {cat}
-                  </option>
-                ))}
+                <option value="" disabled>— Pilih Kategori —</option>
+                {CATEGORY_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
               </select>
-              <ChevronDown className="w-4 h-4 text-[var(--grey-mid)] pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2" />
+              <ChevronDown style={{ position: "absolute", right: "14px", top: "50%", transform: "translateY(-50%)", width: "16px", height: "16px", color: "rgba(240,234,216,0.4)", pointerEvents: "none" }} />
             </div>
-            {errors.category && (
-              <p className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1 font-sans">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.category}
-              </p>
-            )}
+            {errors.category && <Err msg={errors.category} />}
           </div>
 
-          {/* Quantity Preset Chips */}
+          {/* Quantity */}
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <label
-                htmlFor="quantity"
-                className="text-xs font-sans font-semibold text-[var(--cream)] uppercase tracking-wide"
-              >
-                Perkiraan Jumlah Pesanan
-              </label>
-              <span className="text-[11px] text-[var(--grey-mid)] font-sans">
-                Pilih preset atau ketik manual
-              </span>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+              <label style={{ ...LABEL, marginBottom: 0 }}>Perkiraan Jumlah</label>
+              <span style={{ fontSize: "10px", color: "rgba(240,234,216,0.35)", fontFamily: "'Barlow', sans-serif" }}>pilih atau ketik</span>
             </div>
-
-            {/* Quick chips */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
-              {QUANTITY_PRESETS.map((preset) => {
-                const isSelected = formData.quantity === preset;
-                return (
-                  <button
-                    key={preset}
-                    type="button"
-                    onClick={() => handleSelectPreset(preset)}
-                    style={{
-                      backgroundColor: isSelected ? "var(--olive)" : "var(--surface-mid)",
-                      color: isSelected ? "#09090a" : "var(--cream)",
-                      borderColor: isSelected ? "var(--olive)" : "var(--border)",
-                    }}
-                    className="px-3 py-2 rounded-lg border text-xs font-medium transition-all text-left truncate cursor-pointer hover:border-[var(--olive)]"
-                  >
-                    {preset}
-                  </button>
-                );
-              })}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", marginBottom: "8px" }}>
+              {QUANTITY_PRESETS.map((p) => (
+                <button key={p} type="button" onClick={() => setFormData((prev) => ({ ...prev, quantity: p }))}
+                  style={{
+                    padding: "8px 10px",
+                    borderRadius: "8px",
+                    border: `1px solid ${formData.quantity === p ? "var(--olive)" : "rgba(255,255,255,0.1)"}`,
+                    background: formData.quantity === p ? "var(--olive)" : "#1a1a18",
+                    color: formData.quantity === p ? "#09090a" : "#f0ead8",
+                    fontSize: "11px",
+                    fontFamily: "'Barlow', sans-serif",
+                    textAlign: "left",
+                    cursor: "pointer",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {p}
+                </button>
+              ))}
             </div>
-
-            <input
-              id="quantity"
-              name="quantity"
-              type="text"
-              value={formData.quantity}
-              onChange={handleChange}
-              placeholder="Atau ketik kuantitas spesifik (cth: 75 set kemeja + celana)"
-              style={{
-                backgroundColor: "var(--surface-mid)",
-                borderColor: "var(--border)",
-                color: "var(--cream)",
-              }}
-              className="w-full px-4 py-2.5 rounded-xl border text-sm placeholder-[var(--grey-mid)]/60 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans"
-            />
+            <input className="ozra-input" name="quantity" type="text" value={formData.quantity} onChange={handleChange}
+              placeholder="Atau ketik jumlah spesifik…" style={field(false)} />
           </div>
 
           {/* Description */}
           <div>
-            <label
-              htmlFor="description"
-              className="block text-xs font-sans font-semibold text-[var(--cream)] mb-2 uppercase tracking-wide"
-            >
-              Deskripsi Spesifikasi &amp; Detail Kebutuhan{" "}
-              <span className="text-[var(--olive-light)]">*</span>
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              rows={4}
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Contoh: Kemeja PDL bahan Ripstop tebal warna Navy, bordir timbul kesatuan di dada dan lengan, saku taktis 4 titik, target selesai akhir bulan depan..."
-              style={{
-                backgroundColor: "var(--surface-mid)",
-                borderColor: errors.description ? "#ef4444" : "var(--border)",
-                color: "var(--cream)",
-              }}
-              className="w-full px-4 py-3 rounded-xl border text-sm placeholder-[var(--grey-mid)]/60 focus:outline-none focus:border-[var(--olive)] focus:ring-1 focus:ring-[var(--olive)] transition-colors font-sans leading-relaxed"
+            <label style={LABEL}>Spesifikasi &amp; Detail <span style={{ color: "var(--olive-light)" }}>*</span></label>
+            <textarea className="ozra-textarea" name="description" rows={4} value={formData.description} onChange={handleChange}
+              placeholder="Contoh: Kemeja PDL Ripstop Navy, bordir timbul di dada &amp; lengan, saku taktis, target selesai akhir bulan depan…"
+              style={{ ...field(!!errors.description), resize: "vertical" }}
             />
-            {errors.description && (
-              <p className="text-[11px] text-red-400 mt-1.5 flex items-center gap-1 font-sans">
-                <AlertCircle className="w-3.5 h-3.5 shrink-0" /> {errors.description}
-              </p>
-            )}
+            {errors.description && <Err msg={errors.description} />}
           </div>
 
           {/* Submit */}
-          <div className="pt-2">
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "var(--olive)",
-                color: "#09090a",
-              }}
-              className="w-full py-4 px-6 rounded-xl font-condensed font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
-            >
-              <span>Verifikasi &amp; Siapkan Penawaran</span>
+          <div style={{ paddingTop: "4px" }}>
+            <button type="submit" style={{ width: "100%", padding: "14px", background: "var(--olive)", color: "#09090a", border: "none", borderRadius: "10px", fontFamily: "'Barlow Condensed', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: "3px", textTransform: "uppercase", cursor: "pointer", transition: "opacity 0.2s", boxShadow: "0 4px 20px rgba(126,139,82,0.25)" }}>
+              Verifikasi &amp; Siapkan Penawaran →
             </button>
-
-            <div className="flex items-center justify-between text-[11px] text-[var(--grey-mid)] mt-3 font-sans">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[var(--olive-light)]" />
-                Data aman &amp; rahasia institusi
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "10px", fontSize: "11px", color: "rgba(240,234,216,0.35)", fontFamily: "'Barlow', sans-serif" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <ShieldCheck style={{ width: "12px", height: "12px", color: "var(--olive-light)" }} />
+                Data aman &amp; rahasia
               </span>
-              <span>Respon rata-rata &lt; 30 menit</span>
+              <span>Respon &lt; 30 menit</span>
             </div>
           </div>
         </form>

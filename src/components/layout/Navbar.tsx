@@ -20,24 +20,36 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  const navLinkStyle = (isActive: boolean): React.CSSProperties => ({
+    fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+    fontSize: "13px",
+    fontWeight: 600,
+    letterSpacing: "3px",
+    textTransform: "uppercase",
+    color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
+    textDecoration: "none",
+    transition: "color 0.2s",
+    whiteSpace: "nowrap",
+    padding: "6px 0",
+    borderBottom: isActive ? "2px solid var(--tan-light)" : "2px solid transparent",
+    display: "inline-block",
+  });
 
   return (
     <>
-      {/* ── FIXED TOP BAR (ANNOUNCEMENT + NAV) ── */}
+      {/* ── FIXED HEADER ── */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 w-full"
         style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
           background: scrolled ? "rgba(9,9,10,0.98)" : "rgba(9,9,10,0.92)",
           backdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--border)",
@@ -47,8 +59,15 @@ export default function Navbar() {
         {/* ── ANNOUNCEMENT BAR ── */}
         <div className="announce-bar">
           <div
-            className="max-w-7xl mx-auto flex items-center justify-center text-center"
-            style={{ padding: "0 clamp(18px, 4vw, 48px)" }}
+            style={{
+              maxWidth: "80rem",
+              margin: "0 auto",
+              padding: "0 clamp(18px, 4vw, 48px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
           >
             <span>
               Konsultasi &amp; Produksi Seragam Custom &nbsp;
@@ -66,128 +85,75 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── MAIN NAV BAR: 3-column grid — Logo | Center Nav | Cart+CTA ── */}
+        {/* ── MAIN NAV ROW ── */}
+        {/*
+          Strategy: position:relative wrapper at full width.
+          Logo + right-group use justify-between via flex.
+          Nav links sit in position:absolute centered to the full wrapper — truly viewport-centered.
+        */}
         <div
-          className="w-full"
           style={{
-            height: "72px",
+            position: "relative",
+            height: "68px",
             borderBottom: "1px solid var(--border)",
           }}
         >
+          {/* Left logo + Right buttons — constrained to max-w-7xl */}
           <div
-            className="max-w-7xl mx-auto w-full h-full"
             style={{
+              maxWidth: "80rem",
+              margin: "0 auto",
+              height: "100%",
               padding: "0 clamp(20px, 4vw, 48px)",
-              display: "grid",
-              gridTemplateColumns: "auto 1fr auto",
+              display: "flex",
               alignItems: "center",
-              gap: "0",
+              justifyContent: "space-between",
+              position: "relative",
+              zIndex: 10,
             }}
           >
-            {/* Col 1 — Left: Brand Logo */}
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Link
-                href="/"
-                prefetch={false}
-                style={{ textDecoration: "none", display: "inline-block" }}
-                aria-label="Ozra Tactical Home"
-              >
-                <OzraLogo size="sm" showSubtitle={true} />
-              </Link>
-            </div>
-
-            {/* Col 2 — Center: Desktop Nav Links (centered within 1fr column) */}
-            <nav
-              className="hidden lg:flex"
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                padding: "0 clamp(16px, 2vw, 32px)",
-              }}
+            {/* LEFT: Logo */}
+            <Link
+              href="/"
+              prefetch={false}
+              style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}
+              aria-label="Ozra Tactical Home"
             >
-              <ul
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "clamp(20px, 2.5vw, 38px)",
-                  listStyle: "none",
-                  margin: 0,
-                  padding: 0,
-                }}
-              >
-                {NAV_LINKS.map((link) => {
-                  const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
-                  return (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        style={{
-                          fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                          fontSize: "13px",
-                          fontWeight: 600,
-                          letterSpacing: "3px",
-                          textTransform: "uppercase",
-                          color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
-                          textDecoration: "none",
-                          transition: "color 0.2s",
-                          whiteSpace: "nowrap",
-                          padding: "6px 2px",
-                          borderBottom: isActive ? "2px solid var(--tan-light)" : "2px solid transparent",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
-                        }}
-                        onMouseLeave={(e) => {
-                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+              <OzraLogo size="sm" showSubtitle={true} />
+            </Link>
 
-            {/* Col 3 — Right: Cart + CTA + Mobile Hamburger */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "flex-end",
-                gap: "clamp(8px, 1vw, 16px)",
-              }}
-            >
-              {/* ECOMMERCE SHOPPING CART TRIGGER */}
+            {/* RIGHT: Cart + Get a Quote + Hamburger — grouped tightly */}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+
+              {/* Cart button */}
               <button
                 type="button"
                 onClick={openCart}
+                aria-label="Keranjang Belanja"
                 style={{
-                  backgroundColor: "var(--surface-mid)",
-                  borderColor: totalItems > 0 ? "var(--olive)" : "var(--border)",
-                  color: "var(--cream)",
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
-                  padding: "8px 14px",
-                  borderRadius: "8px",
-                  border: "1px solid",
+                  gap: "6px",
+                  padding: "7px 12px",
+                  background: "var(--surface-mid)",
+                  border: `1px solid ${totalItems > 0 ? "var(--olive)" : "var(--border)"}`,
+                  borderRadius: "6px",
+                  color: "var(--cream)",
                   cursor: "pointer",
                   transition: "border-color 0.2s",
-                  position: "relative",
+                  flexShrink: 0,
                 }}
-                title="Buka Keranjang Belanja & Checkout"
-                aria-label="Keranjang Belanja"
               >
-                <ShoppingBag style={{ width: "16px", height: "16px", color: "var(--olive-light)" }} />
+                <ShoppingBag style={{ width: "15px", height: "15px", color: "var(--olive-light)", flexShrink: 0 }} />
                 <span
-                  className="hidden sm:inline"
+                  className="hidden sm:block"
                   style={{
                     fontFamily: "'Barlow Condensed', sans-serif",
-                    fontWeight: 700,
                     fontSize: "11px",
+                    fontWeight: 700,
                     letterSpacing: "2px",
                     textTransform: "uppercase",
+                    lineHeight: 1,
                   }}
                 >
                   Cart
@@ -195,17 +161,17 @@ export default function Navbar() {
                 {totalItems > 0 && (
                   <span
                     style={{
-                      backgroundColor: "var(--olive)",
+                      background: "var(--olive)",
                       color: "#09090a",
-                      width: "18px",
-                      height: "18px",
+                      width: "17px",
+                      height: "17px",
                       borderRadius: "50%",
-                      fontSize: "10px",
-                      fontFamily: "monospace",
-                      fontWeight: 700,
+                      fontSize: "9px",
+                      fontWeight: 800,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      flexShrink: 0,
                     }}
                   >
                     {totalItems}
@@ -213,59 +179,114 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Desktop CTA */}
+              {/* Get a Quote — desktop only */}
               <a
                 href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden lg:inline-block"
+                className="hidden lg:flex"
                 style={{
+                  alignItems: "center",
                   fontFamily: "'Barlow Condensed', sans-serif",
                   fontSize: "11px",
                   fontWeight: 700,
-                  letterSpacing: "3px",
+                  letterSpacing: "2.5px",
                   textTransform: "uppercase",
                   textDecoration: "none",
                   color: "var(--cream)",
-                  padding: "9px 22px",
+                  padding: "8px 18px",
                   border: "1px solid var(--tan)",
-                  transition: "all 0.2s",
                   whiteSpace: "nowrap",
+                  transition: "all 0.2s",
+                  flexShrink: 0,
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "var(--tan)";
-                  el.style.color = "var(--black)";
+                  (e.currentTarget as HTMLElement).style.background = "var(--tan)";
+                  (e.currentTarget as HTMLElement).style.color = "#09090a";
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "transparent";
-                  el.style.color = "var(--cream)";
+                  (e.currentTarget as HTMLElement).style.background = "transparent";
+                  (e.currentTarget as HTMLElement).style.color = "var(--cream)";
                 }}
               >
                 Get a Quote
               </a>
 
-              {/* Mobile & Tablet hamburger */}
+              {/* Mobile hamburger */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="flex lg:hidden"
+                aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: "10px",
-                  borderRadius: "4px",
+                  width: "38px",
+                  height: "38px",
                   background: "transparent",
                   border: "1px solid var(--border)",
+                  borderRadius: "4px",
                   color: "var(--cream)",
                   cursor: "pointer",
+                  flexShrink: 0,
                 }}
-                aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
               >
-                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
+
+          {/* CENTER: Nav links — absolutely centered to the full nav row width */}
+          <nav
+            className="hidden lg:flex"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: "flex" as const,
+              alignItems: "center",
+              justifyContent: "center",
+              pointerEvents: "none", // let clicks pass through to logo/buttons behind
+              zIndex: 5,
+            }}
+          >
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "clamp(22px, 2.8vw, 40px)",
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+                pointerEvents: "auto", // re-enable on the links themselves
+              }}
+            >
+              {NAV_LINKS.map((link) => {
+                const isActive =
+                  pathname === link.href ||
+                  (link.href !== "/" && pathname.startsWith(link.href));
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      style={navLinkStyle(isActive)}
+                      onMouseEnter={(e) => {
+                        if (!isActive)
+                          (e.currentTarget as HTMLElement).style.color = "var(--cream)";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive)
+                          (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
+                      }}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
         </div>
       </header>
 
@@ -274,10 +295,7 @@ export default function Navbar() {
         <div
           style={{
             position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
+            inset: 0,
             zIndex: 60,
             background: "rgba(9,9,10,0.98)",
             backdropFilter: "blur(20px)",
@@ -285,10 +303,8 @@ export default function Navbar() {
             flexDirection: "column",
             padding: "80px clamp(20px, 6vw, 36px) 40px",
             overflowY: "auto",
-            WebkitOverflowScrolling: "touch",
           }}
         >
-          {/* Close button with large touch target */}
           <div style={{ position: "absolute", top: "20px", left: "24px" }}>
             <OzraLogo size="sm" showSubtitle={true} />
           </div>
@@ -316,14 +332,16 @@ export default function Navbar() {
 
           <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
             {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+              const isActive =
+                pathname === link.href ||
+                (link.href !== "/" && pathname.startsWith(link.href));
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   style={{
-                    fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                    fontFamily: "'Barlow Condensed', sans-serif",
                     fontSize: "clamp(22px, 6vw, 32px)",
                     fontWeight: 800,
                     letterSpacing: "3px",
@@ -338,9 +356,7 @@ export default function Navbar() {
                   }}
                 >
                   <span>{link.name}</span>
-                  <span style={{ fontSize: "16px", color: isActive ? "var(--tan-light)" : "var(--olive)", opacity: 0.7 }}>
-                    →
-                  </span>
+                  <span style={{ fontSize: "16px", color: isActive ? "var(--tan-light)" : "var(--olive)", opacity: 0.7 }}>→</span>
                 </Link>
               );
             })}
@@ -348,14 +364,28 @@ export default function Navbar() {
             <div style={{ marginTop: "auto", paddingTop: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
               <button
                 type="button"
-                onClick={() => {
-                  setMobileOpen(false);
-                  openCart();
+                onClick={() => { setMobileOpen(false); openCart(); }}
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  background: "var(--surface-mid)",
+                  border: "1px solid var(--border)",
+                  borderRadius: "4px",
+                  color: "var(--cream)",
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  cursor: "pointer",
                 }}
-                className="w-full py-3.5 px-4 rounded border border-[var(--border)] bg-[var(--surface-mid)] text-[var(--cream)] font-condensed font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
               >
-                <ShoppingBag className="w-4 h-4 text-[var(--olive-light)]" />
-                <span>Lihat Keranjang Belanja ({totalItems})</span>
+                <ShoppingBag style={{ width: "16px", height: "16px", color: "var(--olive-light)" }} />
+                <span>Keranjang ({totalItems})</span>
               </button>
 
               <a
@@ -386,7 +416,7 @@ export default function Navbar() {
                   fontSize: "11px",
                   color: "var(--grey-mid)",
                   textAlign: "center",
-                  marginTop: "8px",
+                  marginTop: "4px",
                   lineHeight: 1.6,
                 }}
               >

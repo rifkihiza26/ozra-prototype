@@ -62,39 +62,39 @@ const FAQS = [
 export default function ContactPage() {
   return (
     <div className="pt-[106px] pb-24 w-full overflow-x-hidden">
-      {/* ── 1. HERO SECTION DENGAN FOTO KANTOR ASLI DARI PDF ── */}
-      <section className="relative py-16 sm:py-24 lg:py-28 border-b border-[var(--border)] overflow-hidden">
-        {/* Real office photo from client PDF */}
+      {/* ── 1. HERO SECTION ── */}
+      <section className="relative py-20 sm:py-28 lg:py-32 border-b border-[var(--border)] overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src="/images/client_pdf/office-building.jpg"
             alt="Gedung Kantor PT. Ozra Mega Perkasa Indonesia"
-            fill
-            priority
+            fill priority
             className="object-cover object-center"
             sizes="100vw"
           />
-          {/* Subtle tactical dark overlay matching site design */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#09090a]/92 via-[#09090a]/85 to-[#09090a]/96" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(126,139,82,0.12)_0%,_transparent_70%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#09090a]/90 via-[#09090a]/88 to-[#09090a]/97" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(126,139,82,0.10)_0%,_transparent_70%)]" />
         </div>
 
         <div
-          className="relative max-w-5xl mx-auto text-center space-y-4"
+          className="relative w-full text-center"
           style={{ padding: "0 clamp(20px, 5vw, 48px)" }}
         >
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-olive)] bg-[var(--surface)]/80 text-[var(--olive-light)] text-xs font-mono tracking-widest uppercase">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] animate-pulse" />
-            Official Contact &amp; Headquarters
+          <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-olive)] bg-[var(--surface)]/80 text-[var(--olive-light)] text-xs font-mono tracking-widest uppercase mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--olive)] animate-pulse" />
+              Official Contact &amp; Headquarters
+            </div>
+
+            <h1 className="font-condensed text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-normal uppercase leading-tight mb-4">
+              KONSULTASI &amp; PENAWARAN
+            </h1>
+
+            <p className="text-sm sm:text-base text-[var(--cream)]/75 leading-relaxed font-sans">
+              Hubungi PT. Ozra Mega Perkasa Indonesia untuk konsultasi spesifikasi teknis,
+              estimasi biaya, dan pembuatan seragam dinas, tactical gear, serta apparel kustom Anda.
+            </p>
           </div>
-
-          <h1 className="font-condensed text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-normal uppercase leading-tight">
-            KONSULTASI &amp; PENAWARAN
-          </h1>
-
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-[var(--cream)]/75 leading-relaxed font-sans">
-            Hubungi PT. Ozra Mega Perkasa Indonesia untuk konsultasi spesifikasi teknis, estimasi biaya, dan pembuatan seragam dinas, tactical gear, serta apparel kustom Anda.
-          </p>
         </div>
       </section>
 
