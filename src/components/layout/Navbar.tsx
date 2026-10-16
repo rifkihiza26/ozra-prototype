@@ -34,7 +34,7 @@ export default function Navbar() {
     <>
       {/* ── FIXED TOP BAR (ANNOUNCEMENT + NAV) ── */}
       <header
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 w-full"
         style={{
           background: scrolled ? "rgba(9,9,10,0.98)" : "rgba(9,9,10,0.92)",
           backdropFilter: "blur(12px)",
@@ -64,137 +64,120 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── MAIN NAV CONTAINER (Centered Max Width Container) ── */}
-        <nav
-          className="max-w-7xl mx-auto w-full relative"
+        {/* ── MAIN NAV CONTAINER (True 3-Column Equal Grid: Logo Left | Menu Exact Center | CTA Right) ── */}
+        <div
+          className="max-w-7xl mx-auto w-full"
           style={{
             height: "72px",
-            display: "flex",
-            alignItems: "center",
             padding: "0 clamp(20px, 4vw, 48px)",
           }}
         >
-          {/* 1. Left: Logo */}
-          <div style={{ flex: "0 0 auto", zIndex: 2 }}>
-            <Link
-              href="/"
-              prefetch={false}
-              style={{ textDecoration: "none", display: "inline-block" }}
-              aria-label="Ozra Tactical Home"
-            >
-              <OzraLogo size="sm" showSubtitle={true} />
-            </Link>
-          </div>
-
-          {/* 2. Center: Perfectly Centered Desktop Nav Links (Molay style) */}
-          <div
-            className="hidden lg:flex"
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1,
-            }}
-          >
-            <ul
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "clamp(24px, 2.5vw, 40px)",
-                listStyle: "none",
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
-                return (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      style={{
-                        fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                        fontSize: "12px",
-                        fontWeight: 600,
-                        letterSpacing: "3px",
-                        textTransform: "uppercase",
-                        color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
-                        textDecoration: "none",
-                        transition: "color 0.2s",
-                        whiteSpace: "nowrap",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
-                      }}
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* 3. Right: Desktop CTA & Mobile Hamburger */}
-          <div
-            style={{
-              marginLeft: "auto",
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              zIndex: 2,
-            }}
-          >
-            {/* Desktop CTA (visible on lg: 1024px+) */}
-            <div className="hidden lg:flex items-center">
-              <a
-                href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "3px",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  color: "var(--cream)",
-                  padding: "9px 24px",
-                  border: "1px solid var(--tan)",
-                  transition: "all 0.2s",
-                  display: "inline-block",
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "var(--tan)";
-                  el.style.color = "var(--black)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "transparent";
-                  el.style.color = "var(--cream)";
-                }}
+          <div className="w-full h-full grid grid-cols-2 lg:grid-cols-12 items-center">
+            {/* 1. Left: Brand Logo (col-span-1 lg:col-span-3) */}
+            <div className="lg:col-span-3 flex items-center justify-start">
+              <Link
+                href="/"
+                prefetch={false}
+                style={{ textDecoration: "none", display: "inline-block" }}
+                aria-label="Ozra Tactical Home"
               >
-                Get a Quote
-              </a>
+                <OzraLogo size="sm" showSubtitle={true} />
+              </Link>
             </div>
 
-            {/* Mobile & Tablet hamburger (visible under 1024px) */}
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="flex lg:hidden items-center justify-center p-2.5 rounded text-[var(--cream)] hover:text-white"
-              style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
-              aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
-            >
-              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
+            {/* 2. Center: Navigation Menu (col-span-6: Centered in 12-col grid) */}
+            <nav className="hidden lg:flex lg:col-span-6 items-center justify-center">
+              <ul
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "clamp(20px, 2.5vw, 36px)",
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {NAV_LINKS.map((link) => {
+                  const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+                  return (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        style={{
+                          fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          letterSpacing: "3px",
+                          textTransform: "uppercase",
+                          color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
+                          textDecoration: "none",
+                          transition: "color 0.2s",
+                          whiteSpace: "nowrap",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            {/* 3. Right: Desktop CTA & Mobile Hamburger (col-span-1 lg:col-span-3) */}
+            <div className="lg:col-span-3 flex items-center justify-end gap-3">
+              {/* Desktop CTA */}
+              <div className="hidden lg:flex items-center">
+                <a
+                  href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    letterSpacing: "3px",
+                    textTransform: "uppercase",
+                    textDecoration: "none",
+                    color: "var(--cream)",
+                    padding: "9px 24px",
+                    border: "1px solid var(--tan)",
+                    transition: "all 0.2s",
+                    display: "inline-block",
+                    whiteSpace: "nowrap",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = "var(--tan)";
+                    el.style.color = "var(--black)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.background = "transparent";
+                    el.style.color = "var(--cream)";
+                  }}
+                >
+                  Get a Quote
+                </a>
+              </div>
+
+              {/* Mobile & Tablet hamburger */}
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="flex lg:hidden items-center justify-center p-2.5 rounded text-[var(--cream)] hover:text-white"
+                style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
+                aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
+              >
+                {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+              </button>
+            </div>
           </div>
-        </nav>
+        </div>
       </header>
 
       {/* ── MOBILE DRAWER ── */}
@@ -206,7 +189,7 @@ export default function Navbar() {
             left: 0,
             right: 0,
             bottom: 0,
-            zIndex: 9999,
+            zIndex: 60,
             background: "rgba(9,9,10,0.98)",
             backdropFilter: "blur(20px)",
             display: "flex",
@@ -290,32 +273,29 @@ export default function Navbar() {
                   letterSpacing: "3px",
                   textTransform: "uppercase",
                   textDecoration: "none",
-                  border: "1px solid var(--olive)",
+                  borderRadius: "2px",
                 }}
               >
-                Request a Quote via WhatsApp
+                Konsultasi WhatsApp
               </a>
 
-              <div
+              <p
                 style={{
-                  textAlign: "center",
                   fontFamily: "'Barlow', sans-serif",
                   fontSize: "11px",
                   color: "var(--grey-mid)",
+                  textAlign: "center",
                   marginTop: "8px",
-                  lineHeight: 1.5,
+                  lineHeight: 1.6,
                 }}
               >
                 PT. Ozra Mega Perkasa Indonesia<br />
-                {COMPANY_INFO.address}
-              </div>
+                Jakarta Selatan, Indonesia
+              </p>
             </div>
           </div>
         </div>
       )}
-
-      {/* Spacer so content sits below the fixed header */}
-      <div className="h-[95px] sm:h-[101px]" />
     </>
   );
 }
