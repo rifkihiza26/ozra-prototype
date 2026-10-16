@@ -79,7 +79,7 @@ export default function Navbar() {
             style={{
               padding: "0 clamp(20px, 4vw, 48px)",
               display: "grid",
-              gridTemplateColumns: "1fr auto 1fr",
+              gridTemplateColumns: "auto 1fr auto",
               alignItems: "center",
               gap: "0",
             }}
@@ -96,10 +96,14 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Col 2 — Center: Desktop Nav Links (exactly centered) */}
+            {/* Col 2 — Center: Desktop Nav Links (centered within 1fr column) */}
             <nav
               className="hidden lg:flex"
-              style={{ justifySelf: "center" }}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "0 clamp(16px, 2vw, 32px)",
+              }}
             >
               <ul
                 style={{
