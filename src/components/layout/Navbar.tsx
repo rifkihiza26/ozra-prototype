@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { NAV_LINKS, COMPANY_INFO } from "@/lib/constants";
 import OzraLogo from "@/components/ui/OzraLogo";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { totalItems, openCart } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -64,17 +66,21 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── MAIN NAV CONTAINER (True 3-Column Equal Grid: Logo Left | Menu Exact Center | CTA Right) ── */}
+        {/* ── MAIN NAV CONTAINER (Centered Window: Left Logo | Exact Absolute Center Menu | Right Cart + CTA) ── */}
         <div
-          className="max-w-7xl mx-auto w-full"
+          className="w-full relative"
           style={{
             height: "72px",
-            padding: "0 clamp(20px, 4vw, 48px)",
+            borderBottom: "1px solid var(--border)",
           }}
         >
-          <div className="w-full h-full grid grid-cols-2 lg:grid-cols-12 items-center">
-            {/* 1. Left: Brand Logo (col-span-1 lg:col-span-3) */}
-            <div className="lg:col-span-3 flex items-center justify-start">
+          {/* Max Width Framing to align left logo & right buttons with page margins */}
+          <div
+            className="max-w-7xl mx-auto w-full h-full flex items-center justify-between"
+            style={{ padding: "0 clamp(20px, 4vw, 48px)" }}
+          >
+            {/* 1. Left: Brand Logo */}
+            <div className="flex items-center z-10">
               <Link
                 href="/"
                 prefetch={false}
@@ -85,52 +91,35 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* 2. Center: Navigation Menu (col-span-6: Centered in 12-col grid) */}
-            <nav className="hidden lg:flex lg:col-span-6 items-center justify-center">
-              <ul
+            {/* 2. Right: Ecommerce Cart Button + Desktop CTA + Mobile Hamburger */}
+            <div className="flex items-center gap-3 sm:gap-4 z-10">
+              {/* ECOMMERCE SHOPPING CART TRIGGER */}
+              <button
+                type="button"
+                onClick={openCart}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "clamp(20px, 2.5vw, 36px)",
-                  listStyle: "none",
-                  margin: 0,
-                  padding: 0,
+                  backgroundColor: "var(--surface-mid)",
+                  borderColor: totalItems > 0 ? "var(--olive)" : "var(--border)",
+                  color: "var(--cream)",
                 }}
+                className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg border hover:border-[var(--tan-light)] transition-all cursor-pointer"
+                title="Buka Keranjang Belanja & Checkout"
+                aria-label="Keranjang Belanja"
               >
-                {NAV_LINKS.map((link) => {
-                  const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
-                  return (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        style={{
-                          fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                          fontSize: "12px",
-                          fontWeight: 600,
-                          letterSpacing: "3px",
-                          textTransform: "uppercase",
-                          color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
-                          textDecoration: "none",
-                          transition: "color 0.2s",
-                          whiteSpace: "nowrap",
-                        }}
-                        onMouseEnter={(e) => {
-                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
-                        }}
-                        onMouseLeave={(e) => {
-                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
-                        }}
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+                <ShoppingBag className="w-4 h-4 text-[var(--olive-light)]" />
+                <span className="font-condensed font-bold text-xs uppercase tracking-wider hidden sm:inline">
+                  Cart
+                </span>
+                {totalItems > 0 && (
+                  <span
+                    style={{ backgroundColor: "var(--olive)", color: "#09090a" }}
+                    className="w-5 h-5 rounded-full text-[10px] font-mono font-bold flex items-center justify-center -mr-1"
+                  >
+                    {totalItems}
+                  </span>
+                )}
+              </button>
 
-            {/* 3. Right: Desktop CTA & Mobile Hamburger (col-span-1 lg:col-span-3) */}
-            <div className="lg:col-span-3 flex items-center justify-end gap-3">
               {/* Desktop CTA */}
               <div className="hidden lg:flex items-center">
                 <a
@@ -145,7 +134,7 @@ export default function Navbar() {
                     textTransform: "uppercase",
                     textDecoration: "none",
                     color: "var(--cream)",
-                    padding: "9px 24px",
+                    padding: "9px 22px",
                     border: "1px solid var(--tan)",
                     transition: "all 0.2s",
                     display: "inline-block",
@@ -177,6 +166,61 @@ export default function Navbar() {
               </button>
             </div>
           </div>
+
+          {/* 3. Center Navigation Menu — True Absolute Viewport Center */}
+          <nav
+            className="hidden lg:flex"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 5,
+            }}
+          >
+            <ul
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "clamp(24px, 2.8vw, 42px)",
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+              }}
+            >
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+                return (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      style={{
+                        fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                        fontSize: "13px",
+                        fontWeight: 600,
+                        letterSpacing: "3px",
+                        textTransform: "uppercase",
+                        color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
+                        textDecoration: "none",
+                        transition: "color 0.2s",
+                        whiteSpace: "nowrap",
+                        padding: "6px 2px",
+                        borderBottom: isActive ? "2px solid var(--tan-light)" : "2px solid transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
+                      }}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
         </div>
       </header>
 
@@ -257,6 +301,18 @@ export default function Navbar() {
             })}
 
             <div style={{ marginTop: "auto", paddingTop: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  openCart();
+                }}
+                className="w-full py-3.5 px-4 rounded border border-[var(--border)] bg-[var(--surface-mid)] text-[var(--cream)] font-condensed font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2"
+              >
+                <ShoppingBag className="w-4 h-4 text-[var(--olive-light)]" />
+                <span>Lihat Keranjang Belanja ({totalItems})</span>
+              </button>
+
               <a
                 href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
                 target="_blank"

@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowUpRight, ShieldCheck } from "lucide-react";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 import { COMPANY_INFO } from "@/lib/constants";
 import PortfolioCard from "@/components/portfolio/PortfolioCard";
+import AddToCartButton from "@/components/portfolio/AddToCartButton";
 
 interface PortfolioDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -146,8 +147,18 @@ export default async function PortfolioDetailPage({ params }: PortfolioDetailPag
               </p>
             </div>
 
+            {/* E-Commerce Add To Cart */}
+            <AddToCartButton
+              item={{
+                id: item.id,
+                title: item.title,
+                category: item.category,
+                image: item.image,
+              }}
+            />
+
             {/* CTAs */}
-            <div className="space-y-3 pt-4 border-t border-[#353B32]">
+            <div className="space-y-3 pt-2">
               <a
                 href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(consultationMessage)}`}
                 target="_blank"

@@ -3,6 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import IntroProvider from "@/components/ui/IntroProvider";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/ui/CartDrawer";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -50,11 +52,14 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <IntroProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </IntroProvider>
+        <CartProvider>
+          <IntroProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+            <CartDrawer />
+          </IntroProvider>
+        </CartProvider>
       </body>
     </html>
   );
