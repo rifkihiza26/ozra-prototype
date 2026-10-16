@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Image from "next/image";
 import type { PortfolioItem } from "@/types";
 import PortfolioCard from "./PortfolioCard";
 import Lightbox from "@/components/ui/Lightbox";

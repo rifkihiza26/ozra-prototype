@@ -5,6 +5,7 @@ import { Mail, Phone, MapPin } from "lucide-react";
 import { InstagramIcon } from "@/components/ui/InstagramIcon";
 import { COMPANY_INFO, NAV_LINKS } from "@/lib/constants";
 import { SERVICES_DATA } from "@/data/services";
+import OzraLogo from "@/components/ui/OzraLogo";
 
 export default function Footer() {
   return (
@@ -116,34 +117,7 @@ export default function Footer() {
         {/* Brand column */}
         <div className="sm:col-span-2 lg:col-span-4 flex flex-col gap-5">
           <div>
-            <span
-              style={{
-                fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                fontSize: "28px",
-                fontWeight: 900,
-                letterSpacing: "6px",
-                color: "#fff",
-                textTransform: "uppercase",
-              }}
-            >
-              OZRA
-              <span style={{ color: "var(--tan)", fontSize: "10px", verticalAlign: "super", marginLeft: "2px", letterSpacing: 0 }}>®</span>
-            </span>
-            <span
-              style={{
-                display: "block",
-                fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: "9px",
-                fontWeight: 600,
-                letterSpacing: "5px",
-                color: "var(--olive-light)",
-                textTransform: "uppercase",
-                lineHeight: 1,
-                marginTop: "3px",
-              }}
-            >
-              TACTICAL
-            </span>
+            <OzraLogo size="md" showSubtitle={true} />
           </div>
           <p
             style={{

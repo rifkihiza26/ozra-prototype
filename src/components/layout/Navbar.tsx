@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { NAV_LINKS, COMPANY_INFO } from "@/lib/constants";
+import OzraLogo from "@/components/ui/OzraLogo";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -16,10 +17,6 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [pathname]);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -83,47 +80,9 @@ export default function Navbar() {
               href="/"
               prefetch={false}
               style={{ textDecoration: "none", display: "inline-block" }}
+              aria-label="Ozra Tactical Home"
             >
-              <span
-                style={{
-                  fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                  fontSize: "24px",
-                  fontWeight: 900,
-                  letterSpacing: "6px",
-                  color: "#fff",
-                  textTransform: "uppercase",
-                  lineHeight: 1,
-                  display: "block",
-                }}
-              >
-                OZRA
-                <span
-                  style={{
-                    color: "var(--tan)",
-                    fontSize: "10px",
-                    verticalAlign: "super",
-                    marginLeft: "2px",
-                    letterSpacing: 0,
-                  }}
-                >
-                  ®
-                </span>
-              </span>
-              <span
-                style={{
-                  display: "block",
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: "8px",
-                  fontWeight: 600,
-                  letterSpacing: "5px",
-                  color: "var(--olive-light)",
-                  textTransform: "uppercase",
-                  lineHeight: 1,
-                  marginTop: "3px",
-                }}
-              >
-                TACTICAL
-              </span>
+              <OzraLogo size="sm" showSubtitle={true} />
             </Link>
           </div>
 
@@ -258,6 +217,9 @@ export default function Navbar() {
           }}
         >
           {/* Close button with large touch target */}
+          <div style={{ position: "absolute", top: "20px", left: "24px" }}>
+            <OzraLogo size="sm" showSubtitle={true} />
+          </div>
           <button
             onClick={() => setMobileOpen(false)}
             style={{

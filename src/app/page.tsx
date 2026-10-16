@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { COMPANY_INFO } from "@/lib/constants";
-import { SERVICES_DATA, WORKFLOW_DATA } from "@/data/services";
+import { WORKFLOW_DATA } from "@/data/services";
 import { PORTFOLIO_DATA } from "@/data/portfolio";
 
 /* ─────────────────────────────────────────────

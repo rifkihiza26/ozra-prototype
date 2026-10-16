@@ -249,11 +249,11 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
       ctx!.textAlign = "center";
       ctx!.textBaseline = "middle";
 
-      // OZRA
-      const fontSize = Math.min(42, Math.max(28, Math.round(W * 0.08)));
-      ctx!.font = `900 ${fontSize}px 'Barlow Condensed', 'Arial Narrow', sans-serif`;
+      // OZRA — authentic Orbitron wide tactical font from PDF
+      const fontSize = Math.min(38, Math.max(26, Math.round(W * 0.075)));
+      ctx!.font = `900 ${fontSize}px 'Orbitron', 'Barlow Condensed', sans-serif`;
       ctx!.fillStyle = "#ffffff";
-      ctx!.letterSpacing = W < 480 ? "5px" : "8px";
+      ctx!.letterSpacing = W < 480 ? "4px" : "6px";
       ctx!.fillText("OZRA", cx - 2, cy - 8);
 
       // TACTICAL

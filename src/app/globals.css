@@ -41,6 +41,24 @@ body {
   font-family: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
 }
 
+/* ── ORBITRON — authentic OZRA brand & heading typography from official PDF ── */
+.font-ozra {
+  font-family: 'Orbitron', 'Barlow Condensed', sans-serif;
+  letter-spacing: 0.06em;
+}
+
+/* ── SYNCOPATE / EXTENDED TACTICAL GEOMETRIC SANS ── */
+.font-syncopate {
+  font-family: 'Syncopate', 'Orbitron', sans-serif;
+  text-transform: uppercase;
+}
+
+.font-tactical-wide {
+  font-family: 'Syncopate', 'Orbitron', -apple-system, sans-serif;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
 /* ── SECTION LABEL — garis olive + uppercase ── */
 .section-label {
   font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;

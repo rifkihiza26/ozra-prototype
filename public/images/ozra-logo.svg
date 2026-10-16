@@ -1,13 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%">
-  <!-- OZRA Crosshair / Star emblem -->
-  <g transform="translate(60, 60)">
-    <circle cx="0" cy="0" r="48" fill="#FFFFFF" />
-    <circle cx="0" cy="0" r="28" fill="#101310" />
-    <!-- 4-point star in center -->
-    <path d="M 0 -22 Q 0 0 -22 0 Q 0 0 0 22 Q 0 0 22 0 Q 0 0 0 -22 Z" fill="#FFFFFF" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 110" width="100%" height="100%">
+  <!-- OZRA Official Brand Identity (Exact match to Company Profile Cover) -->
+  <!-- 1. The 'O' emblem: Wide oval with 4-point concave tactical crosshair star -->
+  <g transform="translate(10, 10)">
+    <ellipse cx="62" cy="45" rx="58" ry="42" fill="#FFFFFF" />
+    <ellipse cx="62" cy="45" rx="35" ry="25" fill="#09090a" />
+    <path d="M 62 23 Q 62 45 31 45 Q 62 45 62 67 Q 62 45 93 45 Q 62 45 62 23 Z" fill="#FFFFFF" />
   </g>
-  <!-- OZRA typography bold geometric extended -->
-  <text x="135" y="88" fill="#FFFFFF" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-size="82" font-weight="900" letter-spacing="4">
-    OZRA
-  </text>
+
+  <!-- 2. 'ZRA' in authentic Eurostile / Microgramma Extended letterforms -->
+  <g fill="#FFFFFF" transform="translate(150, 10)">
+    <!-- Letter 'Z' -->
+    <path d="M 5 10 L 75 10 L 75 24 L 28 64 L 76 64 L 76 78 L 3 78 L 3 64 L 50 24 L 5 24 Z" />
+
+    <!-- Letter 'R' -->
+    <path
+      d="M 94 10 L 142 10 C 159 10 170 19 170 33 C 170 44 162 52 150 55 L 172 78 L 152 78 L 133 56 L 111 56 L 111 78 L 94 78 Z
+         M 111 23 L 111 44 L 138 44 C 146 44 152 40 152 33 C 152 27 146 23 138 23 Z"
+      fill-rule="evenodd"
+    />
+
+    <!-- Letter 'A' -->
+    <path
+      d="M 182 78 L 216 10 L 236 10 L 270 78 L 251 78 L 243 59 L 209 59 L 201 78 Z
+         M 215 45 L 237 45 L 226 23 Z"
+      fill-rule="evenodd"
+    />
+
+    <!-- Registered trademark mark -->
+    <g transform="translate(282, 8)">
+      <circle cx="8" cy="8" r="7.5" stroke="#987F60" stroke-width="1.2" fill="none" />
+      <text x="8" y="11.5" fill="#987F60" font-size="9" font-weight="bold" font-family="-apple-system, sans-serif" text-anchor="middle">R</text>
+    </g>
+  </g>
 </svg>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 
 const TacticalLoader = dynamic(() => import("@/components/ui/TacticalLoader"), {
@@ -9,11 +9,6 @@ const TacticalLoader = dynamic(() => import("@/components/ui/TacticalLoader"), {
 
 export default function IntroProvider({ children }: { children: React.ReactNode }) {
   const [done, setDone] = useState(false);
-
-  // Selalu tampilkan loader setiap kali halaman di-load / refresh
-  useEffect(() => {
-    setDone(false);
-  }, []);
 
   function handleDone() {
     setDone(true);
