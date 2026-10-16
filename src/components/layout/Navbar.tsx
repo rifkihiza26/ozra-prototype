@@ -66,21 +66,26 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── MAIN NAV CONTAINER (Centered Window: Left Logo | Exact Absolute Center Menu | Right Cart + CTA) ── */}
+        {/* ── MAIN NAV BAR: 3-column grid — Logo | Center Nav | Cart+CTA ── */}
         <div
-          className="w-full relative"
+          className="w-full"
           style={{
             height: "72px",
             borderBottom: "1px solid var(--border)",
           }}
         >
-          {/* Max Width Framing to align left logo & right buttons with page margins */}
           <div
-            className="max-w-7xl mx-auto w-full h-full flex items-center justify-between"
-            style={{ padding: "0 clamp(20px, 4vw, 48px)" }}
+            className="max-w-7xl mx-auto w-full h-full"
+            style={{
+              padding: "0 clamp(20px, 4vw, 48px)",
+              display: "grid",
+              gridTemplateColumns: "1fr auto 1fr",
+              alignItems: "center",
+              gap: "0",
+            }}
           >
-            {/* 1. Left: Brand Logo */}
-            <div className="flex items-center z-10">
+            {/* Col 1 — Left: Brand Logo */}
+            <div style={{ display: "flex", alignItems: "center" }}>
               <Link
                 href="/"
                 prefetch={false}
@@ -91,8 +96,64 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* 2. Right: Ecommerce Cart Button + Desktop CTA + Mobile Hamburger */}
-            <div className="flex items-center gap-3 sm:gap-4 z-10">
+            {/* Col 2 — Center: Desktop Nav Links (exactly centered) */}
+            <nav
+              className="hidden lg:flex"
+              style={{ justifySelf: "center" }}
+            >
+              <ul
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "clamp(20px, 2.5vw, 38px)",
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {NAV_LINKS.map((link) => {
+                  const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
+                  return (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        style={{
+                          fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                          letterSpacing: "3px",
+                          textTransform: "uppercase",
+                          color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
+                          textDecoration: "none",
+                          transition: "color 0.2s",
+                          whiteSpace: "nowrap",
+                          padding: "6px 2px",
+                          borderBottom: isActive ? "2px solid var(--tan-light)" : "2px solid transparent",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
+                        }}
+                      >
+                        {link.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            {/* Col 3 — Right: Cart + CTA + Mobile Hamburger */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "flex-end",
+                gap: "clamp(8px, 1vw, 16px)",
+              }}
+            >
               {/* ECOMMERCE SHOPPING CART TRIGGER */}
               <button
                 type="button"
@@ -101,19 +162,47 @@ export default function Navbar() {
                   backgroundColor: "var(--surface-mid)",
                   borderColor: totalItems > 0 ? "var(--olive)" : "var(--border)",
                   color: "var(--cream)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 14px",
+                  borderRadius: "8px",
+                  border: "1px solid",
+                  cursor: "pointer",
+                  transition: "border-color 0.2s",
+                  position: "relative",
                 }}
-                className="relative flex items-center gap-2 px-3.5 py-2 rounded-lg border hover:border-[var(--tan-light)] transition-all cursor-pointer"
                 title="Buka Keranjang Belanja & Checkout"
                 aria-label="Keranjang Belanja"
               >
-                <ShoppingBag className="w-4 h-4 text-[var(--olive-light)]" />
-                <span className="font-condensed font-bold text-xs uppercase tracking-wider hidden sm:inline">
+                <ShoppingBag style={{ width: "16px", height: "16px", color: "var(--olive-light)" }} />
+                <span
+                  className="hidden sm:inline"
+                  style={{
+                    fontFamily: "'Barlow Condensed', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "11px",
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                  }}
+                >
                   Cart
                 </span>
                 {totalItems > 0 && (
                   <span
-                    style={{ backgroundColor: "var(--olive)", color: "#09090a" }}
-                    className="w-5 h-5 rounded-full text-[10px] font-mono font-bold flex items-center justify-center -mr-1"
+                    style={{
+                      backgroundColor: "var(--olive)",
+                      color: "#09090a",
+                      width: "18px",
+                      height: "18px",
+                      borderRadius: "50%",
+                      fontSize: "10px",
+                      fontFamily: "monospace",
+                      fontWeight: 700,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                   >
                     {totalItems}
                   </span>
@@ -121,106 +210,58 @@ export default function Navbar() {
               </button>
 
               {/* Desktop CTA */}
-              <div className="hidden lg:flex items-center">
-                <a
-                  href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    fontFamily: "'Barlow Condensed', sans-serif",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    letterSpacing: "3px",
-                    textTransform: "uppercase",
-                    textDecoration: "none",
-                    color: "var(--cream)",
-                    padding: "9px 22px",
-                    border: "1px solid var(--tan)",
-                    transition: "all 0.2s",
-                    display: "inline-block",
-                    whiteSpace: "nowrap",
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "var(--tan)";
-                    el.style.color = "var(--black)";
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.background = "transparent";
-                    el.style.color = "var(--cream)";
-                  }}
-                >
-                  Get a Quote
-                </a>
-              </div>
+              <a
+                href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden lg:inline-block"
+                style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "3px",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  color: "var(--cream)",
+                  padding: "9px 22px",
+                  border: "1px solid var(--tan)",
+                  transition: "all 0.2s",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "var(--tan)";
+                  el.style.color = "var(--black)";
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "transparent";
+                  el.style.color = "var(--cream)";
+                }}
+              >
+                Get a Quote
+              </a>
 
               {/* Mobile & Tablet hamburger */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="flex lg:hidden items-center justify-center p-2.5 rounded text-[var(--cream)] hover:text-white"
-                style={{ background: "transparent", border: "1px solid var(--border)", cursor: "pointer" }}
+                className="flex lg:hidden"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "10px",
+                  borderRadius: "4px",
+                  background: "transparent",
+                  border: "1px solid var(--border)",
+                  color: "var(--cream)",
+                  cursor: "pointer",
+                }}
                 aria-label={mobileOpen ? "Tutup menu" : "Buka menu"}
               >
                 {mobileOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
           </div>
-
-          {/* 3. Center Navigation Menu — True Absolute Viewport Center */}
-          <nav
-            className="hidden lg:flex"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 5,
-            }}
-          >
-            <ul
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "clamp(24px, 2.8vw, 42px)",
-                listStyle: "none",
-                margin: 0,
-                padding: 0,
-              }}
-            >
-              {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
-                return (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      style={{
-                        fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
-                        fontSize: "13px",
-                        fontWeight: 600,
-                        letterSpacing: "3px",
-                        textTransform: "uppercase",
-                        color: isActive ? "var(--tan-light)" : "var(--grey-mid)",
-                        textDecoration: "none",
-                        transition: "color 0.2s",
-                        whiteSpace: "nowrap",
-                        padding: "6px 2px",
-                        borderBottom: isActive ? "2px solid var(--tan-light)" : "2px solid transparent",
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--cream)";
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--grey-mid)";
-                      }}
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
         </div>
       </header>
 
