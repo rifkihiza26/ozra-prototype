@@ -110,20 +110,21 @@ export default function Navbar() {
               justifyContent: "space-between",
               position: "relative",
               zIndex: 10,
+              pointerEvents: "none", // let center clicks fall through to nav links
             }}
           >
             {/* LEFT: Logo */}
             <Link
               href="/"
               prefetch={false}
-              style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}
+              style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0, pointerEvents: "auto" }}
               aria-label="Ozra Tactical Home"
             >
               <OzraLogo size="sm" showSubtitle={true} />
             </Link>
 
             {/* RIGHT: Cart + Get a Quote + Hamburger — grouped tightly */}
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0, pointerEvents: "auto" }}>
 
               {/* Cart button */}
               <button
