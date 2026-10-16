@@ -61,9 +61,9 @@ const FAQS = [
 
 export default function ContactPage() {
   return (
-    <div className="pb-24">
+    <div className="pt-[106px] pb-24">
       {/* ── 1. HERO SECTION DENGAN FOTO KANTOR ASLI DARI PDF ── */}
-      <section className="relative py-20 sm:py-28 lg:py-32 border-b border-[var(--border)] overflow-hidden">
+      <section className="relative py-16 sm:py-24 lg:py-28 border-b border-[var(--border)] overflow-hidden">
         {/* Real office photo from client PDF */}
         <div className="absolute inset-0">
           <Image
@@ -75,7 +75,7 @@ export default function ContactPage() {
             sizes="100vw"
           />
           {/* Subtle tactical dark overlay matching site design */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#09090a]/92 via-[#09090a]/80 to-[#09090a]/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#09090a]/92 via-[#09090a]/85 to-[#09090a]/96" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(126,139,82,0.12)_0%,_transparent_70%)]" />
         </div>
 
@@ -88,8 +88,8 @@ export default function ContactPage() {
             Official Contact &amp; Headquarters
           </div>
 
-          <h1 className="font-ozra text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase">
-            Konsultasi &amp; Penawaran
+          <h1 className="font-condensed text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-normal uppercase leading-tight">
+            KONSULTASI &amp; PENAWARAN
           </h1>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-[var(--cream)]/75 leading-relaxed font-sans">
@@ -110,10 +110,10 @@ export default function ContactPage() {
                 <Sparkles className="w-3.5 h-3.5 text-[var(--tan-light)]" />
                 Komitmen Produksi Resmi
               </span>
-              <h2 className="font-ozra text-lg sm:text-xl font-bold text-white uppercase tracking-wide">
+              <h2 className="font-condensed text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-wider leading-tight">
                 Where Professionalism Meets Uncompromising Quality
               </h2>
-              <p className="text-xs text-[var(--cream)]/70 leading-relaxed">
+              <p className="text-xs text-[var(--cream)]/70 leading-relaxed font-sans">
                 Kami mengundang Anda untuk berdiskusi lebih lanjut mengenai kebutuhan spesifik institusi atau komunitas Anda, dan biarkan kami menerjemahkannya menjadi produk berstandar tinggi.
               </p>
             </div>
@@ -131,11 +131,11 @@ export default function ContactPage() {
                 >
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[var(--olive-light)] shrink-0" />
-                    <span className="font-ozra text-xs font-bold text-white uppercase tracking-wider">
+                    <span className="font-condensed text-sm font-bold text-white uppercase tracking-wider">
                       {p.title}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[var(--grey-mid)] leading-relaxed">
+                  <p className="text-[12px] text-[var(--grey-mid)] leading-relaxed font-sans">
                     {p.desc}
                   </p>
                 </div>
@@ -176,10 +176,10 @@ export default function ContactPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-black/30" />
                 <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
-                  <span className="font-ozra text-[11px] font-bold text-white bg-black/70 backdrop-blur-sm px-2.5 py-1 rounded border border-white/20 uppercase tracking-wider">
+                  <span className="font-condensed text-xs font-bold text-white bg-black/75 backdrop-blur-sm px-2.5 py-1 rounded border border-white/20 uppercase tracking-widest">
                     HEAD OFFICE LOCATION
                   </span>
-                  <span className="text-[11px] font-mono text-[var(--olive-light)] bg-black/70 backdrop-blur-sm px-2 py-0.5 rounded border border-[var(--border-olive)]">
+                  <span className="text-[11px] font-mono text-[var(--olive-light)] bg-black/75 backdrop-blur-sm px-2 py-0.5 rounded border border-[var(--border-olive)]">
                     Jakarta Selatan
                   </span>
                 </div>
@@ -190,10 +190,10 @@ export default function ContactPage() {
                 <span className="text-[10px] font-mono text-[var(--olive-light)] uppercase tracking-widest font-bold">
                   Identitas Manufaktur Resmi
                 </span>
-                <h3 className="font-ozra text-base sm:text-lg font-bold text-white uppercase">
+                <h3 className="font-condensed text-xl sm:text-2xl font-bold text-white uppercase tracking-wider">
                   {COMPANY_INFO.name}
                 </h3>
-                <p className="text-xs text-[var(--tan-light)]">
+                <p className="text-xs text-[var(--tan-light)] font-mono">
                   {COMPANY_INFO.descriptor}
                 </p>
               </div>
@@ -251,7 +251,7 @@ export default function ContactPage() {
                       href={`https://wa.me/${COMPANY_INFO.phoneRaw}?text=${encodeURIComponent(COMPANY_INFO.defaultWhatsAppMessage)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-ozra text-sm font-bold text-white hover:text-[var(--olive-light)] transition-colors block tracking-wide"
+                      className="font-condensed text-base font-bold text-white hover:text-[var(--olive-light)] transition-colors block tracking-wider"
                     >
                       {COMPANY_INFO.phoneFormatted}
                     </a>
@@ -361,7 +361,7 @@ export default function ContactPage() {
                 backgroundColor: "var(--olive)",
                 color: "#09090a",
               }}
-              className="block w-full py-4 px-6 rounded-xl font-ozra font-bold text-xs uppercase tracking-wider hover:opacity-90 transition-all text-center shadow-xl flex items-center justify-center gap-2"
+              className="block w-full py-4 px-6 rounded-xl font-condensed font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all text-center shadow-xl flex items-center justify-center gap-2"
             >
               <span>Konsultasi Cepat via WhatsApp</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -376,11 +376,11 @@ export default function ContactPage() {
               }}
               className="p-5 space-y-3"
             >
-              <div className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs font-bold text-white uppercase tracking-wider font-condensed">
                 <ShieldCheck className="w-4 h-4 text-[var(--olive-light)]" />
                 <span>Standar Mutu &amp; Garansi Ozra</span>
               </div>
-              <ul className="space-y-2 text-xs text-[var(--cream)]/75">
+              <ul className="space-y-2 text-xs text-[var(--cream)]/75 font-sans">
                 <li className="flex items-start gap-2">
                   <span className="text-[var(--olive-light)] font-bold font-mono">01</span>
                   <span>Proses inspeksi quality control (QC) berlapis dari cutting hingga packaging.</span>
@@ -414,10 +414,10 @@ export default function ContactPage() {
             <span className="font-mono text-xs text-[var(--olive-light)] uppercase tracking-widest font-bold">
               {"//"} PRODUCTION WORKFLOW
             </span>
-            <h2 className="font-ozra text-xl sm:text-2xl font-black text-white uppercase tracking-wide">
+            <h2 className="font-condensed text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-wider">
               Alur Kerja Produksi — Dari Konsultasi Hingga Pengiriman
             </h2>
-            <p className="text-xs text-[var(--grey-mid)] max-w-xl mx-auto">
+            <p className="text-xs text-[var(--grey-mid)] max-w-xl mx-auto font-sans">
               Sistem manufaktur transparan dan terjadwal menjamin akurasi pesanan Anda di setiap fase.
             </p>
           </div>
@@ -462,10 +462,10 @@ export default function ContactPage() {
                 <span className="font-mono text-[10px] text-[var(--olive-light)] uppercase tracking-widest font-bold block">
                   {st.step}
                 </span>
-                <h4 className="font-ozra text-xs font-bold text-white uppercase">
+                <h4 className="font-condensed text-sm font-bold text-white uppercase tracking-wide">
                   {st.title}
                 </h4>
-                <p className="text-[11px] text-[var(--grey-mid)] leading-relaxed">
+                <p className="text-[12px] text-[var(--grey-mid)] leading-relaxed font-sans">
                   {st.desc}
                 </p>
               </div>
@@ -483,10 +483,10 @@ export default function ContactPage() {
           <span className="font-mono text-xs text-[var(--olive-light)] uppercase tracking-widest font-bold">
             {"//"} FAQ KONSULTASI &amp; PEMESANAN
           </span>
-          <h2 className="font-ozra text-2xl sm:text-3xl font-black text-white uppercase tracking-tight">
+          <h2 className="font-condensed text-3xl sm:text-4xl font-extrabold text-white uppercase tracking-wider">
             Pertanyaan yang Sering Diajukan
           </h2>
-          <p className="text-xs text-[var(--grey-mid)] max-w-lg mx-auto">
+          <p className="text-xs text-[var(--grey-mid)] max-w-lg mx-auto font-sans">
             Informasi praktis seputar mekanisme pemesanan, minimum order, dan layanan manufaktur Ozra Tactical.
           </p>
         </div>
@@ -502,11 +502,11 @@ export default function ContactPage() {
               }}
               className="p-5 sm:p-6 space-y-2"
             >
-              <h3 className="font-ozra text-sm font-bold text-white uppercase tracking-wide flex items-start gap-2.5">
+              <h3 className="font-condensed text-base font-bold text-white uppercase tracking-wide flex items-start gap-2.5">
                 <span className="text-[var(--olive-light)] font-mono">Q{idx + 1}.</span>
                 <span>{faq.q}</span>
               </h3>
-              <p className="text-xs text-[var(--cream)]/80 leading-relaxed pl-6">
+              <p className="text-xs text-[var(--cream)]/80 leading-relaxed pl-6 font-sans">
                 {faq.a}
               </p>
             </div>

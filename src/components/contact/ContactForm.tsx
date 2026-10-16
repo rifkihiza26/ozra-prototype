@@ -321,10 +321,10 @@ export default function ContactForm() {
                 Formulir Resmi
               </span>
             </div>
-            <h3 className="font-ozra text-xl sm:text-2xl font-black text-white uppercase tracking-tight">
+            <h3 className="font-condensed text-2xl sm:text-3xl font-extrabold text-white uppercase tracking-wider">
               Permintaan Penawaran &amp; Konsultasi
             </h3>
-            <p className="text-xs text-[var(--grey-mid)] mt-1.5 leading-relaxed">
+            <p className="text-xs text-[var(--grey-mid)] mt-1.5 leading-relaxed font-sans">
               Silakan isi spesifikasi kebutuhan Anda. Tim spesialis Ozra Tactical siap memberikan saran pemilihan material, akurasi pola, dan estimasi waktu terbaik.
             </p>
           </div>
