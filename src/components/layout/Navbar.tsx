@@ -64,14 +64,14 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── MAIN NAV CONTAINER (Molay 3-Column Layout: Logo Left | Centered Nav Links | CTA/Action Right) ── */}
+        {/* ── MAIN NAV CONTAINER (Centered Max Width Container) ── */}
         <nav
+          className="max-w-7xl mx-auto w-full relative"
           style={{
             height: "72px",
             display: "flex",
             alignItems: "center",
             padding: "0 clamp(20px, 4vw, 48px)",
-            position: "relative",
           }}
         >
           {/* 1. Left: Logo */}
