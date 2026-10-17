@@ -8,6 +8,7 @@ interface OzraLogoProps {
   textColor?: string;
   accentColor?: string;
   gap?: number;
+  center?: boolean;
 }
 
 export default function OzraLogo({
@@ -18,6 +19,7 @@ export default function OzraLogo({
   textColor = "#FFFFFF",
   accentColor = "var(--olive-light, #9aaa62)",
   gap,
+  center = false,
 }: OzraLogoProps) {
   // Dimension and typography presets matching authentic OZRA vector geometries
   const sizeMap = {
@@ -64,7 +66,7 @@ export default function OzraLogo({
 
   return (
     <div
-      className={`inline-flex flex-col items-start ${className}`}
+      className={`inline-flex flex-col ${center ? "items-center text-center" : "items-start"} ${className}`}
       style={{ userSelect: "none", verticalAlign: "middle" }}
     >
       {/* ── MAIN OZRA LOGO ROW (Precise vector shape matching PDF cover) ── */}

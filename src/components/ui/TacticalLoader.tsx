@@ -46,7 +46,6 @@ export default function TacticalLoader({ onDone }: CyberLoaderProps) {
     const drops = Array.from({ length: columns }, () => Math.random() * -50);
 
     const draw = () => {
-      // Dark translucent wash for glowing trails
       ctx.fillStyle = "rgba(9, 9, 10, 0.25)";
       ctx.fillRect(0, 0, W, H);
 
@@ -57,7 +56,6 @@ export default function TacticalLoader({ onDone }: CyberLoaderProps) {
         const x = i * fontSize * 1.5;
         const y = drops[i] * fontSize;
 
-        // Occasional highlighted lead character in Olive / Cyber Green
         if (Math.random() > 0.88) {
           ctx.fillStyle = "#9aaa62"; // olive light
         } else {
@@ -117,7 +115,7 @@ export default function TacticalLoader({ onDone }: CyberLoaderProps) {
       );
       if (currentLogIdx !== lastLogIdx) {
         lastLogIdx = currentLogIdx;
-        setLogs((prev) => [...prev.slice(-3), LOG_SEQUENCE[currentLogIdx]]);
+        setLogs((prev) => [...prev.slice(-2), LOG_SEQUENCE[currentLogIdx]]);
       }
 
       if (elapsed < duration) {
@@ -138,9 +136,12 @@ export default function TacticalLoader({ onDone }: CyberLoaderProps) {
     };
   }, [onDone]);
 
+  // Subtitle fades out smoothly as progress reaches 70%+
+  const subtitleOpacity = Math.max(0, 1 - Math.max(0, (progress - 30) / 45));
+
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center select-none overflow-hidden transition-all duration-500 ease-out ${
+      className={`fixed inset-0 z-[9999] flex flex-col justify-between select-none overflow-hidden transition-all duration-500 ease-out ${
         phase === "exit"
           ? "opacity-0 scale-[1.04] pointer-events-none"
           : "opacity-100 scale-100"
@@ -172,103 +173,129 @@ export default function TacticalLoader({ onDone }: CyberLoaderProps) {
       <div className="absolute bottom-5 left-5 w-6 h-6 border-b-2 border-l-2 border-[#9aaa62]/70 pointer-events-none" />
       <div className="absolute bottom-5 right-5 w-6 h-6 border-b-2 border-r-2 border-[#9aaa62]/70 pointer-events-none" />
 
-      {/* ── TOP CYBER SECURITY TELEMETRY ── */}
-      <div className="absolute top-6 left-1/2 -translate-x-1/2 flex items-center gap-4 text-[9px] tracking-[0.3em] font-mono text-[#9aaa62]/70 uppercase">
-        <span className="flex items-center gap-1.5">
+      {/* ── TOP HEADER: CYBER SECURITY TELEMETRY ── */}
+      <div className="relative z-20 pt-6 px-8 flex items-center justify-between text-[9px] tracking-[0.25em] font-mono text-[#9aaa62]/80 uppercase">
+        <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-[#9aaa62] animate-ping" />
-          <span className="text-[#f0ead8]">SEC-LEVEL 4</span>
-        </span>
-        <span>//</span>
-        <span>DEFENSE GRID: ARMED</span>
-        <span>//</span>
-        <span className="text-white/60">PORT: 443 [ENCRYPTED]</span>
+          <span className="text-[#f0ead8] font-bold">SEC-LEVEL 4</span>
+          <span className="text-white/40">//</span>
+          <span className="hidden sm:inline">DEFENSE GRID: ARMED</span>
+        </div>
+        <div className="text-white/50 hidden md:flex items-center gap-2">
+          <span>CIPHER: AES-256-GCM</span>
+          <span>//</span>
+          <span>PORT: 443 [ENCRYPTED]</span>
+        </div>
       </div>
 
-      {/* ── CENTER TARGET SCANNER & CYBER RETICLE ── */}
-      <div className="relative flex flex-col items-center justify-center p-8 sm:p-12">
+      {/* ── CENTER AREA: SCANNING TARGET & CLEAN LOGO PRESENTATION ── */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 my-auto">
         {/* Outer rotating cyber ring */}
         <div
-          className="absolute w-[360px] h-[360px] sm:w-[460px] sm:h-[460px] rounded-full border border-dashed border-[#9aaa62]/20 pointer-events-none"
+          className="absolute w-[360px] h-[360px] sm:w-[480px] sm:h-[480px] rounded-full border border-dashed border-[#9aaa62]/20 pointer-events-none"
           style={{ animation: "cyberRotate 25s linear infinite" }}
         />
         {/* Inner reverse rotating cyber brackets */}
         <div
-          className="absolute w-[310px] h-[310px] sm:w-[390px] sm:h-[390px] rounded-full border border-t-[#9aaa62]/60 border-b-[#9aaa62]/60 border-l-transparent border-r-transparent pointer-events-none"
+          className="absolute w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full border border-t-[#9aaa62]/60 border-b-[#9aaa62]/60 border-l-transparent border-r-transparent pointer-events-none"
           style={{ animation: "cyberRotateRev 12s linear infinite" }}
         />
 
-        {/* Laser horizontal scan beam sweeping the logo */}
+        {/* Laser horizontal scan beam sweeping only the logo container */}
         <div
-          className="absolute left-0 right-0 h-[2px] pointer-events-none z-30"
+          className="absolute left-1/2 -translate-x-1/2 w-[340px] sm:w-[460px] h-[2px] pointer-events-none z-30"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, rgba(154,170,98,0.8) 50%, transparent 100%)",
-            boxShadow: "0 0 14px rgba(154,170,98,0.9)",
+              "linear-gradient(90deg, transparent 0%, rgba(154,170,98,0.9) 50%, transparent 100%)",
+            boxShadow: "0 0 16px rgba(154,170,98,1)",
             animation: "laserScan 2.4s ease-in-out infinite alternate",
           }}
         />
 
-        {/* ── BRAND LOGO WITH PROPER BREATHING ROOM ── */}
-        <div className="relative z-20 py-2 sm:py-4 scale-110 sm:scale-125 md:scale-[1.45] origin-center filter drop-shadow-[0_0_20px_rgba(154,170,98,0.25)]">
+        {/* ── OZRA VECTOR LOGO (Spaced Out + Subtitle Dissolves Gently) ── */}
+        <div className="relative z-20 flex flex-col items-center justify-center scale-110 sm:scale-125 md:scale-[1.4] origin-center filter drop-shadow-[0_0_24px_rgba(154,170,98,0.25)]">
           <OzraLogo
             size="lg"
-            showSubtitle={true}
-            subtitle="TACTICAL GEAR SPECIALIST & APPAREL"
+            showSubtitle={false}
             gap={24}
+            center={true}
             textColor="#FFFFFF"
-            accentColor="#9aaa62"
           />
+
+          {/* Dissolving Subtitle with smooth fade & spacing */}
+          <div
+            className="transition-opacity duration-300 mt-2.5"
+            style={{
+              opacity: subtitleOpacity,
+              transform: `translateY(${((1 - subtitleOpacity) * 4).toFixed(1)}px)`,
+            }}
+          >
+            <span
+              style={{
+                fontFamily: "'Syncopate', 'Orbitron', 'Barlow Condensed', sans-serif",
+                fontSize: "10px",
+                fontWeight: 700,
+                letterSpacing: "0.28em",
+                color: "#9aaa62",
+                textTransform: "uppercase",
+                lineHeight: 1,
+                whiteSpace: "nowrap",
+              }}
+            >
+              TACTICAL GEAR SPECIALIST &amp; APPAREL
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── BOTTOM AREA: DEDICATED TELEMETRY & PROGRESS DOCK (NO OVERLAP) ── */}
+      <div className="relative z-20 pb-8 px-6 flex flex-col items-center gap-3 w-full max-w-md mx-auto">
+        {/* Progress Bar Header with Stepped Status */}
+        <div className="w-full flex items-center justify-between text-[10px] font-mono tracking-[0.25em] text-[#9aaa62]">
+          <span className="flex items-center gap-1.5">
+            <span>DECRYPTING ASSETS</span>
+            <span className="animate-pulse">_</span>
+          </span>
+          <span className="font-bold text-[#f0ead8] text-[12px]">
+            {progress}%
+          </span>
         </div>
 
-        {/* ── CYBER ENCRYPTION PROGRESS BAR ── */}
-        <div className="relative z-20 mt-12 w-64 sm:w-80 flex flex-col gap-2">
-          {/* Progress bar header */}
-          <div className="flex items-center justify-between text-[9px] font-mono tracking-[0.25em] text-[#9aaa62]">
-            <span className="flex items-center gap-1.5">
-              <span>DECRYPTING ASSETS</span>
-              <span className="animate-pulse">_</span>
-            </span>
-            <span className="font-bold text-[#f0ead8] text-[11px]">
-              {progress}%
-            </span>
-          </div>
-
-          {/* Stepped Cyber Block Progress Bar */}
-          <div className="w-full h-3 bg-black/80 border border-[#9aaa62]/40 p-[2px] flex gap-[2px]">
-            {Array.from({ length: 24 }).map((_, idx) => {
-              const active = idx / 24 <= progress / 100;
-              return (
-                <div
-                  key={idx}
-                  className={`flex-1 h-full transition-colors duration-100 ${
-                    active
-                      ? "bg-[#9aaa62] shadow-[0_0_6px_rgba(154,170,98,0.7)]"
-                      : "bg-[#9aaa62]/10"
-                  }`}
-                />
-              );
-            })}
-          </div>
-
-          {/* Real-time Cyber Security Terminal Feed */}
-          <div className="h-10 mt-1 flex flex-col justify-end overflow-hidden">
-            {logs.map((log, i) => (
+        {/* Stepped Cyber Block Progress Bar */}
+        <div className="w-full h-3 bg-black/90 border border-[#9aaa62]/40 p-[2px] flex gap-[2px] shadow-[0_0_12px_rgba(0,0,0,0.8)]">
+          {Array.from({ length: 24 }).map((_, idx) => {
+            const active = idx / 24 <= progress / 100;
+            return (
               <div
-                key={i}
-                className="text-[9px] font-mono tracking-wider text-left text-white/50 truncate"
-              >
-                <span className="text-[#9aaa62] mr-1.5">&gt;</span>
-                {log}
-              </div>
-            ))}
-          </div>
+                key={idx}
+                className={`flex-1 h-full transition-colors duration-100 ${
+                  active
+                    ? "bg-[#9aaa62] shadow-[0_0_6px_rgba(154,170,98,0.7)]"
+                    : "bg-[#9aaa62]/10"
+                }`}
+              />
+            );
+          })}
         </div>
 
-        {/* ── SKIP ACCESS BUTTON ── */}
+        {/* Real-time Cyber Security Terminal Feed */}
+        <div className="w-full h-8 flex flex-col justify-end overflow-hidden">
+          {logs.map((log, i) => (
+            <div
+              key={i}
+              className="text-[9.5px] font-mono tracking-wider text-left text-white/50 truncate"
+            >
+              <span className="text-[#9aaa62] mr-1.5">&gt;</span>
+              {log}
+            </div>
+          ))}
+        </div>
+
+        {/* Skip Access Button */}
         <button
           type="button"
           onClick={onDone}
-          className="relative z-20 mt-6 px-4 py-1.5 text-[9px] font-mono tracking-[0.3em] uppercase text-[#9aaa62]/70 hover:text-white border border-[#9aaa62]/30 hover:border-[#9aaa62] bg-[#9aaa62]/5 hover:bg-[#9aaa62]/20 transition-all duration-200"
+          className="mt-1 px-4 py-1.5 text-[9px] font-mono tracking-[0.3em] uppercase text-[#9aaa62]/70 hover:text-white border border-[#9aaa62]/30 hover:border-[#9aaa62] bg-[#9aaa62]/5 hover:bg-[#9aaa62]/20 transition-all duration-200 cursor-pointer"
         >
           [BYPASS INTRO // ESC]
         </button>
@@ -294,10 +321,10 @@ export default function TacticalLoader({ onDone }: CyberLoaderProps) {
         }
         @keyframes laserScan {
           0% {
-            top: 15%;
+            top: 25%;
           }
           100% {
-            top: 85%;
+            top: 75%;
           }
         }
         .scanline-overlay {
