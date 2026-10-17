@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import OzraLogo from "@/components/ui/OzraLogo";
 
 interface TacticalLoaderProps {
   onDone: () => void;
@@ -234,43 +235,6 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
       });
     }
 
-    // ── DRAW CENTRE LOGO ──
-    function drawCentreText(alpha: number) {
-      const cx = W * 0.5, cy = H * 0.5;
-      // clear zone
-      ctx!.save();
-      ctx!.globalCompositeOperation = "destination-out";
-      ctx!.beginPath(); ctx!.arc(cx, cy, 70, 0, Math.PI * 2); ctx!.fill();
-      ctx!.restore();
-
-      // Logo text "OZRA®"
-      ctx!.save();
-      ctx!.globalAlpha = alpha;
-      ctx!.textAlign = "center";
-      ctx!.textBaseline = "middle";
-
-      // OZRA — authentic Orbitron wide tactical font from PDF
-      const fontSize = Math.min(38, Math.max(26, Math.round(W * 0.075)));
-      ctx!.font = `900 ${fontSize}px 'Orbitron', 'Barlow Condensed', sans-serif`;
-      ctx!.fillStyle = "#ffffff";
-      ctx!.letterSpacing = W < 480 ? "4px" : "6px";
-      ctx!.fillText("OZRA", cx - 2, cy - 8);
-
-      // TACTICAL
-      ctx!.font = `700 10px 'Barlow Condensed', monospace`;
-      ctx!.fillStyle = "rgba(164,182,106,0.9)";
-      ctx!.letterSpacing = W < 480 ? "4px" : "5px";
-      ctx!.fillText("TACTICAL", cx, cy + 16);
-
-      // system status line
-      const tick = Math.floor(Date.now() / 400) % 2;
-      ctx!.font = `600 8px 'Barlow Condensed', monospace`;
-      ctx!.fillStyle = `rgba(164,182,106,${0.4 + tick * 0.3})`;
-      ctx!.letterSpacing = "2px";
-      ctx!.fillText("SYSTEM INITIALIZING...", cx, cy + 34);
-
-      ctx!.restore();
-    }
 
     // ── DRAW HUD CORNERS ──
     function drawCorners() {
@@ -353,9 +317,14 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
       // HUD
       drawCorners();
 
-      // centre logo
-      const logoAlpha = elapsed < 1000 ? elapsed / 1000 : 1;
-      drawCentreText(logoAlpha);
+      // Clear center zone for HUD vector overlay
+      const cx = W * 0.5, cy = H * 0.5;
+      ctx!.save();
+      ctx!.globalCompositeOperation = "destination-out";
+      ctx!.beginPath();
+      ctx!.arc(cx, cy, Math.min(W * 0.35, 140), 0, Math.PI * 2);
+      ctx!.fill();
+      ctx!.restore();
 
       ctx!.globalAlpha = 1;
 
@@ -376,15 +345,160 @@ export default function TacticalLoader({ onDone }: TacticalLoaderProps) {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
+    <div
       style={{
         position: "fixed",
         inset: 0,
         zIndex: 9999,
-        display: "block",
         background: "#09090a",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
       }}
-    />
+    >
+      {/* Tactical Canvas Radar & Grid */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          display: "block",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Center Tactical HUD & Authentic Vector OZRA Logo */}
+      <div
+        className="relative z-10 flex flex-col items-center justify-center text-center px-4"
+        style={{
+          animation: "tacticalFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        }}
+      >
+        {/* Subtle tactical reticle / ring behind the logo */}
+        <div
+          style={{
+            position: "absolute",
+            width: "320px",
+            height: "320px",
+            borderRadius: "50%",
+            border: "1px dashed rgba(164,182,106,0.2)",
+            pointerEvents: "none",
+            animation: "spinSlow 30s linear infinite",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            width: "280px",
+            height: "280px",
+            borderRadius: "50%",
+            border: "1px solid rgba(164,182,106,0.12)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Authentic OZRA Logo from PDF cover */}
+        <div className="relative z-20 py-4 scale-110 sm:scale-125 md:scale-150">
+          <OzraLogo size="lg" showSubtitle={true} subtitle="TACTICAL GEAR SPECIALIST & APPAREL" />
+        </div>
+
+        {/* Real-time system status HUD readout */}
+        <div
+          style={{
+            marginTop: "24px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "'Syncopate', 'Orbitron', monospace",
+              fontSize: "9px",
+              fontWeight: 700,
+              letterSpacing: "4px",
+              color: "var(--olive-light, #9aaa62)",
+              textTransform: "uppercase",
+            }}
+          >
+            SYSTEM INITIALIZING
+            <span style={{ animation: "pulse 1s infinite", marginLeft: "4px" }}>...</span>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontFamily: "'Barlow Condensed', monospace",
+              fontSize: "11px",
+              letterSpacing: "2px",
+              color: "rgba(240,234,216,0.45)",
+            }}
+          >
+            <span>GRID: 06°12&apos;S 106°49&apos;E</span>
+            <span>•</span>
+            <span style={{ color: "var(--tan-light, #b89878)" }}>VERIFIED SECURE</span>
+          </div>
+        </div>
+
+        {/* Skip button for user convenience */}
+        <button
+          onClick={onDone}
+          type="button"
+          style={{
+            marginTop: "28px",
+            padding: "6px 16px",
+            background: "rgba(255,255,255,0.03)",
+            border: "1px solid rgba(164,182,106,0.25)",
+            color: "rgba(240,234,216,0.5)",
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: "10px",
+            fontWeight: 700,
+            letterSpacing: "3px",
+            textTransform: "uppercase",
+            cursor: "pointer",
+            transition: "all 0.2s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#fff";
+            e.currentTarget.style.borderColor = "var(--olive-light, #9aaa62)";
+            e.currentTarget.style.background = "rgba(164,182,106,0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "rgba(240,234,216,0.5)";
+            e.currentTarget.style.borderColor = "rgba(164,182,106,0.25)";
+            e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+          }}
+        >
+          SKIP INTRO [ESC]
+        </button>
+      </div>
+
+      <style jsx>{`
+        @keyframes tacticalFadeIn {
+          0% {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        @keyframes spinSlow {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
   );
 }
