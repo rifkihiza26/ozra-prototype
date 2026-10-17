@@ -7,6 +7,7 @@ interface OzraLogoProps {
   subtitle?: string;
   textColor?: string;
   accentColor?: string;
+  gap?: number;
 }
 
 export default function OzraLogo({
@@ -16,6 +17,7 @@ export default function OzraLogo({
   subtitle = "TACTICAL GEAR SPECIALIST & APPAREL",
   textColor = "#FFFFFF",
   accentColor = "var(--olive-light, #9aaa62)",
+  gap,
 }: OzraLogoProps) {
   // Dimension and typography presets matching authentic OZRA vector geometries
   const sizeMap = {
@@ -25,8 +27,8 @@ export default function OzraLogo({
       emblemH: 24,
       textH: 22,
       subSize: 7.5,
-      subSpacing: "0.18em",
-      gap: 5,
+      subSpacing: "0.22em",
+      gap: 9,
     },
     md: {
       height: 32,
@@ -34,8 +36,8 @@ export default function OzraLogo({
       emblemH: 32,
       textH: 30,
       subSize: 8.5,
-      subSpacing: "0.22em",
-      gap: 7,
+      subSpacing: "0.26em",
+      gap: 13,
     },
     lg: {
       height: 46,
@@ -43,8 +45,8 @@ export default function OzraLogo({
       emblemH: 46,
       textH: 44,
       subSize: 10,
-      subSpacing: "0.24em",
-      gap: 9,
+      subSpacing: "0.28em",
+      gap: 18,
     },
     xl: {
       height: 64,
@@ -52,12 +54,13 @@ export default function OzraLogo({
       emblemH: 64,
       textH: 60,
       subSize: 12,
-      subSpacing: "0.28em",
-      gap: 12,
+      subSpacing: "0.32em",
+      gap: 24,
     },
   };
 
   const current = sizeMap[size];
+  const effectiveGap = gap !== undefined ? gap : current.gap;
 
   return (
     <div
@@ -68,7 +71,7 @@ export default function OzraLogo({
       <div
         className="flex items-center"
         style={{
-          gap: `${current.gap}px`,
+          gap: `${effectiveGap}px`,
           lineHeight: 1,
         }}
       >
@@ -100,11 +103,11 @@ export default function OzraLogo({
         {/*
           2. 'ZRA' & '®' Typography
              Rendered using pure SVG vectors for exact Microgramma / Eurostile Extended letterforms
-             so it renders flawlessly across all OS/browsers without font loading flashes.
+             with enhanced character tracking so letters don't feel clustered/cramped.
         */}
         <svg
           height={current.textH}
-          viewBox="0 0 250 80"
+          viewBox="0 0 270 80"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           style={{ flexShrink: 0, display: "block", overflow: "visible" }}
@@ -114,23 +117,23 @@ export default function OzraLogo({
             {/* ── LETTER 'Z' (Wide Eurostile / Microgramma Extended) ── */}
             <path d="M 5 12 L 72 12 L 72 25 L 28 62 L 73 62 L 73 75 L 3 75 L 3 63 L 47 25 L 5 25 Z" />
 
-            {/* ── LETTER 'R' (Extended rounded bowl & sweeping diagonal leg) ── */}
+            {/* ── LETTER 'R' (Extended rounded bowl & sweeping diagonal leg with increased left offset) ── */}
             <path
-              d="M 87 12 L 132 12 C 148 12 158 20 158 33 C 158 43 151 50 140 53 L 160 75 L 142 75 L 125 55 L 103 55 L 103 75 L 87 75 Z
-                 M 103 24 L 103 44 L 130 44 C 137 44 142 40 142 34 C 142 28 137 24 130 24 Z"
+              d="M 94 12 L 139 12 C 155 12 165 20 165 33 C 165 43 158 50 147 53 L 167 75 L 149 75 L 132 55 L 110 55 L 110 75 L 94 75 Z
+                 M 110 24 L 110 44 L 137 44 C 144 44 149 40 149 34 C 149 28 144 24 137 24 Z"
               fillRule="evenodd"
             />
 
-            {/* ── LETTER 'A' (Wide stance, flat top, crossbar) ── */}
+            {/* ── LETTER 'A' (Wide stance, flat top, crossbar with increased offset) ── */}
             <path
-              d="M 166 75 L 198 12 L 216 12 L 248 75 L 231 75 L 223 58 L 191 58 L 183 75 Z
-                 M 197 45 L 217 45 L 207 24 Z"
+              d="M 180 75 L 212 12 L 230 12 L 262 75 L 245 75 L 237 58 L 205 58 L 197 75 Z
+                 M 211 45 L 231 45 L 221 24 Z"
               fillRule="evenodd"
             />
           </g>
 
           {/* ── Registered Trademark '®' ── */}
-          <g transform="translate(254, 8)">
+          <g transform="translate(268, 8)">
             <circle cx="8" cy="8" r="7.5" stroke="var(--tan, #987F60)" strokeWidth="1.2" fill="none" />
             <text
               x="8"
